@@ -1,47 +1,62 @@
-</html>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Sai Collection & Akash Traders</title>
-  <link rel="stylesheet" href="/assets/style.css">
-</head>
-<body>
-  <header class="site-header">
-    <div class="brand">Sai Collection & Akash Traders</div>
-    <nav class="top-nav">
-      <a href="/">Home</a>
-      <a href="#category" onclick="scrollToCategories()">Categories</a>
-      <a href="/cart.html">Cart</a>
-      <a href="/admin/" class="admin-link">Admin</a>
-    </nav>
-  </header>
-  <main class="container">
-    <section class="hero">
-      <h1>Wholesale Garments — All Seasons</h1>
-      <p>Add products from your phone. Customers can zoom, add to cart and order via WhatsApp.</p>
-    </section>
-    <section id="category" class="categories">
-      <button class="cat-btn" onclick="filterCategory('All')">All</button>
-      <button class="cat-btn" onclick="filterCategory('Mens')">Men's Wear</button>
-      <button class="cat-btn" onclick="filterCategory('Kids')">Kids Wear</button>
-      <button class="cat-btn" onclick="filterCategory('Winter')">Winter</button>
-      <button class="cat-btn" onclick="filterCategory('Summer')">Summer</button>
-      <button class="cat-btn" onclick="filterCategory('Rain')">Rainy</button>
-      <button class="cat-btn" onclick="filterCategory('Inner')">Innerwear</button>
-      <button class="cat-btn" onclick="filterCategory('Track')">Track Pants</button>
-      <button class="cat-btn" onclick="filterCategory('Wholesale')">Wholesale</button>
-    </section>
-    <section id="products" class="products-grid"></section>
-  </main>
-  <footer class="site-footer">
-    <div>Sai Collection & Akash Traders — Contact on WhatsApp to order</div>
-    <div class="footer-numbers">8624091826 | 721909175 | 9833467255</div>
-  </footer>
-  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <img id="lightboxImg" src="" alt="Zoomed product" />
-  </div>
-  <script src="/assets/app.js"></script>
-</body>
-</html>
+const SHEET_ID = "PASTE_SHEET_ID_HERE";
+const SHEET_NAME = "Sheet1"; // agar naam kuch aur ho to change karna
+
+const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+
+async function loadProducts() {
+  const res = await fetch(SHEET_URL);
+  return await res.json();
+}
+
+async function renderProducts(filter = "All") {
+  const products = await loadProducts();
+  const container = document.getElementById("products");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  products
+    .filter(p => filter === "All" || p.category === filter)
+    .forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+
+      card.innerHTML = `
+        <img src="${p.image}" onclick="openLightbox('${p.image}')">
+        <h4>${p.title}</h4>
+        <div class="price">₹${p.price}</div>
+        <button class="btn primary"
+          onclick="addToCart({
+            id:'${p.id}',
+            title:'${p.title}',
+            price:${p.price}
+          })">Add</button>
+      `;
+
+      container.appendChild(card);
+    });
+}
+
+function filterCategory(cat) {
+  renderProducts(cat);
+}
+
+window.openLightbox = (src) => {
+  document.getElementById("lightboxImg").src = src;
+  document.getElementById("lightbox").style.display = "flex";
+};
+
+window.closeLightbox = () => {
+  document.getElementById("lightbox").style.display = "none";
+};
+
+window.addToCart = (item) => {
+  let cart = JSON.parse(localStorage.getItem("sai_cart") || "[]");
+  cart.push(item);
+  localStorage.setItem("sai_cart", JSON.stringify(cart));
+  alert("Added to cart");
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts();
+});
