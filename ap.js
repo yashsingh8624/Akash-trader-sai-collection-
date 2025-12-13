@@ -1,8 +1,7 @@
-const SHEET_ID = "PASTE_SHEET_ID_HERE";
+const SHEET_ID = "2PACX-1vRiH9yL3l";
 const SHEET_NAME = "Sheet1"; // agar naam kuch aur ho to change karna
 
 const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
-
 async function loadProducts() {
   const res = await fetch(SHEET_URL);
   return await res.json();
