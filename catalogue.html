@@ -1,46 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Home | Akash Traders</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Catalogue | Akash Traders</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+<!-- HEADER -->
 <header>
-  <h2>Akash Traders & Sai Collection</h2>
-  <nav>
-    <a href="home.html">Home</a>
-    <a href="catalogue.html">Catalogue</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+    <h2>Akash Traders & Sai Collection</h2>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="contact.html">Contact</a>
+    </nav>
 </header>
 
-<section class="hero">
-  <h1>Premium Quality Clothing</h1>
-  <p>Trusted Wholesale & Retail Supplier</p>
-</section>
-<!-- page ka poora content yahan khatam -->
+<!-- CART -->
+<div id="cart">
+    🛒 Cart: <span id="cartCount">0</span>
+    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
+</div>
 
+<!-- PRODUCTS -->
+<h2>Our Products</h2>
+<div id="products" class="product-grid">
+    <!-- Products JS se load honge -->
+</div>
+
+<!-- FOOTER -->
 <footer class="footer">
-  <h3>Support</h3>
-  <p>Email: thebestmartcare@outlook.com</p>
+    <h3>Support</h3>
+    <p>Email: thebestmartcare@outlook.com</p>
 
-  <h4>Quick Links</h4>
-  <a href="about.html">About Us</a>
-  <a href="contact.html">Contact Us</a>
-  <a href="refund.html">Refund Policy</a>
-  <a href="privacy.html">Privacy Policy</a>
-  <a href="terms.html">Terms of Service</a>
+    <h4>Quick Links</h4>
+    <a href="about.html">About Us</a><br>
+    <a href="refund.html">Refund Policy</a><br>
+    <a href="privacy.html">Privacy Policy</a><br>
+    <a href="terms.html">Terms of Service</a><br>
+    <a href="contact.html">Contact Us</a>
 </footer>
+
+<!-- SCRIPTS -->
+<script src="script.js"></script>
+<script src="google-script.js"></script>
 
 </body>
 </html>
-<header>
-  <h2>Our Catalogue</h2>
-  <div class="cart">🛒 <span id="cartCount">0</span></div>
-</header>
-
-<div id="products" class="product-grid"></div>
-
-<button class="whatsapp" onclick="orderWhatsApp()">Order on WhatsApp</button>
-
-<script src="script.js"></script>
