@@ -1,6 +1,6 @@
 let cart = [];
 
-fetch("https://opensheet.elk.sh/YOUR_SHEET_ID/Sheet1")
+fetch("1xgbzmBMSTUcOfcG2TQ9tk_hh_MV20kd0hzaUWANCkCg")
   .then(response => response.json())
   .then(data => {
     const productsDiv = document.getElementById("products");
