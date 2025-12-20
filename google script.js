@@ -10,11 +10,11 @@ fetch(SHEET_URL)
     const rows = json.table.rows;
 
     const products = rows.map(r => ({
-      name: r.c[0]?.v || "",
-      price: r.c[1]?.v || "",
-      image: r.c[2]?.v || "",
-      description: r.c[3]?.v || ""
-    }));
+  name: r.c[1]?.v || "",
+  price: r.c[2]?.v || "",
+  image: r.c[3]?.v || "",
+  description: r.c[4]?.v || ""
+}));
 
     window.products = products;
 
