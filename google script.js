@@ -12,7 +12,7 @@ fetch(SHEET_URL)
     const products = rows.map(r => ({
   name: r.c[1]?.v || "",
   price: r.c[2]?.v || "",
-  image: r.c[3]?.v || "",
+  image url : r.c[3]?.v || "",
   description: r.c[4]?.v || ""
 }));
 
