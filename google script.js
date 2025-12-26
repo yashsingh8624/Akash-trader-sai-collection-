@@ -24,7 +24,7 @@ fetch(SHEET_URL)
     products.forEach((item, index) => {
       productsDiv.innerHTML += `
         <div class="product-card">
-          <img src="${item.image}">
+          <img src="${item.image_url}">
           <h3>${item.name}</h3>
           <p>${item.description}</p>
           <p>₹${item.price}</p>
