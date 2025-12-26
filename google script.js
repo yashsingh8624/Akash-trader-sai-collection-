@@ -1,20 +1,8 @@
 let cart = [];
 
-const SHEET_ID = "1xgbzmBMSTUcOfcG2TQ9tk_hh_MV20kd0hzaUWANCkCg";
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-
-fetch(SHEET_URL)
-  .then(res => res.text())
-  .then(text => {
-    const json = JSON.parse(text.substr(47).slice(0, -2));
-    const rows = json.table.rows;
-
-    const products = rows.map(r => ({
-  name: r.c[1]?.v || "",
-  price: r.c[2]?.v || "",
-  image_url: r.c[3]?.v || "",
-  description: r.c[4]?.v || ""
-}));
+fetch("https://opensheet.elk.sh/1xgbzmBMSTUcOfcG2TQ9tk_hh_MV20kd0hzaUWANCkCg/Products")
+  .then(res => res.json())
+  .then(products => {
 
     window.products = products;
 
@@ -24,10 +12,10 @@ fetch(SHEET_URL)
     products.forEach((item, index) => {
       productsDiv.innerHTML += `
         <div class="product-card">
-          <img src="${item.image_url}">
-          <h3>${item.name}</h3>
+          <img src="${item["image url"]}">
+          <h3>${item.Name}</h3>
           <p>${item.description}</p>
-          <p>₹${item.price}</p>
+          <p>₹${item.Price}</p>
           <button onclick="addToCart(${index})">Add to Cart</button>
         </div>
       `;
@@ -42,8 +30,7 @@ function addToCart(index) {
 function orderWhatsApp() {
   let message = "New Order:%0A";
   cart.forEach(item => {
-    message += `${item.name} - ₹${item.price}%0A`;
+    message += `${item.Name} - ₹${item.Price}%0A`;
   });
-
   window.open(`https://wa.me/918624091826?text=${message}`);
 }
