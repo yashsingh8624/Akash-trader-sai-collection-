@@ -1,4 +1,4 @@
-let cart = [];
+let cart = {};
 
 const SHEET_ID = "1xgbzmBMSTUcOfcG2TQ9tk_hh_MV20kd0hzaUWANCkCg";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
@@ -40,9 +40,13 @@ function addToCart(index) {
 
 function orderWhatsApp() {
   let message = "New Order:%0A";
-  cart.forEach(item => {
-    message += `${item.name} - ₹${item.price}%0A`;
-  });
+
+  for (let name in cart) {
+    const item = cart[name];
+    const total = item.price * item.qty;
+
+    message += `${name} ${item.qty} - ₹${total}%0A`;
+  }
 
   window.open(`https://wa.me/918624091826?text=${message}`);
 }
