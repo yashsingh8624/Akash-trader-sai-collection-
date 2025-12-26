@@ -48,12 +48,12 @@ html, body {
 }
 .btn {
   background: #c9a24d;
-  padding: 16px 36px;      /* 🔥 button bada */
+  padding: 20px 44px;      /* 🔥 button bada */
   color: white;
   text-decoration: none;
   margin-top: 25px;
   border-radius: 6px;
-  font-size: 18px;         /* 🔥 text bada */
+  font-size: 19px;         /* 🔥 text bada */
   font-weight: 600;
 }
 
