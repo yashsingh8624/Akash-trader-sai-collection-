@@ -46,14 +46,15 @@ html, body {
   text-align: center;
   padding: 20px;
 }
-
 .btn {
   background: #c9a24d;
-  padding: 12px 25px;
+  padding: 16px 36px;      /* 🔥 button bada */
   color: white;
   text-decoration: none;
-  margin-top: 20px;
-  border-radius: 4px;
+  margin-top: 25px;
+  border-radius: 6px;
+  font-size: 18px;         /* 🔥 text bada */
+  font-weight: 600;
 }
 
 /* 🔥 Landing page pe product / header hide */
