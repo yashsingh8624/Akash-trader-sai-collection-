@@ -1,61 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Catalogue | Akash Traders & Sai Collection</title>
-    <link rel="stylesheet" href="style.css" />
+  <title>Catalogue</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-
-<!-- HEADER -->
 <header>
-    <h2>Akash Traders & Sai Collection</h2>
-    <nav>
-        <a href="home.html">Home</a>
-        <a href="catalogue.html" class="active">Catalogue</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+  <h2>Our Catalogue</h2>
+  <div class="cart">🛒 <span id="cartCount">0</span></div>
 </header>
 
-<!-- CART -->
-<div id="cart">
-    🛒 Cart: <span id="cartCount">0</span>
-    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
-</div>
+<!-- 🔥 YE SABSE IMPORTANT -->
+<div id="products" class="product-grid"></div>
 
-<!-- PRODUCTS -->
-<section class="catalogue">
-    <h2>Our Products</h2>
-    <div id="products" class="product-grid">
-        <!-- Products JS se load honge -->
-    </div>
-</section>
+<button class="whatsapp" onclick="orderWhatsApp()">Order on WhatsApp</button>
 
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="footer-section">
-        <h3>Support</h3>
-        <p>Email: yashsingh8624@gmail.com</p>
-    </div>
-
-    <div class="footer-section">
-        <h4>Quick Links</h4>
-        <a href="about.html">About Us</a><br />
-        <a href="refund.html">Refund Policy</a><br />
-        <a href="privacy.html">Privacy Policy</a><br />
-        <a href="terms.html">Terms of Service</a><br />
-        <a href="contact.html">Contact Us</a>
-    </div>
-
-    <p class="copyright">© 2025 Akash Traders & Sai Collection</p>
-</footer>
-
-<!-- SCRIPTS -->
-<script src="script.js"></script>
+<!-- 🔥 JS FILE MUST -->
 <script src="google-script.js"></script>
-
 </body>
 </html>
-
