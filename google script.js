@@ -8,7 +8,6 @@ fetch(SHEET_URL)
   .then(text => {
     const json = JSON.parse(text.substr(47).slice(0, -2));
     const rows = json.table.rows;
-
     const products = rows.map(r => ({
   name: r.c[1]?.v || "",
   price: r.c[2]?.v || "",
