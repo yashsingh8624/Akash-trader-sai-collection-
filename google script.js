@@ -1,4 +1,4 @@
-let cart = {};
+let cart = [];
 
 const SHEET_ID = "1xgbzmBMSTUcOfcG2TQ9tk_hh_MV20kd0hzaUWANCkCg";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
