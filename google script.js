@@ -39,14 +39,25 @@ function addToCart(index) {
 }
 
 function orderWhatsApp() {
-  let message = "New Order:%0A";
-
-  for (let name in cart) {
-    const item = cart[name];
-    const total = item.price * item.qty;
-
-    message += `${name} ${item.qty} - ₹${total}%0A`;
+  if (cart.length === 0) {
+    alert("Cart empty hai");
+    return;
   }
 
-  window.open(`https://wa.me/918624091826?text=${message}`);
+  let message = "🛒 Order Details:%0A%0A";
+  let grandTotal = 0;
+
+  cart.forEach(p => {
+    let total = p.price * p.qty;
+    grandTotal += total;
+
+    message += `${p.name}%0ARate: ₹${p.price}%0AQty: ${p.qty}%0ATotal: ₹${total}%0A%0A`;
+  });
+
+  message += `Grand Total = ₹${grandTotal}`;
+
+  window.open(
+    `https://wa.me/918624091826?text=${message}`,
+    "_blank"
+  );
 }
