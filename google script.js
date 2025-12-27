@@ -60,7 +60,7 @@ function orderWhatsApp() {
   message += `Grand Total = ₹${grandTotal}`;
 
   window.open(
-    "https://wa.me/91XXXXXXXXXX?text=" + message,
+    "https://wa.me/918624091826?text=" + message,
     "_blank"
   );
 }
