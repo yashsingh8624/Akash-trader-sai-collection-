@@ -7,8 +7,8 @@
 
 <body>
 
-  <!-- 🔥 TOP NAV -->
-  <header>
+  <!-- TOP NAV -->
+  <header class="main-header">
     <nav class="top-nav">
       <a href="index.html">Home</a>
       <a href="catalogue.html">Catalogue</a>
@@ -16,15 +16,45 @@
     </nav>
   </header>
 
-  <div class="contact-section">
-    <h1>Contact Us</h1>
-    <p>Get in touch with us</p>
+  <!-- CONTACT FORM -->
+  <div class="contact">
+    <h2>Contact Us</h2>
 
-    <input type="text" placeholder="Name">
-    <input type="email" placeholder="Email">
-    <textarea placeholder="Message"></textarea>
-    <button>Send</button>
+    <form onsubmit="sendContact(event)">
+      <input type="text" id="name" placeholder="Your Name" required>
+
+      <input type="tel" id="phone" placeholder="Mobile Number" required>
+
+      <input type="email" id="email" placeholder="Email (optional)">
+
+      <!-- PROBLEM / MESSAGE -->
+      <textarea id="message" placeholder="Write your problem / requirement" required></textarea>
+
+      <button type="submit">Send on WhatsApp</button>
+    </form>
   </div>
+
+  <script>
+    function sendContact(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      const text =
+        `Name: ${name}%0A` +
+        `Phone: ${phone}%0A` +
+        `Email: ${email}%0A` +
+        `Problem: ${message}`;
+
+      window.open(
+        `https://wa.me/918624091826?text=${text}`,
+        "_blank"
+      );
+    }
+  </script>
 
 </body>
 </html>
