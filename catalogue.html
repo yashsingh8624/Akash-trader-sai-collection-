@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Catalogue</title>
+  <title>Catalogue | Akash Traders</title>
   <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-<header>
-  <h2>Our Catalogue</h2>
-  <div class="cart">🛒 <span id="cartCount">0</span></div>
-</header>
 
-<!-- 🔥 YE SABSE IMPORTANT -->
-<div id="products" class="product-grid"></div>
+  <!-- 🔥 TOP NAV -->
+  <header>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html" class="active">Catalogue</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-<button class="whatsapp" onclick="orderWhatsApp()">Order on WhatsApp</button>
+  <h2 style="text-align:center;">Our Catalogue</h2>
 
-<!-- 🔥 JS FILE MUST -->
-<script src="google script.js"></script>
+  <div class="cart" style="text-align:center;">
+    🛒 <span id="cartCount">0</span>
+  </div>
+
+  <div id="products" class="product-grid"></div>
+
+  <div style="text-align:center; margin:20px;">
+    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
+  </div>
+
+  <script src="google script.js"></script>
 </body>
-</html>
+</html> 
