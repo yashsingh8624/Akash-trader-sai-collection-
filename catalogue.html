@@ -2,32 +2,31 @@
 <html>
 <head>
   <title>Catalogue | Akash Traders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- 🔥 TOP NAV -->
-  <header>
-    <nav class="top-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html" class="active">Catalogue</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
+<header>
+  <nav class="top-nav">
+    <a href="index.html">Home</a>
+    <a class="active">Catalogue</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 
-  <h2 style="text-align:center;">Our Catalogue</h2>
+<div class="filter">
+  <button onclick="filterSeason('all')">All</button>
+  <button onclick="filterSeason('summer')">Summer</button>
+  <button onclick="filterSeason('winter')">Winter</button>
+  <button onclick="filterSeason('rainy')">Rainy</button>
+</div>
 
-  <div class="cart" style="text-align:center;">
-    🛒 <span id="cartCount">0</span>
-  </div>
+<div id="products" class="product-grid"></div>
 
-  <div id="products" class="product-grid"></div>
+<button class="cart-btn" onclick="orderWhatsApp()">Order on WhatsApp</button>
 
-  <div style="text-align:center; margin:20px;">
-    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
-  </div>
-
-  <script src="google script.js"></script>
+<script src="gooogle script.js"></script>
 </body>
-</html> 
+</html>
