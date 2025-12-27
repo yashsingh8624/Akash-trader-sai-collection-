@@ -8,12 +8,13 @@ fetch(SHEET_URL)
   .then(text => {
     const json = JSON.parse(text.substr(47).slice(0, -2));
     const rows = json.table.rows;
+
     const products = rows.map(r => ({
-  name: r.c[1]?.v || "",
-  price: r.c[2]?.v || "",
-  image_url : r.c[3]?.v || "",
-  description: r.c[4]?.v || ""
-}));
+      name: r.c[1]?.v || "",
+      price: Number(r.c[2]?.v) || 0,
+      image_url: r.c[3]?.v || "",
+      description: r.c[4]?.v || ""
+    }));
 
     window.products = products;
 
@@ -27,15 +28,49 @@ fetch(SHEET_URL)
           <h3>${item.name}</h3>
           <p>${item.description}</p>
           <p>₹${item.price}</p>
-          <button onclick="addToCart(${index})">Add to Cart</button>
+
+          <input 
+            type="number" 
+            min="1" 
+            value="1" 
+            id="qty-${index}" 
+            style="width:70px; padding:5px;"
+          >
+
+          <button onclick="addToCart(${index})">
+            Add to Cart
+          </button>
         </div>
       `;
     });
   });
 
 function addToCart(index) {
-  cart.push(window.products[index]);
-  document.getElementById("cartCount").innerText = cart.length;
+  const qtyInput = document.getElementById(`qty-${index}`);
+  const qty = Number(qtyInput.value);
+
+  if (qty <= 0) {
+    alert("Quantity sahi daal");
+    return;
+  }
+
+  const product = window.products[index];
+
+  // check if already in cart
+  const existing = cart.find(p => p.name === product.name);
+
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({
+      name: product.name,
+      price: product.price,
+      qty: qty
+    });
+  }
+
+  document.getElementById("cartCount").innerText =
+    cart.reduce((sum, p) => sum + p.qty, 0);
 }
 
 function orderWhatsApp() {
@@ -48,7 +83,7 @@ function orderWhatsApp() {
   let grandTotal = 0;
 
   cart.forEach(p => {
-    let total = p.price * p.qty;
+    const total = p.price * p.qty;
     grandTotal += total;
 
     message += `${p.name}%0A`;
