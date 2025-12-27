@@ -29,40 +29,47 @@ fetch(SHEET_URL)
           <p>${item.description}</p>
           <p>₹${item.price}</p>
 
-          <div style="display:flex; justify-content:center; align-items:center; gap:5px; margin-bottom:10px;">
-            <button onclick="decreaseQty(${index})" style="padding:4px 8px;">-</button>
-            <input 
-              type="number" 
-              min="1" 
-              value="1" 
-              id="qty-${index}" 
-              style="width:50px; text-align:center;"
-            >
-            <button onclick="increaseQty(${index})" style="padding:4px 8px;">+</button>
+          <div class="qty-wrapper">
+            <button onclick="changeQty(${index}, -1)">-</button>
+            <input type="number" min="1" value="1" id="qty-${index}" 
+                   onchange="updateCartQty(${index})">
+            <button onclick="changeQty(${index}, 1)">+</button>
           </div>
 
-          <button onclick="addToCart(${index})">
-            Add to Cart
-          </button>
+          <button onclick="addToCart(${index})">Add to Cart</button>
         </div>
       `;
     });
   });
 
-// + / - functions
-function increaseQty(index) {
+// + / - button function
+function changeQty(index, delta) {
   const input = document.getElementById(`qty-${index}`);
-  input.value = Number(input.value) + 1;
-}
+  let qty = Number(input.value) + delta;
+  if (qty < 1) qty = 1;
+  input.value = qty;
 
-function decreaseQty(index) {
-  const input = document.getElementById(`qty-${index}`);
-  if (Number(input.value) > 1) {
-    input.value = Number(input.value) - 1;
+  // auto update cart if product already in cart
+  const product = window.products[index];
+  const existing = cart.find(p => p.name === product.name);
+  if (existing) {
+    existing.qty = qty;
+    updateCartCount();
   }
 }
 
-// add to cart
+// when user manually changes input
+function updateCartQty(index) {
+  const input = document.getElementById(`qty-${index}`);
+  const qty = Number(input.value);
+  const product = window.products[index];
+  const existing = cart.find(p => p.name === product.name);
+  if (existing) {
+    existing.qty = qty;
+    updateCartCount();
+  }
+}
+
 function addToCart(index) {
   const qtyInput = document.getElementById(`qty-${index}`);
   const qty = Number(qtyInput.value);
@@ -73,11 +80,10 @@ function addToCart(index) {
   }
 
   const product = window.products[index];
-
   const existing = cart.find(p => p.name === product.name);
 
   if (existing) {
-    existing.qty += qty;
+    existing.qty = qty; // replace with current input
   } else {
     cart.push({
       name: product.name,
@@ -86,6 +92,10 @@ function addToCart(index) {
     });
   }
 
+  updateCartCount();
+}
+
+function updateCartCount() {
   document.getElementById("cartCount").innerText =
     cart.reduce((sum, p) => sum + p.qty, 0);
 }
