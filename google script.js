@@ -51,13 +51,16 @@ function orderWhatsApp() {
     let total = p.price * p.qty;
     grandTotal += total;
 
-    message += `${p.name}%0ARate: ₹${p.price}%0AQty: ${p.qty}%0ATotal: ₹${total}%0A%0A`;
+    message += `${p.name}%0A`;
+    message += `Rate: ₹${p.price}%0A`;
+    message += `Qty: ${p.qty}%0A`;
+    message += `Total: ₹${total}%0A%0A`;
   });
 
   message += `Grand Total = ₹${grandTotal}`;
 
   window.open(
-    `https://wa.me/918624091826?text=${message}`,
+    "https://wa.me/91XXXXXXXXXX?text=" + message,
     "_blank"
   );
 }
