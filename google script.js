@@ -29,13 +29,17 @@ fetch(SHEET_URL)
           <p>${item.description}</p>
           <p>₹${item.price}</p>
 
-          <input 
-            type="number" 
-            min="1" 
-            value="1" 
-            id="qty-${index}" 
-            style="width:70px; padding:5px;"
-          >
+          <div style="display:flex; justify-content:center; align-items:center; gap:5px; margin-bottom:10px;">
+            <button onclick="decreaseQty(${index})" style="padding:4px 8px;">-</button>
+            <input 
+              type="number" 
+              min="1" 
+              value="1" 
+              id="qty-${index}" 
+              style="width:50px; text-align:center;"
+            >
+            <button onclick="increaseQty(${index})" style="padding:4px 8px;">+</button>
+          </div>
 
           <button onclick="addToCart(${index})">
             Add to Cart
@@ -45,6 +49,20 @@ fetch(SHEET_URL)
     });
   });
 
+// + / - functions
+function increaseQty(index) {
+  const input = document.getElementById(`qty-${index}`);
+  input.value = Number(input.value) + 1;
+}
+
+function decreaseQty(index) {
+  const input = document.getElementById(`qty-${index}`);
+  if (Number(input.value) > 1) {
+    input.value = Number(input.value) - 1;
+  }
+}
+
+// add to cart
 function addToCart(index) {
   const qtyInput = document.getElementById(`qty-${index}`);
   const qty = Number(qtyInput.value);
@@ -56,7 +74,6 @@ function addToCart(index) {
 
   const product = window.products[index];
 
-  // check if already in cart
   const existing = cart.find(p => p.name === product.name);
 
   if (existing) {
@@ -73,6 +90,7 @@ function addToCart(index) {
     cart.reduce((sum, p) => sum + p.qty, 0);
 }
 
+// WhatsApp order
 function orderWhatsApp() {
   if (cart.length === 0) {
     alert("Cart empty hai");
