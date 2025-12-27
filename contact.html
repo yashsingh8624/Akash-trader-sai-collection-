@@ -2,59 +2,32 @@
 <html>
 <head>
   <title>Contact | Akash Traders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- TOP NAV -->
-  <header class="main-header">
-    <nav class="top-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="contact.html" class="active">Contact</a>
-    </nav>
-  </header>
+<header>
+  <nav class="top-nav">
+    <a href="index.html">Home</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a class="active">Contact</a>
+  </nav>
+</header>
 
-  <!-- CONTACT FORM -->
-  <div class="contact">
-    <h2>Contact Us</h2>
+<div class="contact-section">
+  <h2>Contact / Issues</h2>
 
-    <form onsubmit="sendContact(event)">
-      <input type="text" id="name" placeholder="Your Name" required>
+  <input placeholder="Name">
+  <input placeholder="Phone">
+  <input placeholder="Problem / Requirement">
+  <textarea placeholder="Message"></textarea>
 
-      <input type="tel" id="phone" placeholder="Mobile Number" required>
-
-      <input type="email" id="email" placeholder="Email (optional)">
-
-      <!-- PROBLEM / MESSAGE -->
-      <textarea id="message" placeholder="Write your problem / requirement" required></textarea>
-
-      <button type="submit">Send on WhatsApp</button>
-    </form>
-  </div>
-
-  <script>
-    function sendContact(e) {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
-      const email = document.getElementById("email").value;
-      const message = document.getElementById("message").value;
-
-      const text =
-        `Name: ${name}%0A` +
-        `Phone: ${phone}%0A` +
-        `Email: ${email}%0A` +
-        `Problem: ${message}`;
-
-      window.open(
-        `https://wa.me/918624091826?text=${text}`,
-        "_blank"
-      );
-    }
-  </script>
+  <a href="https://wa.me/918624091826">
+    <button>Send on WhatsApp</button>
+  </a>
+</div>
 
 </body>
 </html>
