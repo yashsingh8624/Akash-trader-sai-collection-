@@ -1,263 +1,157 @@
-/* BASIC RESET */
+/* ===== RESET ===== */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', Arial, sans-serif;
-  background: #f5f5f5;
-  overflow-x: hidden;
+body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: #000;
 }
 
-/* ================= TOP NAV (NEW ADD) ================= */
-
-.top-nav {
+/* ===== TOP NAV ===== */
+.main-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
-  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+}
+
+.top-nav {
   display: flex;
-  align-items: center;
   justify-content: center;
   gap: 25px;
-  z-index: 1000;
+  padding: 15px 0;
+  background: rgba(0, 0, 0, 0.65);
 }
 
 .top-nav a {
   color: #fff;
   text-decoration: none;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: bold;
 }
 
-.top-nav a:hover {
-  color: #c9a24d;
+.top-nav a.active {
+  border-bottom: 2px solid #fff;
+  padding-bottom: 4px;
 }
 
-/* ================= LANDING PAGE ================= */
-
+/* ===== LANDING / HERO ===== */
 .landing {
-  background-size: cover;
-  background-position: center;
-  min-height: 100svh;
-  animation: slider 18s infinite;
-}
-
-@keyframes slider {
-  0% {
-    background-image: url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=1600');
-  }
-  33% {
-    background-image: url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600');
-  }
-  66% {
-    background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600');
-  }
-  100% {
-    background-image: url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=1600');
-  }
+  height: 100vh;
 }
 
 .overlay {
-  background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75));
-  min-height: 100svh;
+  height: 100vh;
+  background: url("https://images.unsplash.com/photo-1521334884684-d80222895322")
+    center / cover no-repeat;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
+
   text-align: center;
-  padding: 20px;
-
-  padding-top: 80px; /* 🔥 navbar ke niche content */
-}
-
-.btn {
-  background: #c9a24d;
-  padding: 20px 44px;
   color: white;
-  text-decoration: none;
-  margin-top: 25px;
-  border-radius: 6px;
-  font-size: 19px;
-  font-weight: 600;
+
+  padding-top: 80px; /* NAV ke liye space */
 }
 
-/* 🔥 Landing page pe product / header hide */
-.landing header,
-.landing .product-grid,
-.landing .whatsapp {
-  display: none;
+.overlay h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
-/* 🔥 Landing pe navbar visible rahe */
-.landing .top-nav {
-  display: flex;
+.overlay p {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
-/* ================= HEADER ================= */
-
-header {
-  background: #1e1e1e;
-  color: white;
-  padding: 15px;
-}
-
-nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-}
-
-.cart {
-  float: right;
-}
-
-/* ================= PRODUCTS ================= */
-
+/* ===== PRODUCT GRID ===== */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  padding: 100px 15px 20px;
 }
 
-.card,
 .product-card {
-  background: white;
-  padding: 15px;
-  box-shadow: 0 0 10px #ccc;
-  border-radius: 6px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
 }
 
-.card img,
 .product-card img {
   width: 100%;
   height: 200px;
   object-fit: cover;
 }
 
-/* ================= BUTTONS ================= */
-
-button {
-  background: #1e8e3e;
-  color: white;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 4px;
+.product-card h3 {
+  font-size: 16px;
+  margin: 8px 0;
 }
 
-/* ================= WHATSAPP ================= */
+.product-card p {
+  font-size: 14px;
+  margin: 4px 0;
+}
 
-.whatsapp {
+.product-card input {
+  width: 60px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.product-card button {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===== CART ICON ===== */
+.cart {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  color: white;
+  font-size: 16px;
+  z-index: 10000;
+}
+
+/* ===== ORDER BUTTON ===== */
+button[onclick="orderWhatsapp()"] {
+  margin: 20px;
+  padding: 10px 15px;
+  background: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===== WHATSAPP FLOAT ===== */
+.wa-float {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #25D366;
-  padding: 15px;
-  border-radius: 6px;
-}
-
-.wa-float {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: #25D366;
+  background: #25d366;
   color: white;
-  font-size: 24px;
-  padding: 15px 18px;
+  font-size: 22px;
+  padding: 12px;
   border-radius: 50%;
   text-decoration: none;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 9999;
 }
 
-/* ================= CONTACT FORM ================= */
-
-.contact-section {
-  max-width: 420px;
-  margin: 50px auto;
-  padding: 25px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-.contact-section h1 {
+/* ===== CONTACT PAGE ===== */
+.contact {
+  padding: 100px 20px;
   text-align: center;
-  margin-bottom: 10px;
-}
-
-.contact-section p {
-  text-align: center;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.contact-section input,
-.contact-section textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-}
-
-.contact-section textarea {
-  height: 90px;
-  resize: none;
-}
-
-.contact-section input:focus,
-.contact-section textarea:focus {
-  outline: none;
-  border-color: #000;
-}
-
-.contact-section button {
-  width: 100%;
-  padding: 12px;
-  background: #000;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.contact-section button:hover {
-  background: #333;
-}
-
-/* ================= MOBILE FIX ================= */
-
-@media (max-width: 768px) {
-  .product-grid {
-    padding: 12px;
-    gap: 14px;
-  }
-
-  .card img,
-  .product-card img {
-    height: 180px;
-  }
-
-  header {
-    text-align: center;
-  }
-
-  .cart {
-    float: none;
-    margin-top: 8px;
-  }
-
-  .top-nav {
-    gap: 15px;
-    font-size: 14px;
-  }
 }
