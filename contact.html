@@ -1,53 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Contact Us | Akash Traders & Sai Collection</title>
+  <title>Contact | Akash Traders</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <section class="contact-section">
+  <!-- 🔥 TOP NAV -->
+  <header>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
+
+  <div class="contact-section">
     <h1>Contact Us</h1>
-    <p>For bulk orders & enquiries, contact us directly on WhatsApp</p>
+    <p>Get in touch with us</p>
 
-    <form id="contactForm">
-      <input type="text" id="name" placeholder="Your Name" required>
-
-      <input type="tel" id="phone" placeholder="Phone Number" required>
-
-      <textarea id="message" placeholder="Your Message" required></textarea>
-
-      <button type="submit" class="btn primary">
-        Send on WhatsApp
-      </button>
-    </form>
-  </section>
-
-  <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/918624091826" class="wa-float">💬</a>
-
-  <!-- WhatsApp Form Script -->
-  <script>
-    document.getElementById("contactForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      let name = document.getElementById("name").value;
-      let phone = document.getElementById("phone").value;
-      let message = document.getElementById("message").value;
-
-      let text =
-        "Name: " + name +
-        "%0APhone: " + phone +
-        "%0AMessage: " + message;
-
-      window.open(
-        "https://wa.me/918624091826?text=" + text,
-        "_blank"
-      );
-    });
-  </script>
+    <input type="text" placeholder="Name">
+    <input type="email" placeholder="Email">
+    <textarea placeholder="Message"></textarea>
+    <button>Send</button>
+  </div>
 
 </body>
 </html>
