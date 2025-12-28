@@ -9,11 +9,13 @@ fetch(SHEET_URL)
     const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
-    const products = rows.map(r => ({
+    // 🔥 IMPORTANT: header row skip
+    const products = rows.slice(1).map(r => ({
       id: r.c[0]?.v || "",
       name: r.c[1]?.v || "",
       price: Number(r.c[2]?.v) || 0,
-      image_url: r.c[3]?.v || "https://via.placeholder.com/300x300?text=No+Image",
+      image_url: (r.c[3]?.v || "").trim() || 
+        "https://via.placeholder.com/300x300?text=No+Image",
       season: r.c[4]?.v || ""
     }));
 
@@ -26,9 +28,10 @@ fetch(SHEET_URL)
       productsDiv.innerHTML += `
         <div class="product-card">
           <img 
-            src="${item.image_url}" 
+            src="${item.image_url}"
             alt="${item.name}"
-            style="width:100%; height:250px; object-fit:cover; border-radius:10px;"
+            loading="lazy"
+            style="width:100%; height:250px; object-fit:cover; border-radius:12px;"
           >
           <h3>${item.name}</h3>
           <p>₹${item.price}</p>
@@ -38,4 +41,7 @@ fetch(SHEET_URL)
         </div>
       `;
     });
+  })
+  .catch(err => {
+    console.error("Sheet Error:", err);
   });
