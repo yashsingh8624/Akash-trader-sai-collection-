@@ -1,14 +1,12 @@
 let cart = [];
 
-// Sheet ID
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-// Fetch products
 fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
-    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
     const products = rows.map(r => ({
@@ -44,19 +42,15 @@ fetch(SHEET_URL)
     });
   });
 
-// Add to cart function
 function addToCart(index) {
-  const qtyInput = document.getElementById(`qty-${index}`);
-  const qty = Number(qtyInput.value);
+  const qty = Number(document.getElementById(`qty-${index}`).value);
 
   if (qty <= 0) {
-    alert("Quantity sahi daal");
+    alert("Quantity sahi daal bhai");
     return;
   }
 
   const product = window.products[index];
-
-  // Check if already in cart
   const existing = cart.find(p => p.name === product.name);
 
   if (existing) {
@@ -73,7 +67,6 @@ function addToCart(index) {
     cart.reduce((sum, p) => sum + p.qty, 0);
 }
 
-// WhatsApp order
 function orderWhatsApp() {
   if (cart.length === 0) {
     alert("Cart empty hai");
