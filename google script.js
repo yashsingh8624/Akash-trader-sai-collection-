@@ -1,5 +1,18 @@
 let cart = [];
+function addToCart(id) {
+  let qtyInput = document.getElementById("qty-" + id);
+  let quantity = qtyInput.value;
 
+  let product = {
+    id: id,
+    qty: quantity
+  };
+
+  cart.push(product);
+
+  alert("Product added to cart ✅");
+  console.log(cart);
+}
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
