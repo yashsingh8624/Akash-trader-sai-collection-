@@ -60,7 +60,7 @@ function addToCart(i) {
 
   const p = window.products[i];
 
-  // same product check
+  // same product merge
   const found = cart.find(item => item.id === p.id);
 
   if (found) {
@@ -74,12 +74,13 @@ function addToCart(i) {
     });
   }
 
-  // 🔥 reset input back to 1
+  // ✅ MOST IMPORTANT LINE (MISSING THI)
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  // reset qty
   input.value = 1;
 
-  // 🔥 update cart icon count
-  document.getElementById("cartCount").innerText =
-    cart.reduce((sum, item) => sum + item.qty, 0);
+  updateCartUI();
 
   alert(p.name + " added to cart ✅");
 }
@@ -95,9 +96,12 @@ function decreaseQty(index) {
 }
 
 // ================= CART UI =================
+
+
 function updateCartUI() {
   const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
-  document.getElementById("cartCount").innerText = cartCount;
+  const el = document.getElementById("cartCount");
+  if (el) el.innerText = cartCount;
 }
 
 // ================= SEASON FILTER =================
@@ -120,4 +124,8 @@ function orderOnWhatsApp() {
 
   const phone = "918624091826";
   window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+  document.addEventListener("DOMContentLoaded", () => {
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+  updateCartUI();
+});
 }
