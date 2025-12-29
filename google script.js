@@ -53,14 +53,10 @@ function addToCart(i) {
   const input = document.getElementById(`qty-${i}`);
   let qty = parseInt(input.value);
 
-  if (!qty || qty < 1) {
-    alert("Quantity sahi daal");
-    return;
-  }
+  if (!qty || qty < 1) return;
 
   const p = window.products[i];
 
-  // same product merge
   const found = cart.find(item => item.id === p.id);
 
   if (found) {
@@ -74,17 +70,14 @@ function addToCart(i) {
     });
   }
 
-  // ✅ MOST IMPORTANT LINE (MISSING THI)
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  // reset qty
   input.value = 1;
 
-  updateCartUI();
+  updateCartUI(); // ✅ ONLY THIS updates 🛒
 
   alert(p.name + " added to cart ✅");
 }
-
 // ================= INCREASE / DECREASE QTY =================
 function increaseQty(index) {
   const input = document.getElementById(`qty-${index}`);
