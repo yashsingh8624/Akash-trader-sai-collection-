@@ -49,20 +49,39 @@ function renderProducts(list) {
 }
 
 // ================= ADD / UPDATE CART =================
-function addToCart(index) {
-  const product = window.products[index];
-  const qty = Number(document.getElementById(`qty-${index}`).value);
+function addToCart(i) {
+  const input = document.getElementById(`qty-${i}`);
+  let qty = parseInt(input.value);
 
-  if(qty <= 0) { alert("Quantity sahi daal bhai"); return; }
-
-  const existing = cart.find(p => p.id === product.id);
-  if(existing) { existing.qty += qty; }
-  else {
-    cart.push({ id: product.id, name: product.name, price: product.price, image: product.image_url, qty: qty });
+  if (!qty || qty < 1) {
+    alert("Quantity sahi daal");
+    return;
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartUI();
+  const p = window.products[i];
+
+  // same product check
+  const found = cart.find(item => item.id === p.id);
+
+  if (found) {
+    found.qty += qty;
+  } else {
+    cart.push({
+      id: p.id,
+      name: p.name,
+      price: p.price,
+      qty: qty
+    });
+  }
+
+  // 🔥 reset input back to 1
+  input.value = 1;
+
+  // 🔥 update cart icon count
+  document.getElementById("cartCount").innerText =
+    cart.reduce((sum, item) => sum + item.qty, 0);
+
+  alert(p.name + " added to cart ✅");
 }
 
 // ================= INCREASE / DECREASE QTY =================
