@@ -1,37 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Catalogue</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue - Akash Traders & Sai Collection</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <nav class="top-nav">
-    <a href="index.html">Home</a>
-    <a href="catalogue.html">Catalogue</a>
-    <a href="contact.html">Contact</a>
-    <span class="cart">🛒 <span id="cartCount">0</span></span>
-  </nav>
-</header>
+  <!-- Header / Top Nav -->
+  <header>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="contact.html">Contact</a>
+      <span class="cart">🛒 <span id="cartCount">0</span></span>
+    </nav>
+  </header>
 
-<h2 style="text-align:center">Catalogue</h2>
+  <!-- Page Title -->
+  <h2 style="text-align:center; margin:20px 0;">Catalogue</h2>
 
-<div class="filters">
-  <button onclick="filterSeason('')">All</button>
-  <button onclick="filterSeason('Summer')">Summer</button>
-  <button onclick="filterSeason('Winter')">Winter</button>
-  <button onclick="filterSeason('Rainy')">Rainy</button>
-</div>
+  <!-- Filter Buttons -->
+  <div class="filters" style="text-align:center; margin-bottom:20px;">
+    <button onclick="filtersSeason('All')">All</button>
+    <button onclick="filtersSeason('Summer')">Summer</button>
+    <button onclick="filtersSeason('Winter')">Winter</button>
+    <button onclick="filtersSeason('Rainy')">Rainy</button>
+  </div>
 
-<!-- 🔴 THIS IS VERY IMPORTANT -->
-<div id="products" class="products-grid"></div>
-</div>
+  <!-- Products Container -->
+  <div id="products" class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:20px; padding:20px;">
+    <!-- Products JS se yahin render honge -->
+  </div>
 
-<button onclick="orderOnWhatsApp()" class="order-btn">
-  Order on WhatsApp
-</button>
+  <!-- WhatsApp Order Button -->
+  <div style="text-align:center; margin:30px 0;">
+    <button onclick="orderOnWhatsApp()" class="order-btn" style="padding:12px 20px; font-size:16px; background:#25D366; color:white; border:none; border-radius:6px; cursor:pointer;">
+      Order on WhatsApp
+    </button>
+  </div>
 
-<script src="google script.js"></script>
+  <!-- JS -->
+  <script src="google script.js"></script>
 </body>
 </html>
