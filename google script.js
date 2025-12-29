@@ -106,19 +106,27 @@ function filterSeason(season) {
 
 // ================= ORDER ON WHATSAPP =================
 function orderOnWhatsApp() {
-  if(cart.length === 0) { alert("Cart empty hai 😅"); return; }
+  if (cart.length === 0) {
+    alert("Cart empty hai 😅");
+    return;
+  }
 
   let msg = "🛒 New Order%0A%0A";
+
   cart.forEach((item, i) => {
-    msg += `${i+1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
+    msg += `${i + 1}. ${item.name}%0A`;
+    msg += `Qty: ${item.qty}%0A`;
+    msg += `Price: ₹${item.price}%0A%0A`;
   });
+
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   msg += `Total: ₹${total}`;
 
   const phone = "918624091826";
   window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
-  document.addEventListener("DOMContentLoaded", () => {
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // 🔥🔥🔥 VERY IMPORTANT
+  cart = [];
+  localStorage.removeItem("cart");
   updateCartUI();
-});
 }
