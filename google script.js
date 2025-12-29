@@ -54,13 +54,20 @@ function renderProducts(list) {
 
 // ================= ADD TO CART (1st) =================
 function addToCart(index) {
-  const qty = document.getElementById(`qty-${index}`).value;
   const product = window.products[index];
+  const qty = Number(document.getElementById(`qty-${index}`).value);
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   cart.push({
-    ...product,
-    qty: Number(qty)
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.image_url,
+    qty: qty
   });
+
+  localStorage.setItem("cart", JSON.stringify(cart));
 
   alert(product.name + " added to cart");
 }
