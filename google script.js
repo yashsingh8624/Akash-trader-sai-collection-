@@ -79,3 +79,23 @@ function filtersSeason(season) {
 
   renderProducts(filtered);
 }
+function orderOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Cart empty hai 😅");
+    return;
+  }
+
+  let msg = "🛒 New Order%0A%0A";
+
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item.name}%0A`;
+    msg += `Qty: ${item.qty}%0A`;
+    msg += `Price: ₹${item.price}%0A%0A`;
+  });
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  msg += `Total: ₹${total}`;
+
+  const phone = "918624091826"; // 👈 apna number
+  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+}
