@@ -2,7 +2,6 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // ================= PRODUCTS =================
-// Agar sheet use nahi karna hai, tum manually products yahan define kar sakte ho
 let products = [
   { id:"1", name:"Jeans", price:1200, image_url:"https://via.placeholder.com/300", season:"all" },
   { id:"2", name:"Nike Jacket", price:2500, image_url:"https://via.placeholder.com/300", season:"winter" },
@@ -47,36 +46,21 @@ function changeQty(id, delta){
 }
 
 // ================= ADD TO CART =================
-function orderOnWhatsApp() {
-  if (cart.length === 0) {
-    alert("Cart empty hai");
-    return;
-  }
+function addToCart(id){
+  const p = products.find(item => item.id === id);
+  if(!p) return;
 
-  let msg = "🛒 New Order%0A%0A";
-  let total = 0;
+  const qty = parseInt(document.getElementById(`qty-${id}`).value) || 1;
+  const existing = cart.find(item => item.id === id);
 
-  cart.forEach((item, i) => {
-    msg += `${i + 1}. ${item.name}%0A`;
-    msg += `Qty: ${item.qty}%0A`;
-    msg += `Price: ₹${item.price}%0A%0A`;
-    total += item.qty * item.price;
-  });
+  if(existing) existing.qty += qty;
+  else cart.push({...p, qty});
 
-  msg += `Total: ₹${total}`;
-
-  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
-
-  // ✅ RESET EVERYTHING
-  cart = [];
-  localStorage.removeItem("cart");
+  localStorage.setItem("cart", JSON.stringify(cart));
   updateCartUI();
 
-  // cart popup clean
-  document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
-  document.getElementById("cartTotal").innerText = "Total: ₹0";
-
-  closeCart();
+  // reset input
+  document.getElementById(`qty-${id}`).value = 1;
 }
 
 // ================= CART COUNT =================
@@ -96,13 +80,11 @@ function filtersSeason(season){
 
 // ================= CART POPUP =================
 function openCart(){
-  const popup = document.getElementById("cartPopup");
-  popup.style.display = "block";
+  document.getElementById("cartPopup").style.display = "block";
   renderCartItems();
 }
 function closeCart(){
-  const popup = document.getElementById("cartPopup");
-  popup.style.display = "none";
+  document.getElementById("cartPopup").style.display = "none";
 }
 function renderCartItems(){
   const div = document.getElementById("cartItems");
@@ -153,8 +135,6 @@ function orderOnWhatsApp(){
   cart = [];
   localStorage.removeItem("cart");
   updateCartUI();
-
-  // popup clean
   document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
   document.getElementById("cartTotal").innerText = "Total: ₹0";
   closeCart();
