@@ -14,15 +14,14 @@ fetch(SHEET_URL)
       id: r.c[0]?.v || "",
       name: r.c[1]?.v || "",
       price: Number(r.c[2]?.v) || 0,
-      image_url: (r.c[3]?.v || "").trim() || "https://via.placeholder.com/300x300?text=No+Image",
+      image_url: (r.c[3]?.v || "").trim() || "https://via.placeholder.com/300x300",
       season: r.c[4]?.v || ""
     }));
 
     window.products = products;
     renderProducts(products);
     updateCartUI();
-  })
-  .catch(err => console.error("Sheet Error:", err));
+  });
 
 // ================= RENDER PRODUCTS =================
 function renderProducts(list) {
@@ -32,14 +31,14 @@ function renderProducts(list) {
   list.forEach((item, index) => {
     productsDiv.innerHTML += `
       <div class="product-card">
-        <img src="${item.image_url}" alt="${item.name}" style="width:100%; height:250px; object-fit:cover; border-radius:12px;">
+        <img src="${item.image_url}">
         <h3>${item.name}</h3>
         <p>₹${item.price}</p>
 
-        <div style="display:flex; gap:5px; align-items:center;">
-          <button onclick="decreaseQty(${index})">-</button>
-          <input type="number" min="1" value="1" id="qty-${index}" style="width:50px;">
-          <button onclick="increaseQty(${index})">+</button>
+        <div>
+          <button onclick="changeQty(${index}, -1)">-</button>
+          <input id="qty-${index}" type="number" value="1" min="1">
+          <button onclick="changeQty(${index}, 1)">+</button>
         </div>
 
         <button onclick="addToCart(${index})">Add to Cart</button>
@@ -48,19 +47,26 @@ function renderProducts(list) {
   });
 }
 
-// ================= ADD / UPDATE CART =================
-function addToCart(i) {
+// ================= QTY CHANGE =================
+function changeQty(i, delta) {
   const input = document.getElementById(`qty-${i}`);
-  let qty = parseInt(input.value);
+  let val = parseInt(input.value) || 1;
+  val += delta;
+  if (val < 1) val = 1;
+  input.value = val;
+}
 
-  if (!qty || qty < 1) return;
+// ================= ADD TO CART =================
+function addToCart(i) {
+  const qtyInput = document.getElementById(`qty-${i}`);
+  const qty = parseInt(qtyInput.value);
 
   const p = window.products[i];
 
-  const found = cart.find(item => item.id === p.id);
+  const existing = cart.find(item => item.id === p.id);
 
-  if (found) {
-    found.qty += qty;
+  if (existing) {
+    existing.qty += qty;
   } else {
     cart.push({
       id: p.id,
@@ -71,61 +77,43 @@ function addToCart(i) {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-
-  input.value = 1;
-
-  updateCartUI(); // ✅ ONLY THIS updates 🛒
-
-  alert(p.name + " added to cart ✅");
-}
-// ================= INCREASE / DECREASE QTY =================
-function increaseQty(index) {
-  const input = document.getElementById(`qty-${index}`);
-  input.value = Number(input.value) + 1;
-}
-function decreaseQty(index) {
-  const input = document.getElementById(`qty-${index}`);
-  if(Number(input.value) > 1) input.value = Number(input.value) - 1;
+  qtyInput.value = 1;
+  updateCartUI();
 }
 
-// ================= CART UI =================
-
-
+// ================= CART COUNT (FIXED) =================
 function updateCartUI() {
-  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
   const el = document.getElementById("cartCount");
-  if (el) el.innerText = cartCount;
+  if (el) el.innerText = cart.length; // ✅ UNIQUE PRODUCTS ONLY
 }
 
-// ================= SEASON FILTER =================
-function filterSeason(season) {
-  if(!season || season === "All") { renderProducts(window.products); return; }
-  const filtered = window.products.filter(p => p.season.toLowerCase() === season.toLowerCase());
-  renderProducts(filtered);
+// ================= FILTER =================
+function filtersSeason(season) {
+  if (season === "All") return renderProducts(window.products);
+  renderProducts(window.products.filter(p => p.season === season));
 }
 
-// ================= ORDER ON WHATSAPP =================
+// ================= WHATSAPP ORDER =================
 function orderOnWhatsApp() {
   if (cart.length === 0) {
-    alert("Cart empty hai 😅");
+    alert("Cart empty hai");
     return;
   }
 
   let msg = "🛒 New Order%0A%0A";
+  let total = 0;
 
   cart.forEach((item, i) => {
     msg += `${i + 1}. ${item.name}%0A`;
     msg += `Qty: ${item.qty}%0A`;
     msg += `Price: ₹${item.price}%0A%0A`;
+    total += item.qty * item.price;
   });
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   msg += `Total: ₹${total}`;
 
-  const phone = "918624091826";
-  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
 
-  // 🔥🔥🔥 VERY IMPORTANT
   cart = [];
   localStorage.removeItem("cart");
   updateCartUI();
