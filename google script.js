@@ -97,3 +97,34 @@ function filtersSeason(season) {
     );
   }
 }
+function orderOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Cart empty hai");
+    return;
+  }
+
+  let msg = "🛒 New Order%0A%0A";
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item.name}%0A`;
+    msg += `Qty: ${item.qty}%0A`;
+    msg += `Price: ₹${item.price}%0A%0A`;
+    total += item.qty * item.price;
+  });
+
+  msg += `Total: ₹${total}`;
+
+  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
+
+  // ✅ RESET EVERYTHING
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartUI();
+
+  // cart popup clean
+  document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
+  document.getElementById("cartTotal").innerText = "Total: ₹0";
+
+  closeCart();
+}
