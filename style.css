@@ -57,7 +57,6 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
 .filter button{padding:8px 14px;margin:5px;background:black;color:white;border:none;border-radius:6px;}
 
 /* PRODUCTS */
-./* Updated product card */
 .product-card {
   background: #fff;
   padding: 15px;
