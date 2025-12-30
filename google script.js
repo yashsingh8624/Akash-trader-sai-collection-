@@ -1,5 +1,7 @@
+// ================= CART INIT =================
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+// ================= SHEET CONFIG =================
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
@@ -14,7 +16,7 @@ fetch(SHEET_URL)
       id: r.c[0]?.v || "",
       name: r.c[1]?.v || "",
       price: Number(r.c[2]?.v) || 0,
-      image_url: (r.c[3]?.v || "").trim() || "https://via.placeholder.com/300x300",
+      image_url: (r.c[3]?.v || "").trim() || "https://via.placeholder.com/300",
       season: r.c[4]?.v || ""
     }));
 
@@ -59,8 +61,7 @@ function changeQty(i, delta) {
 // ================= ADD TO CART =================
 function addToCart(i) {
   const qtyInput = document.getElementById(`qty-${i}`);
-  const qty = parseInt(qtyInput.value);
-
+  const qty = parseInt(qtyInput.value) || 1;
   const p = window.products[i];
 
   const existing = cart.find(item => item.id === p.id);
@@ -81,10 +82,62 @@ function addToCart(i) {
   updateCartUI();
 }
 
-// ================= CART COUNT (FIXED) =================
+// ================= CART COUNT (TOTAL QTY) =================
 function updateCartUI() {
   const el = document.getElementById("cartCount");
-  if (el) el.innerText = cart.length; // ✅ UNIQUE PRODUCTS ONLY
+  if (!el) return;
+
+  let totalQty = 0;
+  cart.forEach(item => totalQty += item.qty);
+
+  el.innerText = totalQty; // 🛒 1,2,3 sahi dikhega
+}
+
+// ================= CART POPUP =================
+function openCart() {
+  document.getElementById("cartPopup").style.display = "block";
+  renderCartItems();
+}
+
+function closeCart() {
+  document.getElementById("cartPopup").style.display = "none";
+}
+
+// ================= RENDER CART =================
+function renderCartItems() {
+  const div = document.getElementById("cartItems");
+  div.innerHTML = "";
+
+  let total = 0;
+
+  if (cart.length === 0) {
+    div.innerHTML = "<p>Cart empty hai</p>";
+    document.getElementById("cartTotal").innerText = "Total: ₹0";
+    return;
+  }
+
+  cart.forEach((item, i) => {
+    total += item.price * item.qty;
+
+    div.innerHTML += `
+      <div class="cart-item">
+        <b>${item.name}</b><br>
+        Qty: ${item.qty}<br>
+        Price: ₹${item.price}<br>
+        <button onclick="removeItem(${i})">Remove</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = "Total: ₹" + total;
+}
+
+// ================= REMOVE ITEM =================
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+  renderCartItems();
 }
 
 // ================= FILTER =================
@@ -117,42 +170,5 @@ function orderOnWhatsApp() {
   cart = [];
   localStorage.removeItem("cart");
   updateCartUI();
-}
-function openCart(){
-  document.getElementById("cartPopup").style.display = "block";
-  renderCartItems();
-}
-
-function closeCart(){
-  document.getElementById("cartPopup").style.display = "none";
-}
-
-function renderCartItems(){
-  const div = document.getElementById("cartItems");
-  div.innerHTML = "";
-
-  let total = 0;
-
-  cart.forEach((item, i) => {
-    total += item.price * item.qty;
-
-    div.innerHTML += `
-      <div class="cart-item">
-        <b>${item.name}</b><br>
-        Qty: ${item.qty} <br>
-        ₹${item.price}
-        <br>
-        <button onclick="removeItem(${i})">Remove</button>
-      </div>
-    `;
-  });
-
-  document.getElementById("cartTotal").innerText = "Total: ₹" + total;
-}
-
-function removeItem(i){
-  cart.splice(i,1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartUI();
-  renderCartItems();
+  closeCart();
 }
