@@ -14,7 +14,9 @@
       <a href="index.html">Home</a>
       <a href="catalogue.html">Catalogue</a>
       <a href="contact.html">Contact</a>
-      <span class="cart">🛒 <span id="cartCount">0</span></span>
+      <span class="cart" onclick="openCart()">
+  🛒 <span id="cartCount">0</span>
+</span>
     </nav>
   </header>
 
@@ -40,7 +42,18 @@
       Order on WhatsApp
     </button>
   </div>
+<div id="cartPopup" class="cart-popup" style="display:none;">
+  <div class="cart-box">
+    <h3>🛒 Your Cart</h3>
 
+    <div id="cartItems"></div>
+
+    <h4 id="cartTotal"></h4>
+
+    <button onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+    <button onclick="closeCart()">Close</button>
+  </div>
+</div>
   <!-- JS -->
   <script src="google script.js"></script>
 </body>
