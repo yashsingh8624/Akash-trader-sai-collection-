@@ -127,7 +127,9 @@ function orderOnWhatsApp() {
   let total = 0;
 
   cart.forEach((item, i) => {
-    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
+    msg += `${i + 1}. ${item.name}%0A`;
+    msg += `Qty: ${item.qty}%0A`;
+    msg += `Price: ₹${item.price}%0A%0A`;
     total += item.qty * item.price;
   });
 
@@ -135,10 +137,16 @@ function orderOnWhatsApp() {
 
   window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
 
-  // 🔥 FULL RESET
+  // ✅ RESET EVERYTHING
   cart = [];
   localStorage.removeItem("cart");
   updateCartUI();
+
+  // cart popup clean
+  document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
+  document.getElementById("cartTotal").innerText = "Total: ₹0";
+
+  closeCart();
 }
 
 // ================= CART POPUP =================
