@@ -2,48 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us - Akash Traders & Sai Collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- NAV -->
-<header>
-  <nav class="top-nav">
-    <a href="index.html">Home</a>
-    <a href="catalogue.html">Catalogue</a>
-    <a class="active" href="contact.html">Contact</a>
-  </nav>
-</header>
+  <!-- NAV -->
+  <header>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a class="active" href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-<!-- CONTACT SECTION -->
-<section class="contact-section">
-  <h2 style="text-align:center;">Contact Us</h2>
-  <p style="text-align:center; font-size:14px; color:#555;">
-    Wholesale & Retail Enquiry – Feel free to contact us
-  </p>
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+    <h2 style="text-align:center;">Contact Us</h2>
+    <p style="text-align:center; color:#555;">
+      Wholesale & Retail Orders – Feel free to contact us
+    </p>
 
-  <form onsubmit="return false;">
-    <input type="text" placeholder="Your Name" required>
-    <input type="tel" placeholder="Mobile Number" required>
-    <textarea rows="4" placeholder="Your Message"></textarea>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="tel" placeholder="Mobile Number" required>
+      <input type="text" placeholder="Business / Shop Name">
+      <textarea rows="4" placeholder="Your Message"></textarea>
 
-    <button class="order-btn" onclick="openWhatsApp()">
-      Send on WhatsApp
-    </button>
-  </form>
-</section>
+      <button type="button"
+        onclick="window.open('https://wa.me/918624091826','_blank')"
+        style="
+          width:100%;
+          padding:12px;
+          background:#25D366;
+          color:white;
+          border:none;
+          border-radius:8px;
+          font-size:16px;
+          cursor:pointer;
+        ">
+        Contact on WhatsApp
+      </button>
+    </form>
+  </section>
 
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/918624091826" class="wa-float">🟢</a>
-
-<script>
-  function openWhatsApp() {
-    const msg = "Hello, I want to enquire about wholesale / retail clothing.";
-    window.open("https://wa.me/918624091826?text=" + encodeURIComponent(msg), "_blank");
-  }
-</script>
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/918624091826" class="wa-float">🟢</a>
 
 </body>
 </html>
