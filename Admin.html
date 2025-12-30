@@ -1,19 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | Akash Traders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    body{
+      background:#f5f5f5;
+      font-family:Poppins, Arial;
+    }
+    .admin-box{
+      max-width:420px;
+      margin:60px auto;
+      background:white;
+      padding:25px;
+      border-radius:12px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.1);
+      text-align:center;
+    }
+    .admin-box h2{
+      margin-bottom:10px;
+    }
+    .admin-box p{
+      color:#555;
+      margin-bottom:20px;
+    }
+    .admin-box ul{
+      list-style:none;
+      padding:0;
+    }
+    .admin-box li{
+      background:#f1f1f1;
+      margin:10px 0;
+      padding:12px;
+      border-radius:8px;
+      font-weight:500;
+    }
+    .admin-note{
+      margin-top:20px;
+      font-size:14px;
+      color:#777;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2 style="text-align:center">Admin Dashboard</h2>
-<p style="text-align:center">Edit products only via Google Sheet</p>
+  <div class="admin-box">
+    <h2>🛠 Admin Dashboard</h2>
+    <p>Manage products using Google Sheet only</p>
 
-<ul style="text-align:center">
-  <li>Add product → Google Sheet</li>
-  <li>Change price → Google Sheet</li>
-  <li>Hide product → Remove row</li>
-</ul>
-<script src="google script.js"></script>
+    <ul>
+      <li>➕ Add product → Google Sheet</li>
+      <li>💰 Change price → Google Sheet</li>
+      <li>❌ Hide product → Delete row</li>
+    </ul>
+
+    <div class="admin-note">
+      This panel is read-only.<br>
+      Website updates automatically from Sheet.
+    </div>
+  </div>
+
+  <script src="google script.js"></script>
 </body>
 </html>
