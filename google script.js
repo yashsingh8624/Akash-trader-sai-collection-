@@ -5,6 +5,8 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
+let products = [];
+
 // ================= FETCH DATA =================
 fetch(SHEET_URL)
   .then(res => res.text())
@@ -12,67 +14,76 @@ fetch(SHEET_URL)
     const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
-    const products = rows.map(r => ({
-      id: r.c[0]?.v || "",
+    products = rows.map(r => ({
+      id: r.c[0]?.v?.toString().trim(),
       name: r.c[1]?.v || "",
       price: Number(r.c[2]?.v) || 0,
-      image_url: (r.c[3]?.v || "").trim() || "https://via.placeholder.com/300",
-      season: (r.c[4]?.v || "all").toString().trim().toLowerCase()
+      image_url: (r.c[3]?.v || "").trim(),
+      season: (r.c[4]?.v || "all").toLowerCase().trim()
     }));
 
-    window.products = products;
     renderProducts(products);
     updateCartUI();
   });
 
 // ================= RENDER PRODUCTS =================
 function renderProducts(list) {
-  const productsDiv = document.getElementById("products");
-  productsDiv.innerHTML = "";
+  const div = document.getElementById("products");
+  div.innerHTML = "";
 
   if (list.length === 0) {
-    productsDiv.innerHTML = "<p>No products found</p>";
+    div.innerHTML = "<p>No products found</p>";
     return;
   }
 
-  list.forEach((item, index) => {
-    productsDiv.innerHTML += `
+  list.forEach(item => {
+    div.innerHTML += `
       <div class="product-card">
-        <img src="${item.image_url}">
+        <img src="${item.image_url || "https://via.placeholder.com/300"}">
         <h3>${item.name}</h3>
         <p>₹${item.price}</p>
 
         <div>
-          <button onclick="changeQty(${index}, -1)">-</button>
-          <input id="qty-${index}" type="number" value="1" min="1">
-          <button onclick="changeQty(${index}, 1)">+</button>
+          <button onclick="changeQty('${item.id}', -1)">-</button>
+          <input id="qty-${item.id}" type="number" value="1" min="1">
+          <button onclick="changeQty('${item.id}', 1)">+</button>
         </div>
 
-        <button onclick="addToCart(${index})">Add to Cart</button>
+        <button onclick="addToCart('${item.id}')">Add to Cart</button>
       </div>
     `;
   });
 }
 
 // ================= QTY =================
-function changeQty(i, delta) {
-  const input = document.getElementById(`qty-${i}`);
+function changeQty(id, delta) {
+  const input = document.getElementById(`qty-${id}`);
   let val = parseInt(input.value) || 1;
   val = Math.max(1, val + delta);
   input.value = val;
 }
 
 // ================= ADD TO CART =================
-function addToCart(i) {
-  const qty = parseInt(document.getElementById(`qty-${i}`).value) || 1;
-  const p = window.products[i];
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  const qty = parseInt(document.getElementById(`qty-${id}`).value) || 1;
 
-  const existing = cart.find(item => item.id === p.id);
-  if (existing) existing.qty += qty;
-  else cart.push({ ...p, qty });
+  const existing = cart.find(i => i.id === id);
+
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      qty
+    });
+  }
 
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartUI();
+  document.getElementById(`qty-${id}`).value = 1;
 }
 
 // ================= CART COUNT =================
@@ -80,23 +91,22 @@ function updateCartUI() {
   const el = document.getElementById("cartCount");
   if (!el) return;
 
-  let totalQty = 0;
-  cart.forEach(i => totalQty += i.qty);
-  el.innerText = totalQty;
+  let total = 0;
+  cart.forEach(i => total += i.qty);
+  el.innerText = total;
 }
 
 // ================= FILTER =================
 function filtersSeason(season) {
   season = season.toLowerCase();
-
   if (season === "all") {
-    renderProducts(window.products);
+    renderProducts(products);
   } else {
-    renderProducts(
-      window.products.filter(p => p.season === season)
-    );
+    renderProducts(products.filter(p => p.season === season));
   }
 }
+
+// ================= WHATSAPP ORDER =================
 function orderOnWhatsApp() {
   if (cart.length === 0) {
     alert("Cart empty hai");
@@ -107,9 +117,7 @@ function orderOnWhatsApp() {
   let total = 0;
 
   cart.forEach((item, i) => {
-    msg += `${i + 1}. ${item.name}%0A`;
-    msg += `Qty: ${item.qty}%0A`;
-    msg += `Price: ₹${item.price}%0A%0A`;
+    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
     total += item.qty * item.price;
   });
 
@@ -117,14 +125,52 @@ function orderOnWhatsApp() {
 
   window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
 
-  // ✅ RESET EVERYTHING
+  // 🔥 FULL RESET
   cart = [];
   localStorage.removeItem("cart");
   updateCartUI();
+}
 
-  // cart popup clean
-  document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
-  document.getElementById("cartTotal").innerText = "Total: ₹0";
+// ================= CART POPUP =================
+function openCart() {
+  document.getElementById("cartPopup").style.display = "block";
+  renderCartItems();
+}
 
-  closeCart();
+function closeCart() {
+  document.getElementById("cartPopup").style.display = "none";
+}
+
+function renderCartItems() {
+  const div = document.getElementById("cartItems");
+  div.innerHTML = "";
+
+  let total = 0;
+
+  if (cart.length === 0) {
+    div.innerHTML = "<p>Cart empty hai</p>";
+    document.getElementById("cartTotal").innerText = "Total: ₹0";
+    return;
+  }
+
+  cart.forEach((item, i) => {
+    total += item.qty * item.price;
+    div.innerHTML += `
+      <div class="cart-item">
+        <b>${item.name}</b><br>
+        Qty: ${item.qty}<br>
+        ₹${item.price}<br>
+        <button onclick="removeItem(${i})">Remove</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = "Total: ₹" + total;
+}
+
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+  renderCartItems();
 }
