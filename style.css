@@ -122,3 +122,20 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   border-bottom:1px solid #ddd;
   padding:8px 0;
 }
+.cart {
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#cartCount {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;        /* ✅ NUMBER WHITE */
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
