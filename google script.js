@@ -118,3 +118,41 @@ function orderOnWhatsApp() {
   localStorage.removeItem("cart");
   updateCartUI();
 }
+function openCart(){
+  document.getElementById("cartPopup").style.display = "block";
+  renderCartItems();
+}
+
+function closeCart(){
+  document.getElementById("cartPopup").style.display = "none";
+}
+
+function renderCartItems(){
+  const div = document.getElementById("cartItems");
+  div.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    total += item.price * item.qty;
+
+    div.innerHTML += `
+      <div class="cart-item">
+        <b>${item.name}</b><br>
+        Qty: ${item.qty} <br>
+        ₹${item.price}
+        <br>
+        <button onclick="removeItem(${i})">Remove</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = "Total: ₹" + total;
+}
+
+function removeItem(i){
+  cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+  renderCartItems();
+}
