@@ -1,12 +1,30 @@
-// ================= CART INIT =================
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = [];
 
-// ================= PRODUCTS =================
-let products = [
-  { id:"1", name:"Jeans", price:1200, image_url:"https://via.placeholder.com/300", season:"all" },
-  { id:"2", name:"Nike Jacket", price:2500, image_url:"https://via.placeholder.com/300", season:"winter" },
-  { id:"3", name:"Summer T-shirt", price:800, image_url:"https://via.placeholder.com/300", season:"summer" }
-];
+function addToCart(id) {
+
+let qtyInput = document.getElementById("qty-" + id);
+
+let quantity = qtyInput.value;
+
+let product = { qty: quantity
+
+id: id,
+
+000
+
+cart.push(product);
+
+alert("Product added to cart ");
+
+} console.log(cart);
+
+const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb 031Kxhi6pOSMa--UHYMA";
+
+const SHEET_URL = https://
+
+docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?
+
+tqx=out:json;
 
 // ================= RENDER PRODUCTS =================
 function renderProducts(list) {
