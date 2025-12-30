@@ -64,26 +64,36 @@ function changeQty(id, delta) {
 }
 
 // ================= ADD TO CART =================
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
-  const qty = parseInt(document.getElementById(`qty-${id}`).value) || 1;
-
-  const existing = cart.find(i => i.id === id);
-
-  if (existing) {
-    existing.qty += qty;
-  } else {
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      qty
-    });
+function orderOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Cart empty hai");
+    return;
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+  let msg = "🛒 New Order%0A%0A";
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item.name}%0A`;
+    msg += `Qty: ${item.qty}%0A`;
+    msg += `Price: ₹${item.price}%0A%0A`;
+    total += item.qty * item.price;
+  });
+
+  msg += `Total: ₹${total}`;
+
+  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
+
+  // ✅ RESET EVERYTHING
+  cart = [];
+  localStorage.removeItem("cart");
   updateCartUI();
-  document.getElementById(`qty-${id}`).value = 1;
+
+  // cart popup clean
+  document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
+  document.getElementById("cartTotal").innerText = "Total: ₹0";
+
+  closeCart();
 }
 
 // ================= CART COUNT =================
