@@ -12,13 +12,17 @@ fetch(SHEET_URL)
     const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
-    const products = rows.slice(1).map(r => ({
-      id: r.c[0]?.v || "",
-      name: r.c[1]?.v || "",
-      price: Number(r.c[2]?.v) || 0,
-      image_url: (r.c[3]?.v || "").trim() || "https://via.placeholder.com/300",
-      season: r.c[4]?.v || ""
-    }));
+    const products = rows
+      .map(r => ({
+        id: r.c[0]?.v?.toString().trim() || "",
+        name: r.c[1]?.v?.toString().trim() || "",
+        price: Number(r.c[2]?.v) || 0,
+        image_url: r.c[3]?.v
+          ? r.c[3].v.toString().trim()
+          : "https://via.placeholder.com/300",
+        season: r.c[4]?.v?.toString().trim() || ""
+      }))
+      .filter(p => p.name !== "" && p.image_url !== "");
 
     window.products = products;
     renderProducts(products);
@@ -33,7 +37,7 @@ function renderProducts(list) {
   list.forEach((item, index) => {
     productsDiv.innerHTML += `
       <div class="product-card">
-        <img src="${item.image_url}">
+        <img src="${item.image_url}" alt="${item.name}">
         <h3>${item.name}</h3>
         <p>₹${item.price}</p>
 
@@ -60,8 +64,7 @@ function changeQty(i, delta) {
 
 // ================= ADD TO CART =================
 function addToCart(i) {
-  const qtyInput = document.getElementById(`qty-${i}`);
-  const qty = parseInt(qtyInput.value) || 1;
+  const qty = parseInt(document.getElementById(`qty-${i}`).value) || 1;
   const p = window.products[i];
 
   const existing = cart.find(item => item.id === p.id);
@@ -73,24 +76,20 @@ function addToCart(i) {
       id: p.id,
       name: p.name,
       price: p.price,
-      qty: qty
+      qty
     });
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  qtyInput.value = 1;
   updateCartUI();
 }
 
-// ================= CART COUNT (TOTAL QTY) =================
+// ================= CART COUNT =================
 function updateCartUI() {
   const el = document.getElementById("cartCount");
   if (!el) return;
 
-  let totalQty = 0;
-  cart.forEach(item => totalQty += item.qty);
-
-  el.innerText = totalQty; // 🛒 1,2,3 sahi dikhega
+  el.innerText = cart.reduce((t, i) => t + i.qty, 0);
 }
 
 // ================= CART POPUP =================
@@ -123,7 +122,7 @@ function renderCartItems() {
       <div class="cart-item">
         <b>${item.name}</b><br>
         Qty: ${item.qty}<br>
-        Price: ₹${item.price}<br>
+        ₹${item.price}<br>
         <button onclick="removeItem(${i})">Remove</button>
       </div>
     `;
@@ -142,24 +141,19 @@ function removeItem(i) {
 
 // ================= FILTER =================
 function filtersSeason(season) {
-  if (season === "All") return renderProducts(window.products);
-  renderProducts(window.products.filter(p => p.season === season));
+  if (season === "All") renderProducts(window.products);
+  else renderProducts(window.products.filter(p => p.season === season));
 }
 
 // ================= WHATSAPP ORDER =================
 function orderOnWhatsApp() {
-  if (cart.length === 0) {
-    alert("Cart empty hai");
-    return;
-  }
+  if (cart.length === 0) return alert("Cart empty hai");
 
   let msg = "🛒 New Order%0A%0A";
   let total = 0;
 
   cart.forEach((item, i) => {
-    msg += `${i + 1}. ${item.name}%0A`;
-    msg += `Qty: ${item.qty}%0A`;
-    msg += `Price: ₹${item.price}%0A%0A`;
+    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0A₹${item.price}%0A%0A`;
     total += item.qty * item.price;
   });
 
