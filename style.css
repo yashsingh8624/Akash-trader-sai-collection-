@@ -1,134 +1,186 @@
-* { box-sizing: border-box; }
+// ================= CART INIT =================
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
+// ================= SHEET CONFIG =================
+const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-/* NAV */
-.top-nav {
-  display:flex;
-  justify-content:space-around;
-  background:black;
-  padding:12px;
-}
-.top-nav a { color:white; text-decoration:none; }
-.top-nav .active { border-bottom:2px solid red; }
+let products = [];
 
-/* SLIDER */
-.landing {
-  min-height:100vh;
-  background-size:cover;
-  animation:slide 18s infinite;
-}
-@keyframes slide {
-  0%{background-image:url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f');}
-  50%{background-image:url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f');}
-  100%{background-image:url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d');}
-}
-.overlay {
-  background:rgba(0,0,0,.7);
-  height:100vh;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
+// ================= FETCH DATA =================
+fetch(SHEET_URL)
+  .then(res => res.text())
+  .then(text => {
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
 
-/* FILTER */
-.filter{text-align:center;margin:15px;}
-.filter button{padding:8px 14px;margin:5px;background:black;color:white;border:none;border-radius:6px;}
+    products = rows.map(r => ({
+      id: r.c[0]?.v?.toString().trim(),
+      name: r.c[1]?.v || "",
+      price: Number(r.c[2]?.v) || 0,
+      image_url: (r.c[3]?.v || "").trim(),
+      season: (r.c[4]?.v || "all").toLowerCase().trim()
+    }));
 
-/* PRODUCTS */
-.product-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-  gap:15px;padding:15px;
-}
-.product-card{
-  background:white;
-  padding:10px;
-  border-radius:10px;
-  text-align:center;
-}
-.product-card img{
-  width:100%;
-  height:170px;
-  object-fit:cover;
-}
+    renderProducts(products);
+    updateCartUI();
+  });
 
-/* CONTACT */
-.contact-section{
-  max-width:400px;
-  margin:40px auto;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-}
-.contact-section input,
-.contact-section textarea{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
+// ================= RENDER PRODUCTS =================
+function renderProducts(list) {
+  const div = document.getElementById("products");
+  div.innerHTML = "";
+
+  if (list.length === 0) {
+    div.innerHTML = "<p>No products found</p>";
+    return;
+  }
+
+  list.forEach(item => {
+    div.innerHTML += `
+      <div class="product-card">
+        <img src="${item.image_url || "https://via.placeholder.com/300"}">
+        <h3>${item.name}</h3>
+        <p>₹${item.price}</p>
+
+        <div>
+          <button onclick="changeQty('${item.id}', -1)">-</button>
+          <input id="qty-${item.id}" type="number" value="1" min="1">
+          <button onclick="changeQty('${item.id}', 1)">+</button>
+        </div>
+
+        <button onclick="addToCart('${item.id}')">Add to Cart</button>
+      </div>
+    `;
+  });
 }
 
-/* CART */
-.cart-btn{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:green;
-  color:white;
-  padding:14px;
-  border:none;
-  border-radius:8px;
+// ================= QTY =================
+function changeQty(id, delta) {
+  const input = document.getElementById(`qty-${id}`);
+  let val = parseInt(input.value) || 1;
+  val = Math.max(1, val + delta);
+  input.value = val;
 }
 
-/* WHATSAPP */
-.wa-float{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25D366;
-  padding:15px;
-  border-radius:50%;
-}
-.order-btn {
-  background: #25D366;
-  color: white;
-  padding: 14px 22px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 20px;
-}
-.cart-popup{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background:rgba(0,0,0,0.5);
+// ================= ADD TO CART =================
+function orderOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Cart empty hai");
+    return;
+  }
+
+  let msg = "🛒 New Order%0A%0A";
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item.name}%0A`;
+    msg += `Qty: ${item.qty}%0A`;
+    msg += `Price: ₹${item.price}%0A%0A`;
+    total += item.qty * item.price;
+  });
+
+  msg += `Total: ₹${total}`;
+
+  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
+
+  // ✅ RESET EVERYTHING
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartUI();
+
+  // cart popup clean
+  document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
+  document.getElementById("cartTotal").innerText = "Total: ₹0";
+
+  closeCart();
 }
 
-.cart-box{
-  background:#fff;
-  width:90%;
-  max-width:400px;
-  margin:60px auto;
-  padding:20px;
-  border-radius:10px;
+// ================= CART COUNT =================
+function updateCartUI() {
+  const el = document.getElementById("cartCount");
+  if (!el) return;
+
+  let total = 0;
+  cart.forEach(i => total += i.qty);
+  el.innerText = total;
 }
 
-.cart-item{
-  border-bottom:1px solid #ddd;
-  padding:8px 0;
-}
-.cart {
-  color: white;
-  font-weight: bold;
+// ================= FILTER =================
+function filtersSeason(season) {
+  season = season.toLowerCase();
+  if (season === "all") {
+    renderProducts(products);
+  } else {
+    renderProducts(products.filter(p => p.season === season));
+  }
 }
 
-#cartCount {
-  color: white;
-  font-weight: bold;
-  margin-left: 4px;
+// ================= WHATSAPP ORDER =================
+function orderOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Cart empty hai");
+    return;
+  }
+
+  let msg = "🛒 New Order%0A%0A";
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
+    total += item.qty * item.price;
+  });
+
+  msg += `Total: ₹${total}`;
+
+  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
+
+  // 🔥 FULL RESET
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartUI();
+}
+
+// ================= CART POPUP =================
+function openCart() {
+  document.getElementById("cartPopup").style.display = "block";
+  renderCartItems();
+}
+
+function closeCart() {
+  document.getElementById("cartPopup").style.display = "none";
+}
+
+function renderCartItems() {
+  const div = document.getElementById("cartItems");
+  div.innerHTML = "";
+
+  let total = 0;
+
+  if (cart.length === 0) {
+    div.innerHTML = "<p>Cart empty hai</p>";
+    document.getElementById("cartTotal").innerText = "Total: ₹0";
+    return;
+  }
+
+  cart.forEach((item, i) => {
+    total += item.qty * item.price;
+    div.innerHTML += `
+      <div class="cart-item">
+        <b>${item.name}</b><br>
+        Qty: ${item.qty}<br>
+        ₹${item.price}<br>
+        <button onclick="removeItem(${i})">Remove</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = "Total: ₹" + total;
+}
+
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+  renderCartItems();
 }
