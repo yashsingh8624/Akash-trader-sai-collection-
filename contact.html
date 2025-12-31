@@ -8,47 +8,133 @@
 </head>
 <body>
 
-  <!-- NAV -->
-  <header>
+<!-- ===== HEADER (Unified with other pages) ===== -->
+<header>
+  <div class="header-container">
+    <div class="logo-section">
+      <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png" alt="Akash Traders Logo" class="logo">
+      <span class="site-name">Akash Traders & Sai Collection</span>
+    </div>
     <nav class="top-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a class="active" href="contact.html">Contact</a>
+      <a href="index.html">🏠 Home</a>
+      <a href="catalogue.html">📂 Catalogue</a>
+      <a href="contact.html" class="active">📞 Contact</a>
+      <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <!-- CONTACT SECTION -->
-  <section class="contact-section">
-    <h2 style="text-align:center;">Contact Us</h2>
-    <p style="text-align:center; color:#555;">
-      Wholesale & Retail Orders – Feel free to contact us
-    </p>
+<!-- ===== CONTACT HERO ===== -->
+<main class="contact-hero">
+  <div class="hero-overlay">
+    <div class="contact-hero-content">
+      <h1 class="contact-title">Get In Touch</h1>
+      <p class="contact-subtitle">Wholesale & Retail Orders | 24/7 Support</p>
+    </div>
+  </div>
+</main>
 
-    <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="tel" placeholder="Mobile Number" required>
-      <input type="text" placeholder="Business / Shop Name">
-      <textarea rows="4" placeholder="Your Message"></textarea>
+<!-- ===== CONTACT FORM SECTION ===== -->
+<section class="contact-main">
+  <div class="contact-container">
+    
+    <!-- Contact Info Cards -->
+    <div class="contact-info-grid">
+      <div class="contact-card whatsapp-card">
+        <div class="contact-icon">💬</div>
+        <h3>WhatsApp Orders</h3>
+        <p>+91 86240 91826</p>
+        <a href="https://wa.me/918624091826" class="contact-btn whatsapp-btn" target="_blank">Send Message</a>
+      </div>
+      
+      <div class="contact-card call-card">
+        <div class="contact-icon">📞</div>
+        <h3>Call Us</h3>
+        <p>Mon-Sat: 10AM - 8PM</p>
+        <a href="tel:+918624091826" class="contact-btn call-btn">Make a Call</a>
+      </div>
+      
+      <div class="contact-card location-card">
+        <div class="contact-icon">📍</div>
+        <h3>Visit Us</h3>
+        <p>Narnaund, Haryana</p>
+        <a href="https://maps.google.com/?q=Narnaund+Haryana" class="contact-btn location-btn" target="_blank">View Location</a>
+      </div>
+    </div>
 
-      <button type="button"
-        onclick="window.open('https://wa.me/918624091826','_blank')"
-        style="
-          width:100%;
-          padding:12px;
-          background:#25D366;
-          color:white;
-          border:none;
-          border-radius:8px;
-          font-size:16px;
-          cursor:pointer;
-        ">
-        Contact on WhatsApp
-      </button>
-    </form>
-  </section>
+    <!-- Enhanced Contact Form -->
+    <div class="contact-form-section">
+      <div class="contact-form-card">
+        <h2>Send Quick Enquiry</h2>
+        <p>Bulk orders & custom requirements</p>
+        
+        <form id="contactForm" class="contact-form">
+          <div class="form-group">
+            <input type="text" id="name" placeholder="Your Name *" required>
+            <span class="form-icon">👤</span>
+          </div>
+          
+          <div class="form-group">
+            <input type="tel" id="phone" placeholder="Mobile Number *" required>
+            <span class="form-icon">📱</span>
+          </div>
+          
+          <div class="form-group">
+            <input type="text" id="business" placeholder="Business / Shop Name">
+            <span class="form-icon">🏪</span>
+          </div>
+          
+          <div class="form-group full-width">
+            <textarea id="message" rows="5" placeholder="Your Requirements... (Product details, quantity, etc.)"></textarea>
+            <span class="form-icon">💬</span>
+          </div>
 
-  <!-- WHATSAPP FLOAT -->
-  <a href="https://wa.me/918624091826" class="wa-float">🟢</a>
+          <button type="submit" class="whatsapp-submit-btn">
+            🚀 Send to WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHATSAPP FLOAT ===== -->
+<a href="https://wa.me/918624091826" class="wa-float" target="_blank">💬</a>
+
+<!-- ===== JS for Form Submission ===== -->
+<script>
+  // Form submission to WhatsApp
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const business = document.getElementById('business').value;
+    const message = document.getElementById('message').value;
+    
+    const whatsappMsg = `New Enquiry from ${name || 'Customer'}%0A%0A` +
+                       `Phone: ${phone}%0A` +
+                       `Business: ${business || 'N/A'}%0A%0A` +
+                       `Message: ${message || 'General Enquiry'}`;
+    
+    const whatsappUrl = `https://wa.me/918624091826?text=${whatsappMsg}`;
+    window.open(whatsappUrl, '_blank');
+    
+    // Reset form
+    this.reset();
+  });
+
+  // Smooth animations
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallax = document.querySelector('.contact-hero');
+    if (parallax) {
+      parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+  });
+</script>
+
+<script src="google script.js"></script>
 
 </body>
 </html>
