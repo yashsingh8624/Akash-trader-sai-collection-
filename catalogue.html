@@ -5,25 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catalogue | Akash Traders & Sai Collection</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* ===== IMAGE PREVIEW POPUP ===== */
-    .img-preview {
-      position: fixed;
-      top:0; left:0;
-      width:100%;
-      height:100%;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 99999;
-    }
-    .img-preview img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
-    }
-  </style>
 </head>
 <body>
 
@@ -32,32 +13,40 @@
   <img id="previewImg" alt="Preview">
 </div>
 
-<!-- ===== NAV ===== -->
+<!-- ===== HEADER (Updated to match index.html) ===== -->
 <header>
-  <div class="logo-container">
-    <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png" alt="Akash Traders & Sai Collection Logo" class="logo">
-    <h1>Akash Traders & Sai Collection</h1>
+  <div class="header-container">
+    <div class="logo-section">
+      <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png" alt="Akash Traders Logo" class="logo">
+      <span class="site-name">Akash Traders & Sai Collection</span>
+    </div>
+    <nav class="top-nav">
+      <a href="index.html">🏠 Home</a>
+      <a href="catalogue.html" class="active">📂 Catalogue</a>
+      <a href="contact.html">📞 Contact</a>
+      <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
+    </nav>
   </div>
-  <nav class="top-nav">
-    <a href="index.html">Home</a>
-    <a href="catalogue.html" class="active">Catalogue</a>
-    <a href="contact.html">Contact</a>
-    <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
-  </nav>
 </header>
 
-<!-- ===== PAGE TITLE ===== -->
-<section style="text-align:center; padding:20px;">
-  <h2>Our Catalogue</h2>
-  <p>Wholesale & Retail Clothing Collection</p>
-</section>
+<!-- ===== HERO CATALOGUE SECTION ===== -->
+<main class="catalogue-hero">
+  <div class="hero-overlay">
+    <div class="hero-content">
+      <h2 class="catalogue-title">Our Premium Collection</h2>
+      <p class="catalogue-subtitle">Wholesale & Retail | Jeans • Jackets • Rainwear • Seasonal Fashion</p>
+    </div>
+  </div>
+</main>
 
-<!-- ===== FILTERS ===== -->
-<div class="filter">
-  <button onclick="filtersSeason('all')">All</button>
-  <button onclick="filtersSeason('summer')">Summer</button>
-  <button onclick="filtersSeason('winter')">Winter</button>
-  <button onclick="filtersSeason('rainy')">Rainy</button>
+<!-- ===== FILTERS (Enhanced) ===== -->
+<div class="filter-section">
+  <div class="filter-container">
+    <button class="filter-btn active" onclick="filtersSeason('all')">All Products</button>
+    <button class="filter-btn" onclick="filtersSeason('summer')">☀️ Summer</button>
+    <button class="filter-btn" onclick="filtersSeason('winter')">❄️ Winter</button>
+    <button class="filter-btn" onclick="filtersSeason('rainy')">🌧️ Rainy</button>
+  </div>
 </div>
 
 <!-- ===== PRODUCTS GRID ===== -->
@@ -65,65 +54,103 @@
   <!-- Products JS se yahin aayenge -->
 </div>
 
-<!-- ===== CART POPUP ===== -->
-<div id="cartPopup" class="cart-popup" style="display:none;">
+<!-- ===== LOAD MORE SECTION ===== -->
+<div class="load-more-section" style="display:none;">
+  <button class="load-more-btn" onclick="loadMoreProducts()">Load More Products</button>
+</div>
+
+<!-- ===== CART POPUP (Enhanced) ===== -->
+<div id="cartPopup" class="cart-popup">
   <div class="cart-box">
-    <h3>🛒 Your Cart</h3>
+    <div class="cart-header">
+      <h3>🛒 Your Shopping Cart</h3>
+      <span class="close-cart" onclick="closeCart()">&times;</span>
+    </div>
 
-    <div id="cartItems"></div>
+    <div id="cartItems" class="cart-items-list"></div>
 
-    <h4 id="cartTotal">Total: ₹0</h4>
-
-    <button class="order-btn" onclick="orderOnWhatsApp()">
-      Order on WhatsApp
-    </button>
-
-    <button onclick="closeCart()" style="width:100%; margin-top:10px;">
-      Close
-    </button>
+    <div class="cart-footer">
+      <h4 id="cartTotal">Total: ₹0</h4>
+      <button class="order-btn whatsapp-order" onclick="orderOnWhatsApp()">
+        💬 Order on WhatsApp
+      </button>
+    </div>
   </div>
 </div>
 
-<!-- ===== JS ===== -->
+<!-- ===== JS (Enhanced but same functions) ===== -->
 <script src="google script.js"></script>
 <script>
   // ===== IMAGE PREVIEW FUNCTIONS =====
   function openImage(url){
     document.getElementById("previewImg").src = url;
     document.getElementById("imgPreview").style.display = "flex";
+    document.body.style.overflow = "hidden";
   }
 
   function closeImage(){
     document.getElementById("imgPreview").style.display = "none";
+    document.body.style.overflow = "auto";
   }
 
-  // ===== MODIFY RENDER PRODUCTS FUNCTION =====
+  // ===== ENHANCED RENDER PRODUCTS FUNCTION =====
   function renderProducts(list) {
     const div = document.getElementById("products");
     div.innerHTML = "";
 
     if(list.length === 0){
-      div.innerHTML = "<p>No products found</p>";
+      div.innerHTML = `
+        <div class="no-products">
+          <h3>No products found 😔</h3>
+          <p>Try different filter or contact us!</p>
+          <a href="https://wa.me/918624091826" class="contact-wa">💬 Contact WhatsApp</a>
+        </div>
+      `;
       return;
     }
 
-    list.forEach(item => {
+    list.forEach((item, index) => {
       div.innerHTML += `
-        <div class="product-card">
-          <img src="${item.image_url}" alt="${item.name}" onclick="openImage('${item.image_url}')">
-          <h3>${item.name}</h3>
-          <p>₹${item.price}</p>
-
-          <div>
-            <button onclick="changeQty('${item.id}', -1)">-</button>
-            <input id="qty-${item.id}" type="number" value="1" min="1">
-            <button onclick="changeQty('${item.id}', 1)">+</button>
+        <div class="product-card catalogue-product" data-season="${item.season || 'all'}">
+          <div class="product-image-container">
+            <img src="${item.image_url}" alt="${item.name}" 
+                 onclick="openImage('${item.image_url}')"
+                 loading="lazy">
+            <div class="product-badge">${item.category || 'New'}</div>
           </div>
-
-          <button onclick="addToCart('${item.id}')">Add to Cart</button>
+          <div class="product-info">
+            <h3>${item.name}</h3>
+            <div class="product-price">₹${item.price}</div>
+            <div class="product-qty">
+              <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+              <input id="qty-${item.id}" type="number" value="1" min="1" max="99">
+              <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+            </div>
+            <button class="add-cart-btn" onclick="addToCart('${item.id}')">
+              🛒 Add to Cart
+            </button>
+          </div>
         </div>
       `;
     });
+
+    // Add load more visibility
+    const loadMore = document.querySelector('.load-more-section');
+    if(list.length >= 12) {
+      loadMore.style.display = 'block';
+    }
+  }
+
+  // Filter button active state
+  function filtersSeason(season) {
+    // Existing filter logic + UI update
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Call original filter function
+    window.filtersSeason(season); // Assuming it's in google script.js
   }
 </script>
 
