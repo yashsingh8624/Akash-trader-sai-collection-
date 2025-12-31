@@ -6,10 +6,10 @@
   <meta name="keywords" content="wholesale clothes, jeans supplier, jacket wholesale">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="landing">
-
 <header>
   <div class="header-container">
     <div class="logo-section">
@@ -17,20 +17,83 @@
       <span class="site-name">Akash Traders & Sai Collection</span>
     </div>
     <nav class="top-nav">
-      <a class="active" href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="contact.html">Contact</a>
+      <a class="active" href="index.html">🏠 Home</a>
+      <a href="catalogue.html">📂 Catalogue</a>
+      <a href="contact.html">📞 Contact</a>
       <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
     </nav>
   </div>
 </header>
 
-<div class="overlay">
-  <h1>Akash Traders & Sai Collection</h1>
-  <p>Wholesale & Retail Clothing Supplier</p>
+<main class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">Akash Traders & Sai Collection</h1>
+      <p class="hero-subtitle">Premium Wholesale & Retail Clothing</p>
+      <div class="hero-features">
+        <div class="feature-item">
+          <span>👖</span>
+          <span>Jeans</span>
+        </div>
+        <div class="feature-item">
+          <span>🧥</span>
+          <span>Jackets</span>
+        </div>
+        <div class="feature-item">
+          <span>🌧️</span>
+          <span>Rainwear</span>
+        </div>
+        <div class="feature-item">
+          <span>👕</span>
+          <span>Seasonal</span>
+        </div>
+      </div>
+      <a href="catalogue.html" class="cta-button">View Catalogue</a>
+    </div>
+    <div class="hero-image">
+      <div class="product-preview">
+        <div class="product-card denim">Denim Jeans</div>
+        <div class="product-card jacket">Winter Jackets</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="stats-section">
+  <div class="stat-item">
+    <span class="stat-number">5000+</span>
+    <span>Happy Customers</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">10000+</span>
+    <span>Products Sold</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">50+</span>
+    <span>Cities Served</span>
+  </div>
 </div>
 
-<a href="https://wa.me/918624091826" class="wa-float">🟢</a>
+<a href="https://wa.me/918624091826" class="wa-float" target="_blank">💬 WhatsApp</a>
+
 <script src="google script.js"></script>
+<script>
+  // Smooth scroll and animations
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallax = document.querySelector('.hero-section');
+    const speed = scrolled * 0.5;
+    if (parallax) parallax.style.transform = `translateY(${speed}px)`;
+  });
+
+  // Cart animation
+  function openCart() {
+    // Existing cart function
+    document.getElementById('cartCount').style.transform = 'scale(1.2)';
+    setTimeout(() => {
+      document.getElementById('cartCount').style.transform = 'scale(1)';
+    }, 200);
+  }
+</script>
 </body>
 </html>
