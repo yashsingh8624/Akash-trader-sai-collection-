@@ -2,67 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard | Akash Traders</title>
+  <title>Admin Dashboard | Akash Traders & Sai Collection</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    body{
-      background:#f5f5f5;
-      font-family:Poppins, Arial;
-    }
-    .admin-box{
-      max-width:420px;
-      margin:60px auto;
-      background:white;
-      padding:25px;
-      border-radius:12px;
-      box-shadow:0 10px 25px rgba(0,0,0,0.1);
-      text-align:center;
-    }
-    .admin-box h2{
-      margin-bottom:10px;
-    }
-    .admin-box p{
-      color:#555;
-      margin-bottom:20px;
-    }
-    .admin-box ul{
-      list-style:none;
-      padding:0;
-    }
-    .admin-box li{
-      background:#f1f1f1;
-      margin:10px 0;
-      padding:12px;
-      border-radius:8px;
-      font-weight:500;
-    }
-    .admin-note{
-      margin-top:20px;
-      font-size:14px;
-      color:#777;
-    }
-  </style>
 </head>
 
-<body>
+<body class="admin-page">
 
+  <!-- ===== HEADER (Same as other pages) ===== -->
+  <header>
+    <div class="header-container">
+      <div class="logo-section">
+        <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png" alt="Akash Traders Logo" class="logo">
+        <span class="site-name">Akash Traders & Sai Collection</span>
+      </div>
+      <nav class="top-nav">
+        <a href="index.html">🏠 Home</a>
+        <a href="catalogue.html">📂 Catalogue</a>
+        <a href="contact.html">📞 Contact</a>
+        <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== ORIGINAL ADMIN BOX (Enhanced but same structure) ===== -->
   <div class="admin-box">
-    <h2>🛠 Admin Dashboard</h2>
-    <p>Manage products using Google Sheet only</p>
+    <div class="admin-header">
+      <h2>🛠 Admin Dashboard</h2>
+      <p>Manage products using Google Sheet only</p>
+    </div>
 
-    <ul>
-      <li>➕ Add product → Google Sheet</li>
-      <li>💰 Change price → Google Sheet</li>
-      <li>❌ Hide product → Delete row</li>
+    <ul class="admin-list">
+      <li class="admin-item add-item">➕ <strong>Add product</strong> → Google Sheet</li>
+      <li class="admin-item price-item">💰 <strong>Change price</strong> → Google Sheet</li>
+      <li class="admin-item delete-item">❌ <strong>Hide product</strong> → Delete row</li>
     </ul>
 
     <div class="admin-note">
-      This panel is read-only.<br>
-      Website updates automatically from Sheet.
+      <strong>🔥 Pro Tip:</strong> This panel is read-only.<br>
+      Website updates automatically from Sheet (every 5 mins).
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="admin-actions">
+      <a href="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID" class="admin-btn primary" target="_blank">📋 Open Google Sheet</a>
+      <button class="admin-btn secondary" onclick="location.reload()">🔄 Refresh</button>
     </div>
   </div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/918624091826" class="wa-float" target="_blank">💬</a>
 
   <script src="google script.js"></script>
 </body>
