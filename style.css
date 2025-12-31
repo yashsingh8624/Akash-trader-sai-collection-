@@ -2,15 +2,40 @@
 
 body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
 
+/* HEADER + LOGO */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: black;
+  padding: 10px 0;
+}
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.logo-container img.logo {
+  width: 120px;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+.logo-container h1 {
+  color: white;
+  font-size: 20px;
+  margin: 0;
+  text-align: center;
+}
+
 /* NAV */
 .top-nav {
   display:flex;
   justify-content:space-around;
-  background:black;
-  padding:12px;
-  position: relative;
+  width: 100%;
 }
-.top-nav a { color:white; text-decoration:none; }
+.top-nav a { color:white; text-decoration:none; padding:6px 12px;}
 .top-nav .active { border-bottom:2px solid red; }
 
 /* CART ICON */
@@ -65,12 +90,10 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
-
 .product-card img {
   width: 100%;
   height: 200px;
@@ -78,18 +101,15 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   border-radius: 10px;
   margin-bottom: 10px;
 }
-
 .product-card h3 {
   margin: 5px 0;
   font-size: 18px;
 }
-
 .product-card p {
   margin: 5px 0;
   color: #333;
   font-weight: bold;
 }
-
 .product-card button {
   background: #25D366;
   color: white;
@@ -100,7 +120,6 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   cursor: pointer;
   transition: background 0.2s;
 }
-
 .product-card button:hover {
   background: #1DA851;
 }
@@ -165,7 +184,6 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   z-index: 9999;
   display:none;
 }
-
 .cart-box{
   background:#fff;
   width:90%;
@@ -176,17 +194,14 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   max-height: 80%;
   overflow-y: auto;
 }
-
 .cart-box h3 {
   text-align:center;
   margin-bottom:20px;
 }
-
 .cart-item{
   border-bottom:1px solid #ddd;
   padding:8px 0;
 }
-
 .cart-item button {
   margin-top:5px;
   padding:4px 8px;
@@ -197,69 +212,6 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   border:none;
   border-radius:6px;
 }
-/* Cart icon number ko white aur visible banane ke liye */
-.top-nav .cart {
-  position: relative;
-  cursor: pointer;
-}
-
-#cartCount {
-  background-color: red; /* red badge background */
-  color: white;           /* number white */
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 50%;
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 14px;
-}
-
-/* Cart popup styling */
-.cart-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.cart-box {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  max-height: 80%;
-  overflow-y: auto;
-}
-
-.cart-box h3 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.cart-item {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
-}
-
-.cart-item button {
-  margin-top: 5px;
-  padding: 4px 8px;
-  font-size: 12px;
-  cursor: pointer;
-  background-color: #ff4d4f;
-  color: white;
-  border: none;
-  border-radius: 6px;
-}
-
 /* WhatsApp order button in popup */
 .cart-box button.order-btn {
   background-color: #25D366;
