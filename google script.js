@@ -178,3 +178,11 @@ function orderOnWhatsApp(){
 
 // ================= INIT =================
 updateCartUI();
+// IMAGE ZOOM
+function openImg(src){
+  document.getElementById("previewImg").src = src;
+  document.getElementById("imgPreview").style.display = "flex";
+}
+function closeImg(){
+  document.getElementById("imgPreview").style.display = "none";
+}
