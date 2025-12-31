@@ -5,12 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catalogue | Akash Traders & Sai Collection</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== IMAGE PREVIEW POPUP ===== */
+    .img-preview {
+      position: fixed;
+      top:0; left:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+    }
+    .img-preview img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+  </style>
 </head>
-<!-- IMAGE PREVIEW POPUP -->
-<div id="imgPreview" class="img-preview" onclick="closeImg()">
-  <img id="previewImg">
-</div>
 <body>
+
+<!-- ===== IMAGE PREVIEW POPUP ===== -->
+<div id="imgPreview" class="img-preview" onclick="closeImage()">
+  <img id="previewImg" alt="Preview">
+</div>
 
 <!-- ===== NAV ===== -->
 <header>
@@ -20,7 +40,7 @@
   </div>
   <nav class="top-nav">
     <a href="index.html">Home</a>
-    <a href="catalogue.html">Catalogue</a>
+    <a href="catalogue.html" class="active">Catalogue</a>
     <a href="contact.html">Contact</a>
     <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
   </nav>
@@ -66,6 +86,46 @@
 
 <!-- ===== JS ===== -->
 <script src="google script.js"></script>
+<script>
+  // ===== IMAGE PREVIEW FUNCTIONS =====
+  function openImage(url){
+    document.getElementById("previewImg").src = url;
+    document.getElementById("imgPreview").style.display = "flex";
+  }
+
+  function closeImage(){
+    document.getElementById("imgPreview").style.display = "none";
+  }
+
+  // ===== MODIFY RENDER PRODUCTS FUNCTION =====
+  function renderProducts(list) {
+    const div = document.getElementById("products");
+    div.innerHTML = "";
+
+    if(list.length === 0){
+      div.innerHTML = "<p>No products found</p>";
+      return;
+    }
+
+    list.forEach(item => {
+      div.innerHTML += `
+        <div class="product-card">
+          <img src="${item.image_url}" alt="${item.name}" onclick="openImage('${item.image_url}')">
+          <h3>${item.name}</h3>
+          <p>₹${item.price}</p>
+
+          <div>
+            <button onclick="changeQty('${item.id}', -1)">-</button>
+            <input id="qty-${item.id}" type="number" value="1" min="1">
+            <button onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
+
+          <button onclick="addToCart('${item.id}')">Add to Cart</button>
+        </div>
+      `;
+    });
+  }
+</script>
 
 </body>
 </html>
