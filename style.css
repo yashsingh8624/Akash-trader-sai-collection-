@@ -31,7 +31,7 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   white-space: nowrap;
 }
 
-/* NAV */
+/* NAVIGATION */
 .top-nav {
   display: flex;
   gap: 20px;
@@ -42,9 +42,10 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   color: white;
   text-decoration: none;
   font-weight: 500;
+  padding: 6px 12px;
 }
 
-.top-nav .active {
+.top-nav a.active {
   border-bottom: 2px solid red;
 }
 
@@ -86,34 +87,7 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   }
 }
 
-/* NAV */
-.top-nav {
-  display:flex;
-  justify-content:space-around;
-  width: 100%;
-}
-.top-nav a { color:white; text-decoration:none; padding:6px 12px;}
-.top-nav .active { border-bottom:2px solid red; }
-
-/* CART ICON */
-.top-nav .cart {
-  position: relative;
-  cursor: pointer;
-  font-weight: bold;
-}
-#cartCount {
-  background-color: red; /* badge background */
-  color: white;          /* number white */
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 50%;
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 14px;
-}
-
-/* SLIDER */
+/* ===== SLIDER ===== */
 .landing {
   min-height:100vh;
   background-size:cover;
@@ -134,11 +108,11 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   align-items:center;
 }
 
-/* FILTER */
+/* ===== FILTER ===== */
 .filter{text-align:center;margin:15px;}
 .filter button{padding:8px 14px;margin:5px;background:black;color:white;border:none;border-radius:6px;}
 
-/* PRODUCTS */
+/* ===== PRODUCTS ===== */
 .product-card {
   background: #fff;
   padding: 15px;
@@ -181,7 +155,7 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   background: #1DA851;
 }
 
-/* CONTACT */
+/* ===== CONTACT ===== */
 .contact-section{
   max-width:400px;
   margin:40px auto;
@@ -196,7 +170,7 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   margin:10px 0;
 }
 
-/* CART BUTTON */
+/* ===== CART BUTTON ===== */
 .cart-btn{
   position:fixed;
   bottom:20px;
@@ -209,7 +183,7 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   border-radius:8px;
 }
 
-/* WHATSAPP FLOAT */
+/* ===== WHATSAPP FLOAT ===== */
 .wa-float{
   position:fixed;
   bottom:20px;
@@ -229,7 +203,7 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   margin: 20px 0;
 }
 
-/* CART POPUP */
+/* ===== CART POPUP ===== */
 .cart-popup{
   position:fixed;
   top:0; left:0;
@@ -247,7 +221,7 @@ body { margin:0; font-family:Poppins,Arial; background:#f5f5f5; }
   max-width:400px;
   margin:0 auto;
   padding:20px;
-  border-radius:10px;
+  border-radius:12px;
   max-height: 80%;
   overflow-y: auto;
 }
