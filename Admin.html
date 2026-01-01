@@ -1,69 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard | Akash Traders</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <style>
-    body{
-      background:#f5f5f5;
-      font-family:Poppins, Arial;
-    }
-    .admin-box{
-      max-width:420px;
-      margin:60px auto;
-      background:white;
-      padding:25px;
-      border-radius:12px;
-      box-shadow:0 10px 25px rgba(0,0,0,0.1);
-      text-align:center;
-    }
-    .admin-box h2{
-      margin-bottom:10px;
-    }
-    .admin-box p{
-      color:#555;
-      margin-bottom:20px;
-    }
-    .admin-box ul{
-      list-style:none;
-      padding:0;
-    }
-    .admin-box li{
-      background:#f1f1f1;
-      margin:10px 0;
-      padding:12px;
-      border-radius:8px;
-      font-weight:500;
-    }
-    .admin-note{
-      margin-top:20px;
-      font-size:14px;
-      color:#777;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | Aakash Traders & Sai Collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+<body class="admin-page">
 
-<body>
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">Aakash Traders & Sai Collection</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalogue.html">Catalogue</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="admin.html" class="active">Admin</a></li>
+    </ul>
+    <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+    <div class="hamburger">☰</div>
+  </nav>
+</header>
 
-  <div class="admin-box">
-    <h2>🛠 Admin Dashboard</h2>
-    <p>Manage products using Google Sheet only</p>
+<section class="admin-hero">
+  <h1>Admin Dashboard</h1>
+  <p>Google Sheet se products auto-load ho rahe hain. Data sirf Sheet se change karo.</p>
+</section>
 
-    <ul>
-      <li>➕ Add product → Google Sheet</li>
-      <li>💰 Change price → Google Sheet</li>
-      <li>❌ Hide product → Delete row</li>
-    </ul>
+<section class="admin-panel">
+  <div class="admin-card">
+    <h2>Sheet Info</h2>
+    <p><strong>Sheet ID:</strong> 13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA</p>
+    <p><strong>Columns:</strong> A: ID, B: Name, C: Price, D: Image URL, E: Season (summer/winter/rain)</p>
+  </div>
 
-    <div class="admin-note">
-      This panel is read-only.<br>
-      Website updates automatically from Sheet.
-    </div>
-  </div>
+  <div class="admin-card">
+    <h2>Live Product List</h2>
+    <p>Ye list read-only hai. Neeche sirf dekhne ke liye hai.</p>
+    <div class="admin-table-wrapper">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price (₹)</th>
+            <th>Season</th>
+          </tr>
+        </thead>
+        <tbody id="adminProducts">
+          <tr><td colspan="4">Loading products...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-  <script src="google script.js"></script>
+  <div class="admin-card">
+    <h2>Note</h2>
+    <ul>
+      <li>New product add karne ke liye sirf Google Sheet mein naya row add karo.</li>
+      <li>Price, image, season change bhi Sheet se hi karna hai.</li>
+      <li>Website automatically 1–2 minute mein refresh pe updated data dikhayegi.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Cart Modal (same as index.html) -->
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="toggleCart()">&times;</span>
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal">Total: ₹0</div>
+    <button class="whatsapp-order" onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+  </div>
+</div>
+
+<a href="https://wa.me/918624091826?text=Hi, Aakash Traders se baat karni hai" class="whatsapp-float">💬</a>
+
+<script src="script.js"></script>
+<script>
+  // Admin ke liye simple table fill
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const tbody = document.getElementById('adminProducts');
+      if (!window.products || !window.products.length) {
+        tbody.innerHTML = '<tr><td colspan="4">No products loaded. Sheet check karo.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = window.products.map(p => `
+        <tr>
+          <td>${p.id}</td>
+          <td>${p.name}</td>
+          <td>${p.price}</td>
+          <td>${p.season}</td>
+        </tr>
+      `).join('');
+    }, 1500); // loadProducts ke baad thoda wait
+  });
+</script>
 </body>
 </html>
