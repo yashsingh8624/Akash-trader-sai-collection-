@@ -1,114 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Akash Traders & Sai Collection | Wholesale Clothing</title>
-
-  <meta charset="UTF-8">
-  <meta name="description" content="Wholesale & Retail Clothing – Jeans, Jackets, Rainwear, Seasonal Fashion">
-  <meta name="keywords" content="wholesale clothes, jeans supplier, jacket wholesale">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Akash Traders & Sai Collection | Wholesale Clothing</title>
+  <meta name="description" content="Wholesale & Retail Clothing – Jeans, Jackets, Rainwear, Seasonal Fashion">
+  <meta name="keywords" content="wholesale clothes, jeans supplier, jacket wholesale">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="landing">
 
 <header>
-  <div class="header-container">
-    <div class="logo-section">
-      <img
-        src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png"
-        alt="Akash Traders & Sai Collection Logo"
-        class="logo"
-      >
-      <span class="site-name">Akash Traders & Sai Collection</span>
-    </div>
-
-    <nav class="top-nav">
-      <a class="active" href="index.html">🏠 Home</a>
-      <a href="catalogue.html">📂 Catalogue</a>
-      <a href="contact.html">📞 Contact</a>
-
-      <span class="cart" onclick="openCart()">
-        🛒 <span id="cartCount">0</span>
-      </span>
-    </nav>
-  </div>
+  <div class="header-container">
+    <div class="logo-section">
+      <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png" alt="Akash Traders Logo" class="logo">
+      <span class="site-name">Akash Traders & Sai Collection</span>
+    </div>
+    <nav class="top-nav">
+      <a class="active" href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="contact.html">Contact</a>
+      <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
+    </nav>
+  </div>
 </header>
 
-<!-- ===== HERO ===== -->
-<main class="hero-section">
-  <div class="hero-content">
+<div class="overlay">
+  <h1>Akash Traders & Sai Collection</h1>
+  <p>Wholesale & Retail Clothing Supplier</p>
+</div>
 
-    <div class="hero-text">
-      <h1 class="hero-title">Akash Traders & Sai Collection</h1>
-      <p class="hero-subtitle">Premium Wholesale & Retail Clothing</p>
-
-      <div class="hero-features">
-        <div class="feature-item"><span>👖</span><span>Jeans</span></div>
-        <div class="feature-item"><span>🧥</span><span>Jackets</span></div>
-        <div class="feature-item"><span>🌧️</span><span>Rainwear</span></div>
-        <div class="feature-item"><span>👕</span><span>Seasonal</span></div>
-      </div>
-
-      <a href="catalogue.html" class="cta-button">View Catalogue</a>
-    </div>
-
-    <div class="hero-image">
-      <div class="product-preview">
-        <div class="product-card denim">
-          <h3>Denim Jeans</h3>
-        </div>
-        <div class="product-card jacket">
-          <h3>Winter Jackets</h3>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</main>
-
-<!-- ===== STATS ===== -->
-<section class="stats-section">
-  <div class="stat-item">
-    <span class="stat-number">5000+</span>
-    <span>Happy Customers</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">10000+</span>
-    <span>Products Sold</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">50+</span>
-    <span>Cities Served</span>
-  </div>
-</section>
-
-<!-- ===== WHATSAPP FLOAT ===== -->
-<a href="https://wa.me/918624091826" class="wa-float" target="_blank" aria-label="WhatsApp">
-  💬
-</a>
-
-<!-- ===== MAIN JS (NO SPACE BUG) ===== -->
-<script src="script.js"></script>
-
-<script>
-  // Hero parallax (safe)
-  window.addEventListener("scroll", () => {
-    const hero = document.querySelector(".hero-section");
-    if (!hero) return;
-    hero.style.transform = `translateY(${window.scrollY * 0.3}px)`;
-  });
-
-  // Cart click animation (JS compatible)
-  function openCart() {
-    const el = document.getElementById("cartCount");
-    if (!el) return;
-    el.style.transform = "scale(1.2)";
-    setTimeout(() => el.style.transform = "scale(1)", 200);
-  }
-</script>
-
+<a href="https://wa.me/918624091826" class="wa-float">w</a>
+<script src="google script.js"></script>
 </body>
 </html>
