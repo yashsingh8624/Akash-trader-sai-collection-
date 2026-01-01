@@ -1,58 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>Akash Traders & Sai Collection | Wholesale Fashion</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Premium Wholesale & Retail Clothing - Jeans, Jackets, Rainwear | Fast Delivery">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aakash Traders & Sai Collection | Wholesale & Retail Clothing</title>
+  <meta name="description" content="Summer, Winter, Rainy season clothes - Jeans, Jackets, Wholesale Retail Na Sopara">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="landing">
-  <header class="header-container">
-    <div class="logo-section">
-      <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png" alt="Logo" class="logo">
-      <div>
-        <h1 class="site-name">Akash Traders</h1>
-        <span class="tagline">Premium Wholesale Fashion</span>
-      </div>
-    </div>
-    <nav class="top-nav">
-      <a href="index.html" class="active">🏠 Home</a>
-      <a href="catalogue.html">🛍️ Catalogue</a>
-      <a href="contact.html">📞 Contact</a>
-      <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo">Aakash Traders & Sai Collection</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+      <div class="hamburger">☰</div>
     </nav>
   </header>
 
-  <main class="hero-section">
+  <section class="hero">
     <div class="hero-content">
-      <h1 class="hero-title">Wholesale & Retail<br><span class="highlight">Fashion Collection</span></h1>
-      <p class="hero-subtitle">Premium Jeans, Jackets, Rainwear | Best Prices Guaranteed</p>
-      <div class="cta-buttons">
-        <a href="catalogue.html" class="cta-primary">View Catalogue</a>
-        <a href="https://wa.me/918624091826" class="cta-secondary">Quick Order 📲</a>
-      </div>
+      <h1>Seasonal Fashion for Every Weather</h1>
+      <p>"Garmi mein thandak, sardi mein garmahat, barish mein protection – Har season ke liye perfect clothes!"</p>
+      <a href="catalogue.html" class="cta-btn">Shop Now</a>
     </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-number">500+</span>
-        <span>Products</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number">1000+</span>
-        <span>Happy Clients</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number">24H</span>
-        <span>Delivery</span>
-      </div>
+    <div class="season-tags">
+      <span class="season summer">☀️ Summer</span>
+      <span class="season winter">❄️ Winter</span>
+      <span class="season rain">🌧️ Raining</span>
     </div>
-  </main>
+  </section>
 
-  <a href="https://wa.me/918624091826" class="wa-float">💬</a>
-  <script src="script.js"></script>
+  <section class="features">
+    <div class="feature-card">
+      <h3>Wholesale & Retail</h3>
+      <p>Bulk orders at best prices.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Fast Delivery</h3>
+      <p>Pan India shipping.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Quality Guaranteed</h3>
+      <p>Premium fabrics.</p>
+    </div>
+  </section>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="toggleCart()">&times;</span>
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total" id="cartTotal">Total: ₹0</div>
+      <button class="whatsapp-order" onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/918624091826?text=Hi, Aakash Traders se shopping karna hai!" class="whatsapp-float">💬</a>
+
+  <script src="google script.js"></script>
 </body>
 </html>
