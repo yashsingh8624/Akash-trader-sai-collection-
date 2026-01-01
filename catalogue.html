@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- HEADER (same as index.html) -->
   <header class="header">
     <nav class="navbar">
       <div class="logo">Aakash Traders & Sai Collection</div>
@@ -18,20 +17,19 @@
         <li><a href="contact.html">Contact</a></li>
         <li><a href="admin.html">Admin</a></li>
       </ul>
-      <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+      <div class="cart-icon" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
       <div class="hamburger">☰</div>
     </nav>
   </header>
 
-  <!-- HERO + FILTER + SEARCH -->
   <section class="catalogue-hero">
     <h1>Our Collection</h1>
 
     <div class="season-filters">
-      <button class="filter-btn active" data-season="all">All</button>
-      <button class="filter-btn" data-season="summer">☀️ Summer</button>
-      <button class="filter-btn" data-season="winter">❄️ Winter</button>
-      <button class="filter-btn" data-season="rain">🌧️ Rain</button>
+      <button class="filter-btn active" onclick="filtersSeason('all')">All</button>
+      <button class="filter-btn" onclick="filtersSeason('summer')">☀️ Summer</button>
+      <button class="filter-btn" onclick="filtersSeason('winter')">❄️ Winter</button>
+      <button class="filter-btn" onclick="filtersSeason('rain')">🌧️ Rain</button>
     </div>
 
     <div class="search-row">
@@ -40,22 +38,18 @@
     </div>
   </section>
 
-  <!-- PRODUCTS GRID -->
   <section class="products-grid" id="productsGrid">
     <!-- JS yahan products inject karega -->
-    <div class="loading">Loading products...</div>
   </section>
 
-  <!-- IMAGE ZOOM MODAL -->
-  <div id="zoomModal" class="zoom-modal">
+  <div id="zoomModal" class="zoom-modal" style="display:none;">
     <span class="close" onclick="closeZoom()">&times;</span>
     <img id="zoomImg" src="" alt="Zoomed product">
   </div>
 
-  <!-- CART MODAL (same structure har page) -->
-  <div id="cartModal" class="modal">
+  <div id="cartPopup" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="toggleCart()">&times;</span>
+      <span class="close" onclick="closeCart()">&times;</span>
       <h2>Your Cart</h2>
       <div id="cartItems"></div>
       <div class="cart-total" id="cartTotal">Total: ₹0</div>
@@ -63,11 +57,9 @@
     </div>
   </div>
 
-  <!-- WHATSAPP FLOAT BUTTON -->
   <a href="https://wa.me/918624091826?text=Hi,%20Aakash%20Traders%20se%20shopping%20karna%20hai"
      class="whatsapp-float">💬</a>
 
-  <!-- IMPORTANT: Correct JS file name -->
-  <script src=" google script.js"></script>
+  <script src="google script.js"></script>
 </body>
 </html>
