@@ -1,191 +1,205 @@
-// Aakash Traders & Sai Collection - LIVE Google Sheet + Search + Admin Support
+// ================= CART INIT =================
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// ================= SHEET CONFIG =================
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
-const SHEET_URL =
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-window.products = [];
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let products = [];
 
-// ---- LOAD PRODUCTS FROM SHEET ----
-async function loadProducts() {
-  try {
-    const res = await fetch(SHEET_URL);
-    const text = await res.text();
-    const json = JSON.parse(text.substring(47, text.lastIndexOf(';')));
+// ================= FETCH PRODUCTS =================
+fetch(SHEET_URL)
+  .then(res => res.text())
+  .then(text => {
+    // Google Sheet JSON parse
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
 
-    window.products = json.table.rows.map((row, index) => ({
-      id: row.c[0]?.v || index + 1,
-      name: row.c[1]?.v || 'Product',
-      price: parseInt(row.c[2]?.v) || 0,
-      image: row.c[3]?.v || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
-      season: (row.c[4]?.v || 'summer').toLowerCase()
-    })).filter(p => p.price > 0);
+    products = rows.map(r => ({
+      id: r.c[0]?.v?.toString().trim() || Math.random().toString(36).substr(2, 5),   // A: ID
+      name: r.c[1]?.v || "Unnamed Product",                                           // B: Name
+      price: Number(r.c[2]?.v) || 0,                                                  // C: Price
+      image_url: (r.c[3]?.v || "https://via.placeholder.com/300").trim(),             // D: Image URL
+      season: (r.c[4]?.v || "all").toLowerCase().trim()                               // E: Season
+    }));
 
-    renderProducts(window.products);
-  } catch (e) {
-    console.error('Sheet error:', e);
-    // Fallback sample
-    window.products = [
-      {id: 1, name: 'Sample Summer Shirt', price: 599, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400', season:'summer'}
-    ];
-    renderProducts(window.products);
-  }
-}
+    renderProducts(products);
+    updateCartUI();
+  })
+  .catch(err => console.error("Sheet Error:", err));
 
-// ---- RENDER PRODUCTS ----
-function renderProducts(list = window.products) {
-  const grid = document.getElementById('productsGrid');
-  if (!grid) return;
-  if (!list.length) {
-    grid.innerHTML = '<div class="loading">No products found</div>';
-    return;
-  }
-  grid.innerHTML = list.map(p => `
-    <div class="product-card" data-season="${p.season}">
-      <div class="product-image" style="background-image:url(${p.image})" onclick="openZoom('${p.image}')">
-        <span class="season-badge ${p.season}">${p.season.toUpperCase()}</span>
-      </div>
-      <div class="product-info">
-        <div class="product-name">${p.name}</div>
-        <div class="product-price">₹${p.price.toLocaleString()}</div>
-        <button class="add-cart" onclick="addToCart(${p.id})">Add to Cart</button>
-      </div>
-    </div>
-  `).join('');
-}
+// ================= RENDER PRODUCTS =================
+function renderProducts(list) {
+  // nayi catalogue.html me id = productsGrid use kar
+  const div = document.getElementById("productsGrid") || document.getElementById("products");
+  if (!div) return;
 
-// ---- IMAGE ZOOM ----
-function openZoom(img) {
-  const modal = document.getElementById('zoomModal');
-  const imgEl = document.getElementById('zoomImg');
-  if (!modal || !imgEl) return;
-  imgEl.src = img;
-  modal.style.display = 'block';
-}
-function closeZoom() {
-  const modal = document.getElementById('zoomModal');
-  if (modal) modal.style.display = 'none';
-}
+  div.innerHTML = "";
 
-// ---- CART ----
-function addToCart(id) {
-  const item = window.products.find(p => p.id === id);
-  if (!item) return;
-  const exist = cart.find(c => c.id === id);
-  if (exist) exist.qty += 1;
-  else cart.push({...item, qty: 1});
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-}
-
-function toggleCart() {
-  const modal = document.getElementById('cartModal');
-  if (!modal) return;
-  modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
-  renderCart();
-}
-
-function renderCart() {
-  const itemsDiv = document.getElementById('cartItems');
-  const totalEl = document.getElementById('cartTotal');
-  if (!itemsDiv || !totalEl) return;
-
-  if (!cart.length) {
-    itemsDiv.innerHTML = '<p>Your cart is empty</p>';
-    totalEl.textContent = 'Total: ₹0';
+  if (!list || list.length === 0) {
+    div.innerHTML = "<p style='text-align:center'>No products found</p>";
     return;
   }
 
-  itemsDiv.innerHTML = cart.map(item => `
-    <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid #eee;">
-      <span>${item.name} x${item.qty}</span>
-      <span>₹${(item.price * item.qty).toLocaleString()}</span>
-    </div>
-  `).join('');
+  list.forEach(p => {
+    div.innerHTML += `
+      <div class="product-card">
+        <div class="product-image-wrapper" onclick="openImg('${p.image_url}')">
+          <img src="${p.image_url}" alt="${p.name}">
+          ${p.season && p.season !== "all" ? `<span class="season-badge ${p.season}">${p.season.toUpperCase()}</span>` : ""}
+        </div>
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
 
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  totalEl.textContent = `Total: ₹${total.toLocaleString()}`;
-}
+        <div style="margin:8px 0">
+          <button onclick="changeQty('${p.id}',-1)">-</button>
+          <input id="qty-${p.id}" type="number" value="1" min="1" style="width:50px;text-align:center">
+          <button onclick="changeQty('${p.id}',1)">+</button>
+        </div>
 
-function orderOnWhatsApp() {
-  if (!cart.length) return alert('Cart is empty!');
-  const lines = cart.map(i => `${i.name} (x${i.qty}) - ₹${(i.price * i.qty).toLocaleString()}`);
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const msg =
-`🛒 *Order from Aakash Traders & Sai Collection*
-
-${lines.join('
-')}
-
-💰 *Total: ₹${total.toLocaleString()}*
-
-Delivery address?`;
-
-  window.open(`https://wa.me/918624091826?text=${encodeURIComponent(msg)}`, '_blank');
-  toggleCart();
-}
-
-function updateCartCount() {
-  const el = document.getElementById('cartCount');
-  if (!el) return;
-  const count = cart.reduce((s, i) => s + i.qty, 0);
-  el.textContent = count;
-}
-
-// ---- SEASON FILTERS ----
-function setupFilters() {
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      document.querySelector('.filter-btn.active')?.classList.remove('active');
-      e.target.classList.add('active');
-      const season = e.target.dataset.season;
-      const list = season === 'all'
-        ? window.products
-        : window.products.filter(p => p.season === season);
-      renderProducts(list);
-    });
+        <button onclick="addToCart('${p.id}')">Add to Cart</button>
+      </div>
+    `;
   });
 }
 
-// ---- SEARCH ----
-// HTML mein input ka id: searchInput
-// aur button: onclick="searchProducts()"
-function searchProducts() {
-  const input = document.getElementById('searchInput');
+// ================= QTY CHANGE =================
+function changeQty(id, delta) {
+  const input = document.getElementById(`qty-${id}`);
   if (!input) return;
-  const q = input.value.trim().toLowerCase();
-  if (!q) {
-    renderProducts(window.products);
+  let val = parseInt(input.value) || 1;
+  val = Math.max(1, val + delta);
+  input.value = val;
+}
+
+// ================= ADD TO CART =================
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+
+  const qtyInput = document.getElementById(`qty-${id}`);
+  let qty = parseInt(qtyInput?.value) || 1;
+
+  const existing = cart.find(i => i.id === id);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({ ...product, qty });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+
+  if (qtyInput) qtyInput.value = 1;
+}
+
+// ================= CART COUNT =================
+function updateCartUI() {
+  const el = document.getElementById("cartCount");
+  if (!el) return;
+  let total = cart.reduce((s, i) => s + i.qty, 0);
+  el.innerText = total;
+}
+
+// ================= FILTER (SEASON) =================
+function filtersSeason(season) {
+  season = season.toLowerCase();
+  if (season === "all") {
+    renderProducts(products);
+  } else {
+    renderProducts(products.filter(p => p.season === season));
+  }
+}
+
+// ================= CART POPUP =================
+function openCart() {
+  const popup = document.getElementById("cartPopup") || document.getElementById("cartModal");
+  if (!popup) return;
+  popup.style.display = "flex";
+  renderCartItems();
+}
+function closeCart() {
+  const popup = document.getElementById("cartPopup") || document.getElementById("cartModal");
+  if (!popup) return;
+  popup.style.display = "none";
+}
+
+function renderCartItems() {
+  const div = document.getElementById("cartItems");
+  const totalEl = document.getElementById("cartTotal");
+  if (!div || !totalEl) return;
+
+  div.innerHTML = "";
+  let total = 0;
+
+  if (cart.length === 0) {
+    div.innerHTML = "<p>Cart empty hai</p>";
+    totalEl.innerText = "Total: ₹0";
     return;
   }
-  const filtered = window.products.filter(p =>
-    p.name.toLowerCase().includes(q)
-  );
-  renderProducts(filtered);
-}
 
-// ---- MOBILE MENU & MODALS ----
-function setupUI() {
-  document.querySelector('.hamburger')?.addEventListener('click', () => {
-    document.querySelector('.nav-links')?.classList.toggle('active');
+  cart.forEach((item, i) => {
+    total += item.qty * item.price;
+    div.innerHTML += `
+      <div class="cart-item">
+        <b>${item.name}</b><br>
+        Qty: ${item.qty}<br>
+        ₹${item.price}<br>
+        <button onclick="removeItem(${i})">Remove</button>
+      </div>
+    `;
   });
 
-  window.onclick = (e) => {
-    if (e.target.classList.contains('modal')) e.target.style.display = 'none';
-    if (e.target.classList.contains('zoom-modal')) e.target.style.display = 'none';
-  };
+  totalEl.innerText = "Total: ₹" + total;
 }
 
-// ---- INIT ----
-document.addEventListener('DOMContentLoaded', () => {
-  loadProducts();
-  updateCartCount();
-  setupFilters();
-  setupUI();
+// ================= REMOVE ITEM =================
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+  renderCartItems();
+}
 
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => {
-      document.querySelector('.nav-links')?.classList.remove('active');
-    });
+// ================= WHATSAPP ORDER =================
+function orderOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Cart empty hai");
+    return;
+  }
+
+  let msg = "🛒 New Order%0A%0A";
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
+    total += item.qty * item.price;
   });
-});
+
+  msg += `Total: ₹${total}`;
+
+  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
+
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartUI();
+  renderCartItems();
+  closeCart();
+}
+
+// ================= IMAGE ZOOM =================
+function openImg(src) {
+  const preview = document.getElementById("imgPreview");
+  const img = document.getElementById("previewImg");
+  if (!preview || !img) return;
+  img.src = src;
+  preview.style.display = "flex";
+}
+function closeImg() {
+  const preview = document.getElementById("imgPreview");
+  if (!preview) return;
+  preview.style.display = "none";
+}
+
+// ================= INIT =================
+updateCartUI();
