@@ -1,6 +1,6 @@
 // Aakash Traders & Sai Collection - LIVE Google Sheet Integration
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1&tq=Select%20A,B,C,D,E`;
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json;
 
 let products = [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
