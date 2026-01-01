@@ -1,88 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>Catalogue - Akash Traders & Sai Collection</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue - Aakash Traders & Sai Collection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .img-preview {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 99999;
-    }
-    .img-preview img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
-    }
-  </style>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
-  <!-- IMAGE PREVIEW POPUP -->
-  <div id="imgPreview" class="img-preview" onclick="closeImage()">
-    <img id="previewImg" alt="Preview">
-  </div>
+  <!-- Same header as index.html -->
+  <header class="header"><!-- Copy from index.html --></header>
 
-  <!-- NAV -->
-  <header>
-    <div class="header-container">
-      <div class="logo-section">
-        <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1767162184/image_cfl3ws.png" alt="Logo" class="logo">
-        <h1>Akash Traders & Sai Collection</h1>
-      </div>
-      <nav class="top-nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html" class="active">Catalogue</a>
-        <a href="contact.html">Contact</a>
-        <span class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></span>
-      </nav>
+  <section class="catalogue-hero">
+    <h1>Our Collection</h1>
+    <div class="season-filters">
+      <button class="filter-btn active" data-season="all">All</button>
+      <button class="filter-btn" data-season="summer">☀️ Summer</button>
+      <button class="filter-btn" data-season="winter">❄️ Winter</button>
+      <button class="filter-btn" data-season="rain">🌧️ Rain</button>
     </div>
-  </header>
-
-  <!-- PAGE TITLE -->
-  <section style="text-align:center; padding:20px;">
-    <h2>Our Catalogue</h2>
-    <p>Wholesale & Retail Clothing Collection</p>
   </section>
 
-  <!-- FILTERS -->
-  <div class="filter">
-    <button onclick="filtersSeason('all')">All</button>
-    <button onclick="filtersSeason('summer')">Summer</button>
-    <button onclick="filtersSeason('winter')">Winter</button>
-    <button onclick="filtersSeason('rainy')">Rainy</button>
+  <section class="products-grid" id="productsGrid">
+    <!-- Products load here via JS -->
+    <div class="loading">Loading products...</div>
+  </section>
+
+  <!-- Image Zoom Modal -->
+  <div id="zoomModal" class="zoom-modal">
+    <span class="close" onclick="closeZoom()">&times;</span>
+    <img id="zoomImg" src="" alt="Zoomed">
   </div>
 
-  <!-- PRODUCTS GRID -->
-  <div id="products" class="product-grid"></div>
+  <!-- Cart Modal same as index -->
 
-  <!-- CART POPUP -->
-  <div id="cartPopup" class="cart-popup">
-    <div class="cart-box">
-      <h3>🛒 Your Cart</h3>
-      <div id="cartItems"></div>
-      <h4 id="cartTotal">Total: ₹0</h4>
-      <button class="order-btn" onclick="orderOnWhatsApp()">Order on WhatsApp</button>
-      <button onclick="closeCart()" style="width:100%; margin-top:10px;">Close</button>
-    </div>
-  </div>
+  <!-- WhatsApp Float same -->
 
   <script src="google script.js"></script>
-  <script>
-    function openImage(url) {
-      document.getElementById("previewImg").src = url;
-      document.getElementById("imgPreview").style.display = "flex";
-    }
-    function closeImage() {
-      document.getElementById("imgPreview").style.display = "none";
-    }
-  </script>
 </body>
 </html>
