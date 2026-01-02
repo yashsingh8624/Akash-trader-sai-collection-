@@ -9,61 +9,93 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="header">
-    <nav class="navbar">
-      <div class="logo">Aakash Traders & Sai Collection</div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="catalogue.html">Catalogue</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-      <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
-      <div class="hamburger">☰</div>
-    </nav>
+  <!-- SAME PERFECT HEADER -->
+  <header class="top-bar">
+    <div class="logo">Aakash Traders & Sai Collection</div>
+    <div class="cart-icon" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
   </header>
 
-  <section class="hero">
+  <!-- SAME SLIDE MENU (Home ACTIVE) -->
+  <nav id="sideMenu" class="side-menu">
+    <a href="index.html" class="menu-link active">🏠 Home</a>
+    <a href="catalogue.html" class="menu-link">📦 Catalogue</a>
+    <a href="about.html" class="menu-link">ℹ️ About</a>
+    <a href="contact.html" class="menu-link">📞 Contact</a>
+    <a href="admin.html" class="menu-link">🔐 Admin</a>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" style="padding-top: 80px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center; color: white;">
     <div class="hero-content">
-      <h1>Seasonal Fashion for Every Weather</h1>
-      <p>"Garmi mein thandak, sardi mein garmahat, barish mein protection – Har season ke liye perfect clothes!"</p>
-      <a href="catalogue.html" class="cta-btn">Shop Now</a>
+      <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Seasonal Fashion<br>for Every Weather</h1>
+      <p style="font-size: 1.4rem; max-width: 600px; margin: 0 auto 2rem; line-height: 1.6; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+        "Garmi mein thandak, sardi mein garmahat, barish mein protection –<br>
+        <strong>Har season ke liye perfect clothes!</strong>"
+      </p>
+      <a href="catalogue.html" class="cta-btn" style="display: inline-block; background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; padding: 1.2rem 3rem; border-radius: 50px; text-decoration: none; font-size: 1.2rem; font-weight: 600; box-shadow: 0 10px 30px rgba(231,76,60,0.4); transition: all 0.3s;">
+        🛒 Shop Now
+      </a>
     </div>
-    <div class="season-tags">
-      <span class="season summer">☀️ Summer</span>
-      <span class="season winter">❄️ Winter</span>
-      <span class="season rain">🌧️ Raining</span>
-    </div>
-  </section>
-
-  <section class="features">
-    <div class="feature-card">
-      <h3>Wholesale & Retail</h3>
-      <p>Bulk orders at best prices.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Fast Delivery</h3>
-      <p>Pan India shipping.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Quality Guaranteed</h3>
-      <p>Premium fabrics.</p>
+    
+    <div class="season-tags" style="margin-top: 3rem; display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
+      <span class="season summer" style="padding: 1rem 2rem; border-radius: 50px; background: rgba(243,156,18,0.9); font-weight: 600; cursor: pointer; transition: transform 0.3s;">☀️ Summer Collection</span>
+      <span class="season winter" style="padding: 1rem 2rem; border-radius: 50px; background: rgba(52,152,219,0.9); font-weight: 600; cursor: pointer;">❄️ Winter Jackets</span>
+      <span class="season rain" style="padding: 1rem 2rem; border-radius: 50px; background: rgba(39,174,96,0.9); font-weight: 600; cursor: pointer;">🌧️ Rainy Season</span>
     </div>
   </section>
 
-  <!-- Cart Modal -->
-  <div id="cartModal" class="modal">
+  <!-- FEATURES SECTION -->
+  <section class="features" style="padding: 60px 20px; max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+    <div class="feature-card" style="background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s;">
+      <h3 style="color: #e74c3c; font-size: 1.5rem; margin-bottom: 1rem;">🏪 Wholesale & Retail</h3>
+      <p style="font-size: 1.1rem; color: #666;">Bulk orders at unbeatable prices. Perfect for resellers!</p>
+    </div>
+    
+    <div class="feature-card" style="background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s;">
+      <h3 style="color: #27ae60; font-size: 1.5rem; margin-bottom: 1rem;">🚚 Fast Delivery</h3>
+      <p style="font-size: 1.1rem; color: #666;">Pan India shipping within 2-3 days.</p>
+    </div>
+    
+    <div class="feature-card" style="background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s;">
+      <h3 style="color: #3498db; font-size: 1.5rem; margin-bottom: 1rem;">✅ Quality Guaranteed</h3>
+      <p style="font-size: 1.1rem; color: #666;">Premium fabrics & perfect fitting.</p>
+    </div>
+  </section>
+
+  <!-- SAME MODALS -->
+  <div id="zoomModal" class="zoom-modal" style="display:none;">
+    <span class="close" onclick="closeZoom()">&times;</span>
+    <img id="zoomImg" src="" alt="Zoomed">
+  </div>
+  <div id="cartPopup" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="toggleCart()">&times;</span>
-      <h2>Your Cart</h2>
+      <span class="close" onclick="closeCart()">&times;</span>
+      <h2>🛒 Your Cart</h2>
       <div id="cartItems"></div>
       <div class="cart-total" id="cartTotal">Total: ₹0</div>
-      <button class="whatsapp-order" onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+      <button class="whatsapp-order" onclick="orderOnWhatsApp()">📱 Order on WhatsApp</button>
     </div>
   </div>
 
-  <!-- WhatsApp Float -->
-  <a href="https://wa.me/918624091826?text=Hi, Aakash Traders se shopping karna hai!" class="whatsapp-float">💬</a>
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/918624091826?text=Hi%20Aakash%20Traders%2C%20Home%20page%20se%20contact%20kar%20raha%20hoon!" class="whatsapp-float">💬</a>
 
+  <!-- SAME SCRIPTS -->
+  <script>
+    function toggleMenu() { document.getElementById('sideMenu').classList.toggle('open'); }
+    function closeZoom() { document.getElementById('zoomModal').style.display = 'none'; }
+    
+    // Active menu
+    document.addEventListener('DOMContentLoaded', () => {
+      const page = location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.toggle('active', link.href.includes(page));
+      });
+    });
+  </script>
   <script src="google script.js"></script>
 </body>
 </html>
