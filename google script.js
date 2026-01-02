@@ -1,26 +1,71 @@
-// ================= CART INIT =================
+/***********************
+ * MENU TOGGLE
+ ***********************/
+function toggleMenu() {
+  const menu = document.getElementById("sideMenu");
+  if (menu) menu.classList.toggle("open");
+}
+
+/***********************
+ * ACTIVE MENU LINK
+ ***********************/
+document.addEventListener("DOMContentLoaded", () => {
+  const currentPage =
+    window.location.pathname.split("/").pop() || "index.html";
+
+  document.querySelectorAll(".menu-link, .side-menu a").forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === currentPage) {
+      link.classList.add("active");
+    }
+  });
+});
+
+/***********************
+ * HERO IMAGE ZOOM
+ ***********************/
+function zoomImage(img) {
+  const modal = document.getElementById("zoomModal");
+  const zoomImg = document.getElementById("zoomImg");
+  if (!modal || !zoomImg) return;
+
+  zoomImg.src = img.src;
+  modal.style.display = "flex";
+}
+
+function closeZoom() {
+  const modal = document.getElementById("zoomModal");
+  if (modal) modal.style.display = "none";
+}
+
+/***********************
+ * CART INIT
+ ***********************/
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// ================= SHEET CONFIG =================
+/***********************
+ * GOOGLE SHEET CONFIG
+ ***********************/
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
 let products = [];
 
-// ================= FETCH PRODUCTS =================
+/***********************
+ * FETCH PRODUCTS
+ ***********************/
 fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
-    // Google Sheet JSON parse
     const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
     products = rows.map(r => ({
-      id: r.c[0]?.v?.toString().trim() || Math.random().toString(36).substr(2, 5),   // A: ID
-      name: r.c[1]?.v || "Unnamed Product",                                           // B: Name
-      price: Number(r.c[2]?.v) || 0,                                                  // C: Price
-      image_url: (r.c[3]?.v || "https://via.placeholder.com/300").trim(),             // D: Image URL
-      season: (r.c[4]?.v || "all").toLowerCase().trim()                               // E: Season
+      id: r.c[0]?.v?.toString().trim() || Math.random().toString(36).slice(2, 7),
+      name: r.c[1]?.v || "Unnamed Product",
+      price: Number(r.c[2]?.v) || 0,
+      image_url: (r.c[3]?.v || "https://via.placeholder.com/300").trim(),
+      season: (r.c[4]?.v || "all").toLowerCase().trim()
     }));
 
     renderProducts(products);
@@ -28,32 +73,41 @@ fetch(SHEET_URL)
   })
   .catch(err => console.error("Sheet Error:", err));
 
-// ================= RENDER PRODUCTS =================
+/***********************
+ * RENDER PRODUCTS
+ ***********************/
 function renderProducts(list) {
-  // nayi catalogue.html me id = productsGrid use kar
-  const div = document.getElementById("productsGrid") || document.getElementById("products");
-  if (!div) return;
+  const grid =
+    document.getElementById("productsGrid") ||
+    document.getElementById("products");
 
-  div.innerHTML = "";
+  if (!grid) return;
+
+  grid.innerHTML = "";
 
   if (!list || list.length === 0) {
-    div.innerHTML = "<p style='text-align:center'>No products found</p>";
+    grid.innerHTML = "<p style='text-align:center'>No products found</p>";
     return;
   }
 
   list.forEach(p => {
-    div.innerHTML += `
+    grid.innerHTML += `
       <div class="product-card">
         <div class="product-image-wrapper" onclick="openImg('${p.image_url}')">
           <img src="${p.image_url}" alt="${p.name}">
-          ${p.season && p.season !== "all" ? `<span class="season-badge ${p.season}">${p.season.toUpperCase()}</span>` : ""}
+          ${
+            p.season !== "all"
+              ? `<span class="season-badge ${p.season}">${p.season.toUpperCase()}</span>`
+              : ""
+          }
         </div>
+
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
 
-        <div style="margin:8px 0">
+        <div class="qty-row">
           <button onclick="changeQty('${p.id}',-1)">-</button>
-          <input id="qty-${p.id}" type="number" value="1" min="1" style="width:50px;text-align:center">
+          <input id="qty-${p.id}" type="number" value="1" min="1">
           <button onclick="changeQty('${p.id}',1)">+</button>
         </div>
 
@@ -63,22 +117,26 @@ function renderProducts(list) {
   });
 }
 
-// ================= QTY CHANGE =================
+/***********************
+ * QTY CHANGE
+ ***********************/
 function changeQty(id, delta) {
   const input = document.getElementById(`qty-${id}`);
   if (!input) return;
+
   let val = parseInt(input.value) || 1;
-  val = Math.max(1, val + delta);
-  input.value = val;
+  input.value = Math.max(1, val + delta);
 }
 
-// ================= ADD TO CART =================
+/***********************
+ * ADD TO CART
+ ***********************/
 function addToCart(id) {
   const product = products.find(p => p.id === id);
   if (!product) return;
 
   const qtyInput = document.getElementById(`qty-${id}`);
-  let qty = parseInt(qtyInput?.value) || 1;
+  const qty = parseInt(qtyInput?.value) || 1;
 
   const existing = cart.find(i => i.id === id);
   if (existing) {
@@ -93,37 +151,50 @@ function addToCart(id) {
   if (qtyInput) qtyInput.value = 1;
 }
 
-// ================= CART COUNT =================
+/***********************
+ * CART COUNT
+ ***********************/
 function updateCartUI() {
   const el = document.getElementById("cartCount");
   if (!el) return;
-  let total = cart.reduce((s, i) => s + i.qty, 0);
-  el.innerText = total;
+
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+  el.innerText = totalQty;
 }
 
-// ================= FILTER (SEASON) =================
+/***********************
+ * FILTER BY SEASON
+ ***********************/
 function filtersSeason(season) {
   season = season.toLowerCase();
-  if (season === "all") {
-    renderProducts(products);
-  } else {
-    renderProducts(products.filter(p => p.season === season));
-  }
+  if (season === "all") renderProducts(products);
+  else renderProducts(products.filter(p => p.season === season));
 }
 
-// ================= CART POPUP =================
+/***********************
+ * CART POPUP
+ ***********************/
 function openCart() {
-  const popup = document.getElementById("cartPopup") || document.getElementById("cartModal");
+  const popup =
+    document.getElementById("cartPopup") ||
+    document.getElementById("cartModal");
+
   if (!popup) return;
   popup.style.display = "flex";
   renderCartItems();
 }
+
 function closeCart() {
-  const popup = document.getElementById("cartPopup") || document.getElementById("cartModal");
-  if (!popup) return;
-  popup.style.display = "none";
+  const popup =
+    document.getElementById("cartPopup") ||
+    document.getElementById("cartModal");
+
+  if (popup) popup.style.display = "none";
 }
 
+/***********************
+ * RENDER CART ITEMS
+ ***********************/
 function renderCartItems() {
   const div = document.getElementById("cartItems");
   const totalEl = document.getElementById("cartTotal");
@@ -153,7 +224,9 @@ function renderCartItems() {
   totalEl.innerText = "Total: ₹" + total;
 }
 
-// ================= REMOVE ITEM =================
+/***********************
+ * REMOVE ITEM
+ ***********************/
 function removeItem(i) {
   cart.splice(i, 1);
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -161,7 +234,9 @@ function removeItem(i) {
   renderCartItems();
 }
 
-// ================= WHATSAPP ORDER =================
+/***********************
+ * WHATSAPP ORDER
+ ***********************/
 function orderOnWhatsApp() {
   if (cart.length === 0) {
     alert("Cart empty hai");
@@ -187,19 +262,24 @@ function orderOnWhatsApp() {
   closeCart();
 }
 
-// ================= IMAGE ZOOM =================
+/***********************
+ * IMAGE PREVIEW (PRODUCT)
+ ***********************/
 function openImg(src) {
   const preview = document.getElementById("imgPreview");
   const img = document.getElementById("previewImg");
   if (!preview || !img) return;
+
   img.src = src;
   preview.style.display = "flex";
 }
+
 function closeImg() {
   const preview = document.getElementById("imgPreview");
-  if (!preview) return;
-  preview.style.display = "none";
+  if (preview) preview.style.display = "none";
 }
 
-// ================= INIT =================
+/***********************
+ * INIT
+ ***********************/
 updateCartUI();
