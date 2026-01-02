@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Aakash Traders & Sai Collection</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #ffffff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-weight: 700;
+      color: #d02030;
+      font-size: 15px;
+    }
+
+    .menu-toggle {
+      width: 24px;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      display: block;
+      height: 3px;
+      background: #333;
+      margin: 4px 0;
+      border-radius: 2px;
+    }
+
+    /* ===== SIDE MENU ===== */
+    .side-menu {
+      position: fixed;
+      top: 52px;
+      right: -200px;
+      width: 200px;
+      background: #fff;
+      box-shadow: -2px 0 6px rgba(0,0,0,0.15);
+      transition: right 0.3s ease;
+      z-index: 99;
+    }
+
+    .side-menu.open {
+      right: 0;
+    }
+
+    .side-menu a {
+      display: block;
+      padding: 12px 16px;
+      border-bottom: 1px solid #eee;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .side-menu a.active {
+      background: #f5f5f5;
+      font-weight: 600;
+    }
+
+    /* ===== PAGE CONTENT ===== */
+    .page-content {
+      margin-top: 80px;
+      padding: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .page-content h1 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .page-content p {
+      line-height: 1.7;
+      font-size: 15px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<header class="top-bar">
+  <div class="logo">Aakash Traders & Sai Collection</div>
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- ===== SIDE MENU ===== -->
+<nav id="sideMenu" class="side-menu">
+  <a href="/index.html">🏠 Home</a>
+  <a href="/catalogue.html">📦 Catalogue</a>
+  <a href="/about.html" class="active">ℹ️ About</a>
+  <a href="/contact.html">📞 Contact</a>
+</nav>
+
+<!-- ===== ABOUT CONTENT ===== -->
+<section class="page-content">
+  <h1>About Us</h1>
+
+  <p>
+    <b>Aakash Traders & Sai Collection</b> ek trusted wholesale aur retail
+    clothing business hai. Hum quality jeans, shirts, T-shirts aur
+    latest garments reasonable price par provide karte hain.
+  </p>
+
+  <p>
+    Hamara main focus hamesha <b>quality, customer satisfaction</b>
+    aur <b>long-term trust</b> par rehta hai. Bulk order aur regular
+    supply ke liye hum WhatsApp ke through bhi available hain.
+  </p>
+
+  <p>
+    Agar aapko hamara catalogue dekhna hai ya order dena hai,
+    to menu se <b>Catalogue</b> page par visit karein.
+  </p>
+</section>
+
+<!-- ===== JS ===== -->
+<script>
+  function toggleMenu() {
+    document.getElementById("sideMenu").classList.toggle("open");
+  }
+</script>
+
+</body>
+</html>
