@@ -246,3 +246,52 @@ body {
 
 /* ===== MODAL / CART / WHATSAPP ===== */
 /* yahan tu apna purana CSS same rehne de */
+/* ===== HERO IMAGE FIX ===== */
+.hero-image {
+  width: 100% !important;  /* full width mobile + laptop */
+  max-height: 420px;        /* laptop me limit */
+  object-fit: cover;
+  margin-top: 80px;         /* top bar ke liye space */
+  cursor: zoom-in;
+  border-radius: 0 0 20px 20px;
+  transition: transform 0.3s ease; /* zoom smooth */
+}
+
+.hero-image:hover {
+  transform: scale(1.02);
+}
+
+/* ===== PRODUCTS GRID FIX ===== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 5%;
+}
+
+/* ===== MOBILE HERO IMAGE ===== */
+@media (max-width: 768px) {
+  .hero-image {
+    height: 50vh !important;  /* mobile me thoda chhota */
+  }
+
+  .catalogue-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .products-grid {
+    gap: 1rem;
+  }
+}
+
+/* ===== ZOOM MODAL FIX ===== */
+.zoom-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.zoom-modal img:active {
+  transform: scale(1.05);  /* zoom thoda aur */
+}
