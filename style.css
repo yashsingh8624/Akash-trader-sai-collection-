@@ -1,7 +1,13 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); line-height: 1.6; color: #333; }
+body { 
+  font-family: 'Poppins', sans-serif; 
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+  line-height: 1.6; 
+  color: #333; 
+}
 
-/* TOP BAR (naya - purane .header ko replace) */
+/* ============================================ */
+/* TOP BAR - PERFECT WORKING */
 .top-bar {
   display: flex;
   align-items: center;
@@ -35,6 +41,8 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   position: absolute;
   top: -8px;
   right: -8px;
+  min-width: 18px;
+  text-align: center;
 }
 .menu-toggle {
   width: 24px;
@@ -49,19 +57,19 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   transition: 0.3s;
 }
 
-/* SIDE MENU (naya) */
+/* SIDE MENU - SLIDE FROM RIGHT */
 .side-menu {
   position: fixed;
-  top: 60px;
-  right: -200px;
-  width: 200px;
+  top: 65px;
+  right: -220px;
+  width: 220px;
   background: white;
-  box-shadow: -3px 0 15px rgba(0,0,0,0.15);
+  box-shadow: -3px 0 15px rgba(0,0,0,0.2);
   transition: right 0.3s ease;
   z-index: 99;
 }
 .side-menu.open {
-  right: 0;
+  right: 0 !important;
 }
 .side-menu a {
   display: block;
@@ -70,52 +78,314 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   text-decoration: none;
   color: #333;
   font-weight: 500;
+  transition: all 0.3s;
 }
-.side-menu a:hover {
+.side-menu a:hover, .menu-link.active {
+  background: #e74c3c !important;
+  color: white !important;
+}
+
+/* ============================================ */
+/* HERO IMAGE - FULL SCREEN NO CUT */
+.hero-image, .product-image {
+  width: 100vw !important;
+  height: 70vh !important;
+  object-fit: cover !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  margin-top: 75px !important;
+  cursor: zoom-in !important;
+  border-radius: 0 0 20px 20px !important;
+  display: block !important;
+}
+
+/* CATALOGUE HERO */
+.catalogue-hero {
+  padding: 2rem 5% 1rem;
+  text-align: center;
+  margin-top: 0 !important;
+}
+.catalogue-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  position: relative;
+  z-index: 2;
+}
+
+/* FILTERS & SEARCH */
+.season-filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  position: relative;
+  z-index: 2;
+}
+.filter-btn {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 50px;
   background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: #e74c3c !important;
+  color: white !important;
+  transform: scale(1.05);
 }
 
-/* IMAGE FULL WIDTH (important fix) */
-.product-image {
-  width: 100% !important;
-  height: auto !important;
-  max-height: none !important;
-  object-fit: cover;
-  display: block;
-  margin-top: 70px;
+.search-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  max-width: 500px;
+  margin: 1rem auto;
+  position: relative;
+  z-index: 2;
+}
+.search-row input {
+  flex: 1;
+  padding: 0.8rem;
+  border: 2px solid #eee;
+  border-radius: 50px;
+  font-size: 1rem;
+}
+.search-row button {
+  padding: 0.8rem 2rem;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 500;
 }
 
-/* Baaki purana CSS same (sirf ye changes) */
-.catalogue-hero { padding: 2rem 5% 1rem; text-align: center; }
-.catalogue-hero h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #333; }
+/* PRODUCTS GRID */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem 5%;
+  max-width: 1400px;
+  margin: auto;
+}
 
-.season-filters { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; padding: 1rem; }
-.filter-btn { padding: 0.8rem 1.5rem; border: none; border-radius: 50px; background: #f8f9fa; cursor: pointer; transition: all 0.3s; font-weight: 500; }
-.filter-btn.active, .filter-btn:hover { background: #e74c3c; color: white; transform: scale(1.05); }
-
-.search-row { display: flex; gap: 1rem; justify-content: center; max-width: 500px; margin: 1rem auto; }
-.search-row input { flex: 1; padding: 0.8rem; border: 2px solid #eee; border-radius: 50px; font-size: 1rem; }
-.search-row button { padding: 0.8rem 2rem; background: #e74c3c; color: white; border: none; border-radius: 50px; cursor: pointer; }
-
-.products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; padding: 2rem 5%; max-width: 1400px; margin: auto; }
-
-/* About/Contact sections */
-#about, #contact {
+/* ABOUT/CONTACT SECTIONS */
+#about, #contact, .contact-hero, .features {
   padding: 40px 20px;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto 2rem;
   background: white;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
 }
 
-/* Mobile responsive */
+/* CONTACT CARDS */
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 40px 20px;
+}
+.contact-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s;
+}
+.contact-card:hover {
+  transform: translateY(-10px);
+}
+.whatsapp-btn {
+  display: inline-block;
+  background: #25D366;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.whatsapp-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(37,211,102,0.4);
+}
+
+/* FEATURES */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+.feature-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s;
+}
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+/* HERO HOME PAGE */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding-top: 80px;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+.cta-btn {
+  display: inline-block;
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  color: white;
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(231,76,60,0.4);
+  transition: all 0.3s;
+}
+.cta-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(231,76,60,0.5);
+}
+.season-tags {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.season {
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.season.summer { background: rgba(243,156,18,0.9); }
+.season.winter { background: rgba(52,152,219,0.9); }
+.season.rain { background: rgba(39,174,96,0.9); }
+
+/* MODALS */
+.modal, .zoom-modal {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  overflow: auto;
+}
+.modal-content {
+  background: white;
+  margin: 10% auto;
+  padding: 2rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #999;
+}
+.close:hover { color: #333; }
+#zoomImg {
+  max-width: 95%;
+  max-height: 95%;
+  margin: auto;
+  display: block;
+  border-radius: 10px;
+}
+.cart-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e74c3c;
+  margin: 1rem 0;
+}
+.whatsapp-order {
+  background: #25D366;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* WHATSAPP FLOAT */
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 2rem;
+  box-shadow: 0 5px 20px rgba(37,211,102,0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
   .top-bar { padding: 10px 15px; }
-  .catalogue-hero h1 { font-size: 2rem; }
+  .catalogue-hero h1, .hero h1 { font-size: 2rem; }
   .search-row { flex-direction: column; align-items: center; }
+  .hero-image, .product-image { height: 50vh !important; }
+  .features, .contact-info { grid-template-columns: 1fr; }
+  .season-tags { flex-direction: column; align-items: center; gap: 1rem; }
 }
 
-/* Baaki sab same modal, cart, whatsapp CSS... (copy jo purane me tha) */
-.modal, .zoom-modal, .whatsapp-float { /* purane wale same */ }
+/* ADMIN */
+#adminContent {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
