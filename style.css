@@ -65,3 +65,66 @@ body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #
   .products-grid { grid-template-columns: 1fr; gap: 1rem; padding: 1rem; }
   .features, .contact-info { grid-template-columns: 1fr; padding: 2rem 2rem; }
 }
+/* Top bar */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-weight: 700;
+  color: #d02030;
+}
+
+.menu-toggle {
+  width: 24px;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 3px;
+  background: #333;
+  margin: 4px 0;
+  border-radius: 2px;
+}
+
+/* Side menu */
+.side-menu {
+  position: fixed;
+  top: 48px;
+  right: -180px;
+  width: 180px;
+  background: #fff;
+  box-shadow: -2px 0 6px rgba(0,0,0,0.15);
+  transition: right 0.3s;
+  z-index: 9;
+}
+
+.side-menu.open {
+  right: 0;
+}
+
+.side-menu a {
+  display: block;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Image full width, not cut */
+.product-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 60px; /* top bar ke niche jagah */
+}
