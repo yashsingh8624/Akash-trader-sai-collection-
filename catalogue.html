@@ -5,95 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catalogue - Aakash Traders & Sai Collection</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* Naya CSS menu ke liye */
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 12px;
-      background: #ffffff;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .top-bar .logo {
-      font-weight: 700;
-      color: #d02030;
-      font-size: 16px;
-    }
-    .menu-toggle {
-      width: 24px;
-      cursor: pointer;
-    }
-    .menu-toggle span {
-      display: block;
-      height: 3px;
-      background: #333;
-      margin: 4px 0;
-      border-radius: 2px;
-    }
-    .side-menu {
-      position: fixed;
-      top: 60px;
-      right: -180px;
-      width: 180px;
-      background: #fff;
-      box-shadow: -2px 0 6px rgba(0,0,0,0.15);
-      transition: right 0.3s;
-      z-index: 9;
-    }
-    .side-menu.open {
-      right: 0;
-    }
-    .side-menu a {
-      display: block;
-      padding: 10px 14px;
-      border-bottom: 1px solid #eee;
-      text-decoration: none;
-      color: #333;
-    }
-    .product-image {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin-top: 70px;
-    }
-    /* Purana CSS yahan bhi rahega, conflict nahi hoga */
-  </style>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- NAYA TOP BAR (purane header ki jagah) -->
+  <!-- PERFECT TOP BAR + HAMBURGER -->
   <header class="top-bar">
     <div class="logo">Aakash Traders & Sai Collection</div>
     <div class="cart-icon" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
     <div class="menu-toggle" onclick="toggleMenu()">
-      <!-- Teen line hamburger -->
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </div>
   </header>
 
-  <!-- SLIDE MENU (naya) -->
+  <!-- SLIDE MENU with ALL PAGES -->
   <nav id="sideMenu" class="side-menu">
-    <a href="#catalogue">Catalogue</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">About</a>
-    <a href="admin.html">Admin</a>
+    <a href="index.html" class="menu-link">🏠 Home</a>
+    <a href="catalogue.html" class="menu-link active">📦 Catalogue</a>
+    <a href="about.html" class="menu-link">ℹ️ About</a>
+    <a href="contact.html" class="menu-link">📞 Contact</a>
+    <a href="admin.html" class="menu-link">🔐 Admin</a>
   </nav>
 
-  <!-- PURANA CONTENT (bas thoda adjust kiya) -->
-  <section id="catalogue" class="catalogue-hero">
-    <h1>Our Collection</h1>
-
-    <!-- Jeans image full width (yahan hi image dikh rahi hogi) -->
-    <img src="1000072422.jpg" alt="U.S. Polo Jeans" class="product-image">
-
+  <!-- FULL SCREEN JEANS IMAGE + ZOOM -->
+  <section class="catalogue-hero" onclick="zoomImage(event)">
+    <h1>Our Latest Collection</h1>
+    <img src="1000072422.jpg" alt="U.S. Polo Jeans" class="hero-image" onclick="zoomImage(this)">
+    
     <div class="season-filters">
       <button class="filter-btn active" onclick="filtersSeason('all')">All</button>
       <button class="filter-btn" onclick="filtersSeason('summer')">☀️ Summer</button>
@@ -102,62 +39,55 @@
     </div>
 
     <div class="search-row">
-      <input id="searchInput" type="text" placeholder="Search by product name..." />
-      <button onclick="searchProducts()">Search</button>
+      <input id="searchInput" type="text" placeholder="Search products..." />
+      <button onclick="searchProducts()">🔍 Search</button>
     </div>
   </section>
 
-  <!-- About section naya -->
-  <section id="about" style="padding: 40px 20px; max-width: 600px; margin: 0 auto;">
-    <h2>About Us</h2>
-    <p>
-      Aakash Traders & Sai Collection ek trusted wholesale/retail cloth store hai 
-      Narnaund, Haryana mein. Yahan aapko U.S. Polo jeans, T-shirts, shirts, 
-      track pants aur dusre branded garments reasonable price par milte hain. 
-      Hum quality fabric, perfect fitting aur latest fashion pe focus karte hain.
-    </p>
-  </section>
-
-  <!-- Contact section naya -->
-  <section id="contact" style="padding: 40px 20px; max-width: 600px; margin: 0 auto; background: #f9f9f9;">
-    <h2>Contact</h2>
-    <p><strong>Address:</strong> Narnaund, Haryana</p>
-    <p><strong>Mobile:</strong> 86XXXXXXXX</p>
-    <p>WhatsApp available for orders & catalogue.</p>
-  </section>
-
-  <!-- Baaki sab purana content same -->
   <section class="products-grid" id="productsGrid">
-    <!-- JS yahan products inject karega -->
+    <!-- Products JS se aayenge -->
   </section>
 
-  <!-- Modals same -->
-  <div id="zoomModal" class="zoom-modal" style="display:none;">
+  <!-- ZOOM MODAL -->
+  <div id="zoomModal" class="zoom-modal">
     <span class="close" onclick="closeZoom()">&times;</span>
-    <img id="zoomImg" src="" alt="Zoomed product">
+    <img id="zoomImg" src="" alt="Zoomed">
   </div>
 
-  <div id="cartPopup" class="modal" style="display:none;">
+  <!-- CART MODAL -->
+  <div id="cartPopup" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeCart()">&times;</span>
-      <h2>Your Cart</h2>
+      <h2>🛒 Your Cart</h2>
       <div id="cartItems"></div>
       <div class="cart-total" id="cartTotal">Total: ₹0</div>
-      <button class="whatsapp-order" onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+      <button class="whatsapp-order" onclick="orderOnWhatsApp()">📱 Order on WhatsApp</button>
     </div>
   </div>
 
-  <a href="https://wa.me/918624091826?text=Hi,%20Aakash%20Traders%20se%20shopping%20karna%20hai"
-     class="whatsapp-float">💬</a>
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/918624091826?text=Hi Aakash Traders, catalogue dekha!" class="whatsapp-float">💬</a>
 
-  <!-- NAYA SCRIPT -->
+  <!-- ALL SCRIPTS -->
   <script>
-    function toggleMenu() {
-      document.getElementById('sideMenu').classList.toggle('open');
+    // Menu Toggle
+    function toggleMenu() { document.getElementById('sideMenu').classList.toggle('open'); }
+    
+    // Image Zoom
+    function zoomImage(img) {
+      document.getElementById('zoomModal').style.display = 'block';
+      document.getElementById('zoomImg').src = img.src;
     }
+    function closeZoom() { document.getElementById('zoomModal').style.display = 'none'; }
+    
+    // Active Menu
+    document.addEventListener('DOMContentLoaded', () => {
+      const page = location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.toggle('active', link.href.includes(page));
+      });
+    });
   </script>
-
-  <!-- Purane scripts same -->
   <script src="google script.js"></script>
 </body>
 </html>
