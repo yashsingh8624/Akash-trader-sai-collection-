@@ -10,6 +10,7 @@ body {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   line-height: 1.6;
   color: #333;
+  overflow-x: hidden; /* horizontal scroll hataye */
 }
 
 /* ===== TOP BAR ===== */
@@ -95,38 +96,29 @@ body {
   background: #f8f9fa;
 }
 
-/* ===== HERO IMAGE (FULL SCREEN FIX) ===== */
+/* ===== HERO IMAGE ===== */
 .hero-image {
-  width: 100vw !important;
-  height: 70vh !important;
-  object-fit: cover !important;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
   margin-top: 80px;
   cursor: zoom-in;
   border-radius: 0 0 20px 20px;
+  transition: transform 0.3s ease;
 }
 
-/* Backup for old image class */
-.product-image {
-  width: 100% !important;
-  height: auto !important;
-  object-fit: cover;
-  display: block;
-  margin-top: 70px;
+.hero-image:hover {
+  transform: scale(1.02);
 }
 
-/* ===== CATALOGUE ===== */
-.catalogue-hero {
-  padding: 2rem 5% 1rem;
-  text-align: center;
-}
-
-.catalogue-hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #333;
+/* ===== PRODUCTS GRID ===== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 5%;
+  max-width: 1400px;
+  margin: auto;
 }
 
 /* ===== FILTERS ===== */
@@ -181,16 +173,6 @@ body {
   cursor: pointer;
 }
 
-/* ===== PRODUCTS GRID ===== */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 2rem 5%;
-  max-width: 1400px;
-  margin: auto;
-}
-
 /* ===== ABOUT / CONTACT ===== */
 #about,
 #contact {
@@ -202,7 +184,7 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* ===== ZOOM MODAL (IMPROVED) ===== */
+/* ===== ZOOM MODAL ===== */
 .zoom-modal {
   display: none;
   position: fixed;
@@ -231,67 +213,19 @@ body {
   }
 
   .catalogue-hero h1 {
-    font-size: 2rem;
-  }
-
-  .search-row {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-image {
-    height: 60vh !important;
-  }
-}
-
-/* ===== MODAL / CART / WHATSAPP ===== */
-/* yahan tu apna purana CSS same rehne de */
-/* ===== HERO IMAGE FIX ===== */
-.hero-image {
-  width: 100% !important;  /* full width mobile + laptop */
-  max-height: 420px;        /* laptop me limit */
-  object-fit: cover;
-  margin-top: 80px;         /* top bar ke liye space */
-  cursor: zoom-in;
-  border-radius: 0 0 20px 20px;
-  transition: transform 0.3s ease; /* zoom smooth */
-}
-
-.hero-image:hover {
-  transform: scale(1.02);
-}
-
-/* ===== PRODUCTS GRID FIX ===== */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem 5%;
-}
-
-/* ===== MOBILE HERO IMAGE ===== */
-@media (max-width: 768px) {
-  .hero-image {
-    height: 50vh !important;  /* mobile me thoda chhota */
-  }
-
-  .catalogue-hero h1 {
     font-size: 1.8rem;
   }
 
   .products-grid {
     gap: 1rem;
   }
-}
 
-/* ===== ZOOM MODAL FIX ===== */
-.zoom-modal img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-}
+  .hero-image {
+    height: 50vh !important;
+  }
 
-.zoom-modal img:active {
-  transform: scale(1.05);  /* zoom thoda aur */
+  .search-row {
+    flex-direction: column;
+    align-items: center;
+  }
 }
