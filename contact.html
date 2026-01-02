@@ -1,30 +1,97 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <!-- Same head -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact - Aakash Traders & Sai Collection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header same -->
-  <section class="contact-hero">
-    <h1>Contact Us</h1>
+  <!-- SAME PERFECT HEADER -->
+  <header class="top-bar">
+    <div class="logo">Aakash Traders & Sai Collection</div>
+    <div class="cart-icon" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- SAME SLIDE MENU (Contact ACTIVE) -->
+  <nav id="sideMenu" class="side-menu">
+    <a href="index.html" class="menu-link">🏠 Home</a>
+    <a href="catalogue.html" class="menu-link">📦 Catalogue</a>
+    <a href="about.html" class="menu-link">ℹ️ About</a>
+    <a href="contact.html" class="menu-link active">📞 Contact</a>
+    <a href="admin.html" class="menu-link">🔐 Admin</a>
+  </nav>
+
+  <!-- CONTACT HERO -->
+  <section class="contact-hero" style="padding: 120px 20px 60px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; min-height: 50vh; display: flex; flex-direction: column; justify-content: center;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Contact Us</h1>
+    <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Narnaund, Haryana | Ready to serve you!</p>
   </section>
-  <section class="contact-info">
-    <div class="contact-card">
-      <h3>Shop No. 1, Sagar Building</h3>
-      <p>Talati Office ke Baju Mein, Ganesh Mandir ke Samne<br>Na Sopara, 401209</p>
+
+  <!-- CONTACT INFO CARDS -->
+  <section class="contact-info" style="padding: 40px 20px; max-width: 1200px; margin: auto;">
+    <div class="contact-card" style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; margin-bottom: 2rem;">
+      <h3 style="color: #e74c3c; margin-bottom: 1rem;">📍 Address</h3>
+      <p style="font-size: 1.1rem; line-height: 1.6;">
+        Shop No. 1, Sagar Building<br>
+        Talati Office ke Baju Mein<br>
+        Ganesh Mandir ke Samne<br>
+        <strong>Na Sopara, 401209</strong>
+      </p>
     </div>
-    <div class="contact-card">
-      <h3>Phone</h3>
-      <p>📞 8624091826</p>
-    </div>
-    <div class="contact-card">
-      <h3>WhatsApp Order</h3>
-      <a href="https://wa.me/918624091826" class="whatsapp-btn">Message Now</a>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+      <div class="contact-card" style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">
+        <h3 style="color: #27ae60; margin-bottom: 1rem;">📞 Phone</h3>
+        <p style="font-size: 1.5rem; font-weight: 700; margin: 0;">86240 91826</p>
+        <p style="color: #666; margin-top: 0.5rem;">Call anytime 10AM-8PM</p>
+      </div>
+
+      <div class="contact-card" style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">
+        <h3 style="color: #25D366; margin-bottom: 1rem;">💬 WhatsApp</h3>
+        <a href="https://wa.me/918624091826?text=Hi%20Aakash%20Traders%2C%20Na%20Sopara%20se%20contact%20kar%20raha%20hoon!" 
+           class="whatsapp-btn" style="display: inline-block; background: #25D366; color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform 0.3s;">
+          📱 Message Now
+        </a>
+      </div>
     </div>
   </section>
-  <!-- Cart & Float same -->
+
+  <!-- SAME MODALS -->
+  <div id="zoomModal" class="zoom-modal" style="display:none;">
+    <span class="close" onclick="closeZoom()">&times;</span>
+    <img id="zoomImg" src="" alt="Zoomed">
+  </div>
+  <div id="cartPopup" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeCart()">&times;</span>
+      <h2>🛒 Your Cart</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total" id="cartTotal">Total: ₹0</div>
+      <button class="whatsapp-order" onclick="orderOnWhatsApp()">📱 Order on WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/918624091826?text=Hi%20Aakash%20Traders!" class="whatsapp-float">💬</a>
+
+  <!-- SAME SCRIPTS -->
+  <script>
+    function toggleMenu() { document.getElementById('sideMenu').classList.toggle('open'); }
+    function closeZoom() { document.getElementById('zoomModal').style.display = 'none'; }
+    
+    // Active menu highlight
+    document.addEventListener('DOMContentLoaded', () => {
+      const page = location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('.menu-link').forEach(link => {
+        link.classList.toggle('active', link.href.includes(page));
+      });
+    });
+  </script>
   <script src="google script.js"></script>
 </body>
 </html>
