@@ -17,10 +17,10 @@
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    .logo {
+    .top-bar .logo {
       font-weight: 700;
       color: #d02030;
       font-size: 16px;
@@ -38,70 +38,62 @@
     }
     .side-menu {
       position: fixed;
-      top: 55px;
-      right: -250px;
-      width: 250px;
+      top: 60px;
+      right: -180px;
+      width: 180px;
       background: #fff;
       box-shadow: -2px 0 6px rgba(0,0,0,0.15);
       transition: right 0.3s;
-      z-index: 999;
+      z-index: 9;
     }
     .side-menu.open {
       right: 0;
     }
     .side-menu a {
       display: block;
-      padding: 15px 20px;
+      padding: 10px 14px;
       border-bottom: 1px solid #eee;
       text-decoration: none;
       color: #333;
-      font-weight: 500;
-    }
-    .side-menu a:hover {
-      background: #f8f8f8;
     }
     .product-image {
       width: 100%;
       height: auto;
-      max-height: 70vh;
-      object-fit: cover;
       display: block;
       margin-top: 70px;
     }
-    /* Baaki content ke liye */
-    .catalogue-hero {
-      margin-top: 70px;
-      padding: 20px;
-    }
+    /* Purana CSS yahan bhi rahega, conflict nahi hoga */
   </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- NAYA TOP BAR (purane header ko replace kiya) -->
+  <!-- NAYA TOP BAR (purane header ki jagah) -->
   <header class="top-bar">
     <div class="logo">Aakash Traders & Sai Collection</div>
     <div class="cart-icon" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
     <div class="menu-toggle" onclick="toggleMenu()">
+      <!-- Teen line hamburger -->
       <span></span>
       <span></span>
       <span></span>
     </div>
   </header>
 
-  <!-- SLIDE MENU (teen line wala) -->
+  <!-- SLIDE MENU (naya) -->
   <nav id="sideMenu" class="side-menu">
-    <a href="index.html">Home</a>
-    <a href="catalogue.html">Catalogue</a>
-    <a href="contact.html">Contact</a>
+    <a href="#catalogue">Catalogue</a>
+    <a href="#contact">Contact</a>
     <a href="#about">About</a>
     <a href="admin.html">Admin</a>
   </nav>
 
-  <!-- PURA IMAGE FULL WIDTH (half cut nahi hogi) -->
-  <section class="catalogue-hero">
-    <img src="1000072422.jpg" alt="U.S. Polo Jeans" class="product-image">
-    <h1 style="text-align:center; margin:10px 0;">Our Collection</h1>
+  <!-- PURANA CONTENT (bas thoda adjust kiya) -->
+  <section id="catalogue" class="catalogue-hero">
+    <h1>Our Collection</h1>
 
-    <!-- Baaki tumhara purana code yahan se continue... -->
+    <!-- Jeans image full width (yahan hi image dikh rahi hogi) -->
+    <img src="1000072422.jpg" alt="U.S. Polo Jeans" class="product-image">
+
     <div class="season-filters">
       <button class="filter-btn active" onclick="filtersSeason('all')">All</button>
       <button class="filter-btn" onclick="filtersSeason('summer')">☀️ Summer</button>
@@ -115,11 +107,31 @@
     </div>
   </section>
 
-  <!-- Baaki tumhara pura code same rahega -->
+  <!-- About section naya -->
+  <section id="about" style="padding: 40px 20px; max-width: 600px; margin: 0 auto;">
+    <h2>About Us</h2>
+    <p>
+      Aakash Traders & Sai Collection ek trusted wholesale/retail cloth store hai 
+      Narnaund, Haryana mein. Yahan aapko U.S. Polo jeans, T-shirts, shirts, 
+      track pants aur dusre branded garments reasonable price par milte hain. 
+      Hum quality fabric, perfect fitting aur latest fashion pe focus karte hain.
+    </p>
+  </section>
+
+  <!-- Contact section naya -->
+  <section id="contact" style="padding: 40px 20px; max-width: 600px; margin: 0 auto; background: #f9f9f9;">
+    <h2>Contact</h2>
+    <p><strong>Address:</strong> Narnaund, Haryana</p>
+    <p><strong>Mobile:</strong> 86XXXXXXXX</p>
+    <p>WhatsApp available for orders & catalogue.</p>
+  </section>
+
+  <!-- Baaki sab purana content same -->
   <section class="products-grid" id="productsGrid">
     <!-- JS yahan products inject karega -->
   </section>
 
+  <!-- Modals same -->
   <div id="zoomModal" class="zoom-modal" style="display:none;">
     <span class="close" onclick="closeZoom()">&times;</span>
     <img id="zoomImg" src="" alt="Zoomed product">
@@ -138,13 +150,14 @@
   <a href="https://wa.me/918624091826?text=Hi,%20Aakash%20Traders%20se%20shopping%20karna%20hai"
      class="whatsapp-float">💬</a>
 
-  <!-- NAYA JS FUNCTION menu ke liye -->
+  <!-- NAYA SCRIPT -->
   <script>
     function toggleMenu() {
       document.getElementById('sideMenu').classList.toggle('open');
     }
-    // Tumhare baaki JS functions yahan same rahenge...
   </script>
+
+  <!-- Purane scripts same -->
   <script src="google script.js"></script>
 </body>
 </html>
