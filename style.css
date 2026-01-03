@@ -10,7 +10,7 @@ body {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   line-height: 1.6;
   color: #333;
-  overflow-x: hidden; /* horizontal scroll hataye */
+  overflow-x: hidden; /* horizontal scroll band */
 }
 
 /* ===== TOP BAR ===== */
@@ -19,7 +19,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 20px;
-  background: rgba(255,255,255,0.98);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
@@ -30,13 +30,13 @@ body {
 }
 
 .top-bar .logo {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #e74c3c;
 }
 
 .cart-icon {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   cursor: pointer;
   position: relative;
 }
@@ -45,8 +45,8 @@ body {
   background: #e74c3c;
   color: #fff;
   border-radius: 50%;
-  padding: 0.2rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 2px 6px;
+  font-size: 0.7rem;
   position: absolute;
   top: -8px;
   right: -8px;
@@ -64,15 +64,14 @@ body {
   background: #333;
   margin: 4px 0;
   border-radius: 2px;
-  transition: 0.3s;
 }
 
 /* ===== SIDE MENU ===== */
 .side-menu {
   position: fixed;
   top: 60px;
-  right: -200px;
-  width: 200px;
+  right: -220px;
+  width: 220px;
   background: #fff;
   box-shadow: -3px 0 15px rgba(0,0,0,0.15);
   transition: right 0.3s ease;
@@ -85,30 +84,85 @@ body {
 
 .side-menu a {
   display: block;
-  padding: 15px 20px;
+  padding: 14px 18px;
   border-bottom: 1px solid #eee;
   text-decoration: none;
   color: #333;
   font-weight: 500;
 }
 
-.side-menu a:hover {
-  background: #f8f9fa;
+.side-menu a:hover,
+.side-menu a.active {
+  background: #f5f5f5;
 }
 
-/* ===== HERO IMAGE ===== */
+/* ===== CATALOGUE HERO ===== */
+.catalogue-hero {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.catalogue-hero h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+/* ===== HERO IMAGE (NO PAGE ZOOM) ===== */
 .hero-image {
   width: 100%;
   max-height: 420px;
   object-fit: cover;
-  margin-top: 80px;
   cursor: zoom-in;
   border-radius: 0 0 20px 20px;
-  transition: transform 0.3s ease;
 }
 
-.hero-image:hover {
-  transform: scale(1.02);
+/* ===== FILTERS ===== */
+.season-filters {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+.filter-btn {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 50px;
+  background: #f1f1f1;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+/* ===== SEARCH ===== */
+.search-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  max-width: 500px;
+  margin: 10px auto;
+}
+
+.search-row input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 50px;
+  border: 1px solid #ddd;
+}
+
+.search-row button {
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: none;
+  background: #e74c3c;
+  color: #fff;
+  cursor: pointer;
 }
 
 /* ===== PRODUCTS GRID ===== */
@@ -121,82 +175,27 @@ body {
   margin: auto;
 }
 
-/* ===== FILTERS ===== */
-.season-filters {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 1rem;
-}
-
-.filter-btn {
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 50px;
-  background: #f8f9fa;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: 500;
-}
-
-.filter-btn.active,
-.filter-btn:hover {
-  background: #e74c3c;
-  color: white;
-  transform: scale(1.05);
-}
-
-/* ===== SEARCH ===== */
-.search-row {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  max-width: 500px;
-  margin: 1rem auto;
-}
-
-.search-row input {
-  flex: 1;
-  padding: 0.8rem;
-  border: 2px solid #eee;
-  border-radius: 50px;
-  font-size: 1rem;
-}
-
-.search-row button {
-  padding: 0.8rem 2rem;
-  background: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-}
-
 /* ===== ABOUT / CONTACT ===== */
 #about,
 #contact {
   padding: 40px 20px;
   max-width: 800px;
-  margin: 0 auto 2rem;
-  background: white;
+  margin: 20px auto;
+  background: #fff;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* ===== ZOOM MODAL ===== */
+/* ===== ZOOM MODAL (IMAGE ONLY) ===== */
 .zoom-modal {
   display: none;
   position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.95);
+  z-index: 1000;
 }
 
-#zoomImg {
+.zoom-modal img {
   max-width: 95%;
   max-height: 95%;
   position: absolute;
@@ -206,6 +205,25 @@ body {
   border-radius: 10px;
 }
 
+/* ===== PAGE LOCK WHEN MODAL OPEN ===== */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25d366;
+  color: #fff;
+  font-size: 22px;
+  padding: 12px 14px;
+  border-radius: 50%;
+  text-decoration: none;
+  z-index: 200;
+}
+
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
   .top-bar {
@@ -213,19 +231,18 @@ body {
   }
 
   .catalogue-hero h1 {
-    font-size: 1.8rem;
-  }
-
-  .products-grid {
-    gap: 1rem;
+    font-size: 1.6rem;
   }
 
   .hero-image {
-    height: 50vh !important;
+    max-height: 300px;
   }
 
   .search-row {
     flex-direction: column;
-    align-items: center;
+  }
+
+  .products-grid {
+    gap: 1rem;
   }
 }
