@@ -8,19 +8,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- ===== TOP BAR ===== -->
+<!-- TOP BAR -->
 <header class="top-bar">
   <div class="logo">Aakash Traders & Sai Collection</div>
-  <div class="cart-icon" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+  <div class="cart-icon">🛒 <span id="cartCount">0</span></div>
   <div class="menu-toggle" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
 </header>
 
-<!-- ===== SIDE MENU ===== -->
+<!-- SIDE MENU -->
 <nav id="sideMenu" class="side-menu">
   <a href="index.html">🏠 Home</a>
   <a href="catalogue.html" class="active">📦 Catalogue</a>
@@ -28,41 +27,25 @@
   <a href="contact.html">📞 Contact</a>
 </nav>
 
-<!-- ===== CATALOGUE HERO ===== -->
+<!-- CATALOGUE HERO -->
 <section class="catalogue-hero">
   <h1>Our Collection</h1>
-
-  <img src="1000072422.jpg"
-       alt="U.S. Polo Jeans"
-       class="hero-image"
-       onclick="zoomImage(this)">
-
-  <div class="season-filters">
-    <button class="filter-btn active" onclick="filtersSeason('all')">All</button>
-    <button class="filter-btn" onclick="filtersSeason('summer')">☀️ Summer</button>
-    <button class="filter-btn" onclick="filtersSeason('winter')">❄️ Winter</button>
-    <button class="filter-btn" onclick="filtersSeason('rain')">🌧️ Rain</button>
-  </div>
-
-  <div class="search-row">
-    <input id="searchInput" type="text" placeholder="Search by product name...">
-    <button onclick="searchProducts()">Search</button>
-  </div>
+  <img src="1000072422.jpg" class="hero-image" onclick="zoomImage(this)">
 </section>
 
-<!-- ===== PRODUCTS GRID ===== -->
+<!-- PRODUCTS GRID -->
 <section class="products-grid" id="productsGrid"></section>
 
-<!-- ===== ZOOM MODAL ===== -->
+<!-- ZOOM MODAL -->
 <div id="zoomModal" class="zoom-modal" style="display:none;">
   <span class="close" onclick="closeZoom()">&times;</span>
   <img id="zoomImg">
 </div>
 
-<!-- ===== WHATSAPP FLOAT ===== -->
+<!-- WHATSAPP -->
 <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
 
-<!-- ===== JS ===== -->
+<!-- LOCAL JS -->
 <script>
   function toggleMenu() {
     document.getElementById("sideMenu").classList.toggle("open");
@@ -76,14 +59,10 @@
   function closeZoom() {
     document.getElementById("zoomModal").style.display = "none";
   }
-
-  // Page zoom disable (sirf image zoom chalega)
-  document.addEventListener('wheel', function(e){
-    if(e.ctrlKey) e.preventDefault();
-  }, { passive: false });
 </script>
 
-<script src="google script.js"></script>
+<!-- ✅ GOOGLE SHEET SCRIPT (ALWAYS LAST) -->
+<script src="google-script.js"></script>
 
 </body>
 </html>
