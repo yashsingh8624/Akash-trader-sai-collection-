@@ -196,35 +196,43 @@ function closeCart() {
 /***********************
  * RENDER CART ITEMS
  ***********************/
-function renderCartItems() {
-  const div = document.getElementById("cartItems");
-  const totalEl = document.getElementById("cartTotal");
-  if (!div || !totalEl) return;
+function renderProducts(list) {
+  const grid =
+    document.getElementById("productsGrid") ||
+    document.getElementById("products");
 
-  div.innerHTML = "";
-  let total = 0;
+  if (!grid) return;
 
-  if (cart.length === 0) {
-    div.innerHTML = "<p>Cart empty hai</p>";
-    totalEl.innerText = "Total: ₹0";
+  grid.innerHTML = "";
+
+  if (!list || list.length === 0) {
+    grid.innerHTML = `<p style="text-align:center">No products found</p>`;
     return;
   }
 
-  cart.forEach((item, i) => {
-    total += item.qty * item.price;
-    div.innerHTML += `
-      <div class="cart-item">
-        <b>${item.name}</b><br>
-        Qty: ${item.qty}<br>
-        ₹${item.price}<br>
-        <button onclick="removeItem(${i})">Remove</button>
+  list.forEach(p => {
+    grid.innerHTML += `
+      <div class="product-card">
+
+        <img 
+          src="${p.image_url}" 
+          alt="${p.name}"
+          onclick="zoomImage(this)"
+        >
+
+        <div class="product-name">${p.name}</div>
+
+        <div class="product-price">₹${p.price}</div>
+
+        <button class="add-btn"
+          onclick="addToCart('${p.name}', ${p.price})">
+          Add to Cart
+        </button>
+
       </div>
     `;
   });
-
-  totalEl.innerText = "Total: ₹" + total;
 }
-
 /***********************
  * REMOVE ITEM
  ***********************/
