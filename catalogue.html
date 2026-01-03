@@ -65,18 +65,70 @@
 
 <!-- JS -->
 <script>
-  function toggleMenu() {
-    document.getElementById("sideMenu").classList.toggle("open");
+const products = [
+  {
+    name: "Nike Hoodie",
+    price: 450,
+    image: "https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
+  },
+  {
+    name: "U.S Polo Jeans",
+    price: 699,
+    image: "https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
+  }
+];
+
+let cart = {};
+
+const grid = document.getElementById("productsGrid");
+const cartCount = document.getElementById("cartCount");
+
+function renderProducts() {
+  grid.innerHTML = "";
+  products.forEach((p, i) => {
+    grid.innerHTML += `
+      <div class="product-card">
+        <img src="${p.image}" onclick="zoomImage(this)">
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">₹${p.price}</div>
+        <button class="add-btn" onclick="addToCart(${i})">
+          Add to Cart
+        </button>
+      </div>
+    `;
+  });
+}
+
+function addToCart(i) {
+  const p = products[i];
+  cart[p.name] = (cart[p.name] || 0) + 1;
+  updateCartCount();
+}
+
+function updateCartCount() {
+  let total = 0;
+  Object.values(cart).forEach(q => total += q);
+  cartCount.innerText = total;
+}
+
+function orderWhatsApp() {
+  if (Object.keys(cart).length === 0) {
+    alert("Cart empty hai bhai");
+    return;
   }
 
-  function zoomImage(img) {
-    document.getElementById("zoomImg").src = img.src;
-    document.getElementById("zoomModal").style.display = "flex";
+  let msg = "🛒 Order Details:%0A";
+  for (let item in cart) {
+    msg += `• ${item} × ${cart[item]}%0A`;
   }
 
-  function closeZoom() {
-    document.getElementById("zoomModal").style.display = "none";
-  }
+  window.open(
+    "https://wa.me/918624091826?text=" + msg,
+    "_blank"
+  );
+}
+
+renderProducts();
 </script>
 
 <!-- GOOGLE SHEET -->
