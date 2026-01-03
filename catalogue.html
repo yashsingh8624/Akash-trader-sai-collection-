@@ -1,41 +1,86 @@
-<!DOCTYPE html>  <html lang="hi">  
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>Catalogue - Aakash Traders & Sai Collection</title>    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">  
-  <link rel="stylesheet" href="style.css">  
-</head>  
-<body>  <!-- TOP BAR -->  <header class="top-bar">  
-  <div class="logo">Aakash Traders & Sai Collection</div>  
-  <div class="cart-icon">🛒 <span id="cartCount">0</span></div>  
-  <div class="menu-toggle" onclick="toggleMenu()">  
-    <span></span><span></span><span></span>  
-  </div>  
-</header>  <!-- SIDE MENU -->  <nav id="sideMenu" class="side-menu">  
-  <a href="index.html">🏠 Home</a>  
-  <a href="catalogue.html" class="active">📦 Catalogue</a>  
-  <a href="about.html">ℹ️ About</a>  
-  <a href="contact.html">📞 Contact</a>  
-</nav>  <!-- CATALOGUE HERO -->  <section class="catalogue-hero">  
-  <h1>Our Collection</h1>  
-  <img src="1000072422.jpg" class="hero-image" onclick="zoomImage(this)">  
-</section>  <!-- PRODUCTS GRID -->  <section class="products-grid" id="productsGrid"></section>  <!-- ZOOM MODAL -->  <div id="zoomModal" class="zoom-modal" style="display:none;">  
-  <span class="close" onclick="closeZoom()">&times;</span>  
-  <img id="zoomImg">  
-</div>  <!-- WHATSAPP -->  <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue - Aakash Traders & Sai Collection</title>
 
-<!-- LOCAL JS -->  <script>  
-  function toggleMenu() {  
-    document.getElementById("sideMenu").classList.toggle("open");  
-  }  
-  
-  function zoomImage(img) {  
-    document.getElementById("zoomImg").src = img.src;  
-    document.getElementById("zoomModal").style.display = "flex";  
-  }  
-  
-  function closeZoom() {  
-    document.getElementById("zoomModal").style.display = "none";  
-  }  
-</script>  <!-- ✅ GOOGLE SHEET SCRIPT (ALWAYS LAST) -->  <script src="google-script.js"></script>  </body>  
-</html>  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 🔥 IMAGE FORCE FIX -->
+  <style>
+    .hero-image {
+      display: block;
+      max-width: 90%;
+      margin: 20px auto;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="logo">Aakash Traders & Sai Collection</div>
+  <div class="cart-icon">🛒 <span id="cartCount">0</span></div>
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- SIDE MENU -->
+<nav id="sideMenu" class="side-menu">
+  <a href="index.html">🏠 Home</a>
+  <a href="catalogue.html" class="active">📦 Catalogue</a>
+  <a href="about.html">ℹ️ About</a>
+  <a href="contact.html">📞 Contact</a>
+</nav>
+
+<!-- CATALOGUE HERO -->
+<section class="catalogue-hero">
+  <h1>Our Collection</h1>
+
+  <!-- ✅ CLOUDINARY IMAGE -->
+  <img
+    src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
+    alt="Jeans Collection"
+    class="hero-image"
+    onclick="zoomImage(this)">
+</section>
+
+<!-- PRODUCTS GRID -->
+<section class="products-grid" id="productsGrid"></section>
+
+<!-- ZOOM MODAL -->
+<div id="zoomModal" class="zoom-modal" style="display:none;">
+  <span class="close" onclick="closeZoom()">&times;</span>
+  <img id="zoomImg">
+</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
+
+<!-- JS -->
+<script>
+  function toggleMenu() {
+    document.getElementById("sideMenu").classList.toggle("open");
+  }
+
+  function zoomImage(img) {
+    document.getElementById("zoomImg").src = img.src;
+    document.getElementById("zoomModal").style.display = "flex";
+  }
+
+  function closeZoom() {
+    document.getElementById("zoomModal").style.display = "none";
+  }
+</script>
+
+<!-- GOOGLE SHEET -->
+<script src="google script.js"></script>
+
+</body>
+</html>
