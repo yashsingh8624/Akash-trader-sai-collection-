@@ -1,205 +1,41 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catalogue - Aakash Traders & Sai Collection</title>
+<!DOCTYPE html>  <html lang="hi">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Catalogue - Aakash Traders & Sai Collection</title>    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">  
+  <link rel="stylesheet" href="style.css">  
+</head>  
+<body>  <!-- TOP BAR -->  <header class="top-bar">  
+  <div class="logo">Aakash Traders & Sai Collection</div>  
+  <div class="cart-icon">🛒 <span id="cartCount">0</span></div>  
+  <div class="menu-toggle" onclick="toggleMenu()">  
+    <span></span><span></span><span></span>  
+  </div>  
+</header>  <!-- SIDE MENU -->  <nav id="sideMenu" class="side-menu">  
+  <a href="index.html">🏠 Home</a>  
+  <a href="catalogue.html" class="active">📦 Catalogue</a>  
+  <a href="about.html">ℹ️ About</a>  
+  <a href="contact.html">📞 Contact</a>  
+</nav>  <!-- CATALOGUE HERO -->  <section class="catalogue-hero">  
+  <h1>Our Collection</h1>  
+  <img src="1000072422.jpg" class="hero-image" onclick="zoomImage(this)">  
+</section>  <!-- PRODUCTS GRID -->  <section class="products-grid" id="productsGrid"></section>  <!-- ZOOM MODAL -->  <div id="zoomModal" class="zoom-modal" style="display:none;">  
+  <span class="close" onclick="closeZoom()">&times;</span>  
+  <img id="zoomImg">  
+</div>  <!-- WHATSAPP -->  <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Basic Styles for demo */
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #ff0000;
-      color: #fff;
-      padding: 10px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 25px;
-      height: 3px;
-      background: #fff;
-      margin: 4px 0;
-      transition: 0.3s;
-    }
-
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 250px;
-      height: 100%;
-      background: #333;
-      color: #fff;
-      padding-top: 60px;
-      transition: 0.3s;
-      z-index: 999;
-    }
-
-    .side-menu.open {
-      left: 0;
-    }
-
-    .side-menu a {
-      display: block;
-      color: #fff;
-      text-decoration: none;
-      padding: 15px 20px;
-    }
-
-    .side-menu a.active {
-      background: #ff0000;
-    }
-
-    .catalogue-hero {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .catalogue-hero img {
-      max-width: 80%;
-      cursor: pointer;
-      border-radius: 10px;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .products-grid img {
-      width: 100%;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .zoom-modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-    }
-
-    .zoom-modal img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
-    }
-
-    .zoom-modal .close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 40px;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .whatsapp-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25d366;
-      color: #fff;
-      font-size: 30px;
-      padding: 10px 15px;
-      border-radius: 50%;
-      text-decoration: none;
-      z-index: 9999;
-    }
-  </style>
-</head>
-<body>
-
-<!-- TOP BAR -->
-<header class="top-bar">
-  <div class="logo">Aakash Traders & Sai Collection</div>
-  <div class="cart-icon">🛒 <span id="cartCount">0</span></div>
-  <div class="menu-toggle" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
-</header>
-
-<!-- SIDE MENU -->
-<nav id="sideMenu" class="side-menu">
-  <a href="index.html">🏠 Home</a>
-  <a href="catalogue.html" class="active">📦 Catalogue</a>
-  <a href="about.html">ℹ️ About</a>
-  <a href="contact.html">📞 Contact</a>
-</nav>
-
-<!-- CATALOGUE HERO -->
-<section class="catalogue-hero">
-  <h1>Our Collection</h1>
-  <!-- Hero Image -->
-  <img src="1000072422.jpg" class="hero-image" onclick="zoomImage(this)">
-</section>
-
-<!-- PRODUCTS GRID -->
-<section class="products-grid" id="productsGrid"></section>
-
-<!-- ZOOM MODAL -->
-<div id="zoomModal" class="zoom-modal">
-  <span class="close" onclick="closeZoom()">&times;</span>
-  <img id="zoomImg">
-</div>
-
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
-
-<!-- LOCAL JS -->
-<script>
-  function toggleMenu() {
-    document.getElementById("sideMenu").classList.toggle("open");
-  }
-
-  function zoomImage(img) {
-    document.getElementById("zoomImg").src = img.src;
-    document.getElementById("zoomModal").style.display = "flex";
-  }
-
-  function closeZoom() {
-    document.getElementById("zoomModal").style.display = "none";
-  }
-
-  // DEMO PRODUCTS (agar Google Sheet use nahi kar rahe ho)
-  const products = [
-    { name: "Product 1", image: "1000072422.jpg" },
-    { name: "Product 2", image: "1000072422.jpg" },
-    { name: "Product 3", image: "1000072422.jpg" },
-    { name: "Product 4", image: "1000072422.jpg" }
-  ];
-
-  const grid = document.getElementById("productsGrid");
-  products.forEach(p => {
-    const div = document.createElement("div");
-    div.innerHTML = `<img src="${p.image}" alt="${p.name}" onclick="zoomImage(this)">`;
-    grid.appendChild(div);
-  });
-</script>
-
-<!-- GOOGLE SHEET SCRIPT (agar use karna ho) -->
-<script src="google script.js"></script>
-
-</body>
-</html>
+<!-- LOCAL JS -->  <script>  
+  function toggleMenu() {  
+    document.getElementById("sideMenu").classList.toggle("open");  
+  }  
+  
+  function zoomImage(img) {  
+    document.getElementById("zoomImg").src = img.src;  
+    document.getElementById("zoomModal").style.display = "flex";  
+  }  
+  
+  function closeZoom() {  
+    document.getElementById("zoomModal").style.display = "none";  
+  }  
+</script>  <!-- ✅ GOOGLE SHEET SCRIPT (ALWAYS LAST) -->  <script src="google-script.js"></script>  </body>  
+</html>  
