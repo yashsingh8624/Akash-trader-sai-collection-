@@ -7,17 +7,6 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
-  <!-- 🔥 IMAGE FORCE FIX -->
-  <style>
-    .hero-image {
-      display: block;
-      max-width: 90%;
-      margin: 20px auto;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 
 <body>
@@ -25,13 +14,18 @@
 <!-- TOP BAR -->
 <header class="top-bar">
   <div class="logo">Aakash Traders & Sai Collection</div>
-  <div class="cart-icon">🛒 <span id="cartCount">0</span></div>
+
+  <!-- 🛒 CART -->
+  <div class="cart-icon" onclick="orderWhatsApp()">
+    🛒 <span id="cartCount">0</span>
+  </div>
+
   <div class="menu-toggle" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
 </header>
 
-<!-- SIDE MENU -->
+<!-- SIDE MENU (UNCHANGED) -->
 <nav id="sideMenu" class="side-menu">
   <a href="index.html">🏠 Home</a>
   <a href="catalogue.html" class="active">📦 Catalogue</a>
@@ -39,81 +33,64 @@
   <a href="contact.html">📞 Contact</a>
 </nav>
 
-<!-- CATALOGUE HERO -->
+<!-- HERO -->
 <section class="catalogue-hero">
   <h1>Our Collection</h1>
 
-  <!-- ✅ CLOUDINARY IMAGE -->
+  <!-- Cloudinary hero image -->
   <img
     src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
-    alt="Jeans Collection"
     class="hero-image"
     onclick="zoomImage(this)">
 </section>
 
-<!-- PRODUCTS GRID -->
+<!-- PRODUCTS -->
 <section class="products-grid" id="productsGrid"></section>
 
-<!-- ZOOM MODAL -->
+<!-- ZOOM -->
 <div id="zoomModal" class="zoom-modal" style="display:none;">
   <span class="close" onclick="closeZoom()">&times;</span>
   <img id="zoomImg">
 </div>
 
-<!-- WHATSAPP -->
+<!-- WHATSAPP FLOAT -->
 <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
 
 <!-- JS -->
 <script>
-const products = [
-  {
-    name: "Nike Hoodie",
-    price: 450,
-    image: "https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
-  },
-  {
-    name: "U.S Polo Jeans",
-    price: 699,
-    image: "https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
-  }
-];
-
-let cart = {};
-
-const grid = document.getElementById("productsGrid");
-const cartCount = document.getElementById("cartCount");
-
-function renderProducts() {
-  grid.innerHTML = "";
-  products.forEach((p, i) => {
-    grid.innerHTML += `
-      <div class="product-card">
-        <img src="${p.image}" onclick="zoomImage(this)">
-        <div class="product-name">${p.name}</div>
-        <div class="product-price">₹${p.price}</div>
-        <button class="add-btn" onclick="addToCart(${i})">
-          Add to Cart
-        </button>
-      </div>
-    `;
-  });
+/* MENU */
+function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("open");
 }
 
-function addToCart(i) {
-  const p = products[i];
-  cart[p.name] = (cart[p.name] || 0) + 1;
+/* ZOOM */
+function zoomImage(img) {
+  zoomImg.src = img.src;
+  zoomModal.style.display = "flex";
+}
+function closeZoom() {
+  zoomModal.style.display = "none";
+}
+
+/* 🛒 CART SYSTEM */
+let cart = {};
+let totalPrice = 0;
+
+function addToCart(name, price) {
+  cart[name] = (cart[name] || 0) + 1;
+  totalPrice += price;
   updateCartCount();
 }
 
 function updateCartCount() {
-  let total = 0;
-  Object.values(cart).forEach(q => total += q);
-  cartCount.innerText = total;
+  let count = 0;
+  Object.values(cart).forEach(q => count += q);
+  document.getElementById("cartCount").innerText = count;
 }
 
 function orderWhatsApp() {
   if (Object.keys(cart).length === 0) {
-    alert("Cart empty hai bhai");
+    alert("Cart empty hai");
     return;
   }
 
@@ -121,17 +98,16 @@ function orderWhatsApp() {
   for (let item in cart) {
     msg += `• ${item} × ${cart[item]}%0A`;
   }
+  msg += `%0A💰 Total: ₹${totalPrice}`;
 
   window.open(
     "https://wa.me/918624091826?text=" + msg,
     "_blank"
   );
 }
-
-renderProducts();
 </script>
 
-<!-- GOOGLE SHEET -->
+<!-- GOOGLE SHEET (DATA SOURCE) -->
 <script src="google script.js"></script>
 
 </body>
