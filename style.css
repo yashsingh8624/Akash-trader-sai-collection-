@@ -290,3 +290,44 @@ body.modal-open {
     gap: 1rem;
   }
 }
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 15px;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.product-image-wrap img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product-card h3 {
+  font-size: 14px;
+  margin: 8px 0 4px;
+}
+
+.price {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.add-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+}
