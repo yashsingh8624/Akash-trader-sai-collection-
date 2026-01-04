@@ -17,12 +17,12 @@ fetch(SHEET_URL)
     const rows = json.table.rows;
 
     allProducts = rows.map(r => ({
-  id: r.c[0]?.v || "",
-  name: r.c[1]?.v || "",
-  price: Number(r.c[2]?.v || 0),
-  image: r.c[3]?.v ? r.c[3].v.toString() : "",
-  season: r.c[4]?.v || "All"
-}));
+      id: r.c[0]?.v || "",
+      name: r.c[1]?.v || "",
+      price: Number(r.c[2]?.v || 0),
+      image: r.c[3]?.v ? r.c[3].v.toString() : "",
+      season: r.c[4]?.v || "All"
+    }));
 
     renderProducts(allProducts);
   })
@@ -39,7 +39,7 @@ function renderProducts(list) {
     grid.innerHTML += `
       <div class="product-card">
         <img 
-          src="${p.image_url}" 
+          src="${p.image}"
           alt="${p.name}"
           class="product-img"
           onclick="openZoom('${p.image}')"
@@ -49,9 +49,9 @@ function renderProducts(list) {
         <p>₹${p.price}</p>
 
         <div class="qty-box">
-          <button onclick="changeQty(${i},-1)">−</button>
+          <button onclick="changeQty(${i}, -1)">−</button>
           <span id="qty-${i}">1</span>
-          <button onclick="changeQty(${i},1)">+</button>
+          <button onclick="changeQty(${i}, 1)">+</button>
         </div>
 
         <button onclick="addToCart('${p.name}', ${p.price}, ${i})">
