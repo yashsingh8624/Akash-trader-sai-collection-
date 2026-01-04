@@ -4,22 +4,24 @@
  const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
+let allProducts = [];
 let cart = {};
-let totalPrice = 0;
+let total = 0;
 
-fetch(SHEET_URL)
+fetch(URL)
   .then(res => res.text())
   .then(text => {
-    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
-    const products = rows.map(r => ({
+    allProducts = rows.map(r => ({
       name: r.c[1]?.v,
       price: Number(r.c[2]?.v),
-      image: r.c[3]?.v
+      image: r.c[3]?.v,
+      season: r.c[4]?.v || "All"
     }));
 
-    renderProducts(products);
+    renderProducts(allProducts);
   });
 
 function renderProducts(products) {
@@ -32,16 +34,15 @@ function renderProducts(products) {
         <img src="${p.image}" onclick="zoom('${p.image}')">
 
         <h3>${p.name}</h3>
-        <p class="price">₹${p.price}</p>
+        <p>₹${p.price}</p>
 
         <div class="qty-box">
-          <button onclick="changeQty(${i},-1)">−</button>
-          <span id="qty-${i}">1</span>
-          <button onclick="changeQty(${i},1)">+</button>
+          <button onclick="qty(${i},-1)">−</button>
+          <span id="q-${i}">1</span>
+          <button onclick="qty(${i},1)">+</button>
         </div>
 
-        <button class="add-btn"
-          onclick="addToCart('${p.name}', ${p.price}, ${i})">
+        <button onclick="addToCart('${p.name}',${p.price},${i})">
           Add to Cart
         </button>
       </div>
@@ -54,37 +55,49 @@ function zoom(src) {
   zoomModal.style.display = "flex";
 }
 
-function changeQty(i, v) {
-  const el = document.getElementById(`qty-${i}`);
-  let q = parseInt(el.innerText) + v;
-  if (q < 1) q = 1;
+function qty(i, v) {
+  let el = document.getElementById(`q-${i}`);
+  let q = Math.max(1, parseInt(el.innerText) + v);
   el.innerText = q;
 }
 
 function addToCart(name, price, i) {
-  const qty = parseInt(document.getElementById(`qty-${i}`).innerText);
-  cart[name] = (cart[name] || 0) + qty;
-  totalPrice += price * qty;
-  updateCartCount();
+  let q = parseInt(document.getElementById(`q-${i}`).innerText);
+  cart[name] = (cart[name] || 0) + q;
+  total += price * q;
+  updateCart();
 }
 
-function updateCartCount() {
-  let c = 0;
-  Object.values(cart).forEach(q => c += q);
-  document.getElementById("cartCount").innerText = c;
+function updateCart() {
+  let count = Object.values(cart).reduce((a,b)=>a+b,0);
+  cartCount.innerText = count;
+}
+
+function openCart() {
+  let html = "";
+  for (let i in cart) {
+    html += `<p>${i} × ${cart[i]}</p>`;
+  }
+  cartItems.innerHTML = html || "Cart empty";
+  cartTotal.innerText = `Total: ₹${total}`;
+  cartPopup.style.display = "flex";
+}
+
+function closeCart() {
+  cartPopup.style.display = "none";
 }
 
 function orderWhatsApp() {
-  if (Object.keys(cart).length === 0) {
-    alert("Cart empty hai");
-    return;
-  }
+  if (!Object.keys(cart).length) return alert("Cart empty");
 
   let msg = "🛒 Order:%0A";
-  for (let i in cart) {
-    msg += `• ${i} × ${cart[i]}%0A`;
-  }
-  msg += `%0A💰 Total ₹${totalPrice}`;
+  for (let i in cart) msg += `• ${i} × ${cart[i]}%0A`;
+  msg += `%0A💰 Total ₹${total}`;
 
   window.open("https://wa.me/918624091826?text=" + msg);
+}
+
+function filterSeason(s) {
+  if (s === "All") renderProducts(allProducts);
+  else renderProducts(allProducts.filter(p => p.season === s));
 }
