@@ -1,50 +1,47 @@
+/***********************
+ * GOOGLE SHEET CONFIG
+ ***********************/
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
-const SHEET_URL =
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
+/************** GLOBALS **************/
 let allProducts = [];
 let cart = {};
 let total = 0;
 
+/************** FETCH DATA **************/
 fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
     const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
-    allProducts = rows.map(r => {
-      let imgRaw = r.c[3]?.v || "";
-      let images = imgRaw
-        .split(",")
-        .map(i => i.trim())
-        .filter(i => i.startsWith("http"));
-
-      return {
-        name: r.c[1]?.v || "",
-        price: Number(r.c[2]?.v || 0),
-        images: images,     // 👈 array
-        season: r.c[4]?.v || "All"
-      };
-    });
+    allProducts = rows.map(r => ({
+      name: r.c[1]?.v || "",
+      price: Number(r.c[2]?.v || 0),
+      image: r.c[3]?.v ? r.c[3].v.toString() : "",
+      season: r.c[4]?.v || "All"
+    }));
 
     renderProducts(allProducts);
   })
   .catch(err => console.error("Sheet Error:", err));
 
+/************** RENDER **************/
 function renderProducts(list) {
   const grid = document.getElementById("productsGrid");
   grid.innerHTML = "";
 
   list.forEach((p, i) => {
-    if (!p.images.length) return;
+    if (!p.image) return;
 
     grid.innerHTML += `
       <div class="product-card">
-        <img
-          src="${p.images[0]}"
+        <img 
+          src="${p.image}" 
           alt="${p.name}"
-          style="width:100%;height:180px;object-fit:cover;border-radius:10px;"
-          onclick="openZoom('${p.images[0]}')"
+          class="product-img"
+          onclick="openZoom('${p.image}')"
         >
 
         <h3>${p.name}</h3>
@@ -56,7 +53,7 @@ function renderProducts(list) {
           <button onclick="changeQty(${i},1)">+</button>
         </div>
 
-        <button onclick="addToCart('${p.name}',${p.price},${i})">
+        <button onclick="addToCart('${p.name}', ${p.price}, ${i})">
           Add to Cart
         </button>
       </div>
@@ -64,7 +61,7 @@ function renderProducts(list) {
   });
 }
 
-/* QTY */
+/************** QTY **************/
 function changeQty(i, v) {
   const el = document.getElementById(`qty-${i}`);
   let q = parseInt(el.innerText) + v;
@@ -72,7 +69,7 @@ function changeQty(i, v) {
   el.innerText = q;
 }
 
-/* CART */
+/************** CART **************/
 function addToCart(name, price, i) {
   const q = parseInt(document.getElementById(`qty-${i}`).innerText);
   cart[name] = (cart[name] || 0) + q;
@@ -83,10 +80,10 @@ function addToCart(name, price, i) {
 function updateCartCount() {
   let c = 0;
   Object.values(cart).forEach(v => c += v);
-  cartCount.innerText = c;
+  document.getElementById("cartCount").innerText = c;
 }
 
-/* CART POPUP */
+/************** CART POPUP **************/
 function openCart() {
   let html = "";
   for (let k in cart) {
@@ -101,7 +98,7 @@ function closeCart() {
   cartPopup.style.display = "none";
 }
 
-/* WHATSAPP */
+/************** WHATSAPP **************/
 function orderWhatsApp() {
   if (!Object.keys(cart).length) {
     alert("Cart empty");
@@ -117,14 +114,14 @@ function orderWhatsApp() {
   window.open("https://wa.me/918624091826?text=" + msg);
 }
 
-/* FILTER */
+/************** FILTER **************/
 function filterSeason(s) {
   if (s === "All") renderProducts(allProducts);
   else renderProducts(allProducts.filter(p => p.season === s));
 }
 
-/* ZOOM */
+/************** IMAGE ZOOM **************/
 function openZoom(src) {
-  zoomImg.src = src;
-  zoomModal.style.display = "flex";
+  document.getElementById("zoomImg").src = src;
+  document.getElementById("zoomModal").style.display = "flex";
 }
