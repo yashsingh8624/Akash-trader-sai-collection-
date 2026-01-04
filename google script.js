@@ -14,25 +14,24 @@ fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
     const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
 
-    // 🔥 HEADER ROW SKIP
-    const rows = json.table.rows.slice(1);
+    const products = [];
 
-    allProducts = rows.map(r => ({
-      id: r.c[0]?.v || "",
-      name: r.c[1]?.v || "",
-      price: Number(r.c[2]?.v || 0),
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
 
-      // ✅ SHEET COLUMN = "image url"
-      image_url: r.c[3]?.v ? r.c[3].v.trim() : "",
+      products.push({
+        id: r.c[0]?.v || "",
+        name: r.c[1]?.v || "",
+        price: r.c[2]?.v || 0,
+        image_url: r.c[3]?.v || "", // 👈 image url column
+        season: r.c[4]?.v || "All"
+      });
+    }
 
-      season: r.c[4]?.v || "All"
-    }));
-
-    console.log("PRODUCTS:", allProducts); // DEBUG
-    renderProducts(allProducts);
-  })
-  .catch(err => console.error("Sheet Error:", err));
+    renderProducts(products);
+  });
 
 /************** RENDER **************/
 function renderProducts(list) {
