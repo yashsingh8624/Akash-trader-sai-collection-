@@ -32,6 +32,8 @@ fetch(SHEET_URL)
 
     renderProducts(products);
   });
+allProducts = products;   // 🔥 ADD THIS LINE
+renderProducts(allProducts);
 
 /************** RENDER **************/
 function renderProducts(list) {
