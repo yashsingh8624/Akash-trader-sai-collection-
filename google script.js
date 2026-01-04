@@ -19,7 +19,7 @@ fetch(SHEET_URL)
     allProducts = rows.map(r => ({
       name: r.c[1]?.v || "",
       price: Number(r.c[2]?.v || 0),
-      image: r.c[3]?.v ? r.c[3].v.toString() : "",
+      image_url: r.c[3]?.v ? r.c[3].v.toString() : "",
       season: r.c[4]?.v || "All"
     }));
 
@@ -38,7 +38,7 @@ function renderProducts(list) {
     grid.innerHTML += `
       <div class="product-card">
         <img 
-          src="${p.image}" 
+          src="${p.image_url}" 
           alt="${p.name}"
           class="product-img"
           onclick="openZoom('${p.image}')"
