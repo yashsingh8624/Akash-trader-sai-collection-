@@ -14,16 +14,19 @@ fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
     const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows;
+
+    // 🔥 HEADER ROW SKIP
+    const rows = json.table.rows.slice(1);
 
     allProducts = rows.map(r => ({
       id: r.c[0]?.v || "",
       name: r.c[1]?.v || "",
       price: Number(r.c[2]?.v || 0),
-      image: r.c[3]?.v ? r.c[3].v.toString() : "",
+      image: r.c[3]?.v ? r.c[3].v.toString().trim() : "",
       season: r.c[4]?.v || "All"
     }));
 
+    console.log(allProducts); // 👈 ek baar dekh lena
     renderProducts(allProducts);
   })
   .catch(err => console.error("Sheet Error:", err));
