@@ -25,15 +25,14 @@ fetch(SHEET_URL)
         id: r.c[0]?.v || "",
         name: r.c[1]?.v || "",
         price: r.c[2]?.v || 0,
-        image_url: r.c[3]?.v || "", // 👈 image url column
+        image_url: r.c[3]?.v || "",
         season: r.c[4]?.v || "All"
       });
     }
 
-    renderProducts(products);
+    allProducts = products;      // ✅ VERY IMPORTANT
+    renderProducts(allProducts); // ✅
   });
-allProducts = products;   // 🔥 ADD THIS LINE
-renderProducts(allProducts);
 
 /************** RENDER **************/
 function renderProducts(list) {
