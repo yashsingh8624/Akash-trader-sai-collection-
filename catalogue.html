@@ -11,10 +11,11 @@
 
 <body>
 
+<!-- TOP BAR -->
 <header class="top-bar">
   <div class="logo">Aakash Traders & Sai Collection</div>
 
-  <div class="cart-icon" onclick="orderWhatsApp()">
+  <div class="cart-icon" onclick="openCart()">
     🛒 <span id="cartCount">0</span>
   </div>
 
@@ -23,6 +24,7 @@
   </div>
 </header>
 
+<!-- SIDE MENU -->
 <nav id="sideMenu" class="side-menu">
   <a href="index.html">🏠 Home</a>
   <a href="catalogue.html" class="active">📦 Catalogue</a>
@@ -30,14 +32,36 @@
   <a href="contact.html">📞 Contact</a>
 </nav>
 
+<!-- HERO -->
 <section class="catalogue-hero">
   <h1>Our Collection</h1>
-  <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
-       class="hero-image">
+  <img
+    src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
+    class="hero-image">
 </section>
 
-<!-- PRODUCTS FROM GOOGLE SHEET -->
+<!-- FILTERS -->
+<div class="filters" style="text-align:center; margin:15px 0;">
+  <button onclick="filterSeason('All')">All</button>
+  <button onclick="filterSeason('Summer')">Summer</button>
+  <button onclick="filterSeason('Winter')">Winter</button>
+  <button onclick="filterSeason('Rainy')">Rainy</button>
+</div>
+
+<!-- PRODUCTS -->
 <section class="products-grid" id="productsGrid"></section>
+
+<!-- CART POPUP -->
+<div id="cartPopup" class="cart-popup" style="display:none;">
+  <div class="cart-box">
+    <h3>🛒 Your Cart</h3>
+    <div id="cartItems"></div>
+    <h4 id="cartTotal"></h4>
+
+    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
+    <button onclick="closeCart()">Close</button>
+  </div>
+</div>
 
 <!-- ZOOM -->
 <div id="zoomModal" class="zoom-modal" style="display:none;">
@@ -52,7 +76,7 @@ function toggleMenu() {
   document.getElementById("sideMenu").classList.toggle("open");
 }
 function closeZoom() {
-  document.getElementById("zoomModal").style.display = "none";
+  zoomModal.style.display = "none";
 }
 </script>
 
