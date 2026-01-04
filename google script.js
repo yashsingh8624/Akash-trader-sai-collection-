@@ -7,9 +7,6 @@ const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tq
 let cart = {};
 let totalPrice = 0;
 
-/***********************
- * FETCH PRODUCTS
- ***********************/
 fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
@@ -17,36 +14,34 @@ fetch(SHEET_URL)
     const rows = json.table.rows;
 
     const products = rows.map(r => ({
-      id: r.c[0]?.v,
       name: r.c[1]?.v,
       price: Number(r.c[2]?.v),
-      image_url: r.c[3]?.v
+      image: r.c[3]?.v
     }));
 
     renderProducts(products);
-  })
-  .catch(err => console.error("Sheet Error:", err));
+  });
 
-/***********************
- * RENDER PRODUCTS
- ***********************/
-function renderProducts(list) {
+function renderProducts(products) {
   const grid = document.getElementById("productsGrid");
-  if (!grid) return;
-
   grid.innerHTML = "";
 
-  list.forEach(p => {
+  products.forEach((p, i) => {
     grid.innerHTML += `
       <div class="product-card">
-        <div class="product-image-wrap" onclick="openImg('${p.image_url}')">
-          <img src="${p.image_url}" alt="${p.name}">
-        </div>
+        <img src="${p.image}" onclick="zoom('${p.image}')">
 
         <h3>${p.name}</h3>
         <p class="price">₹${p.price}</p>
 
-        <button class="add-btn" onclick="addToCart('${p.name}', ${p.price})">
+        <div class="qty-box">
+          <button onclick="changeQty(${i},-1)">−</button>
+          <span id="qty-${i}">1</span>
+          <button onclick="changeQty(${i},1)">+</button>
+        </div>
+
+        <button class="add-btn"
+          onclick="addToCart('${p.name}', ${p.price}, ${i})">
           Add to Cart
         </button>
       </div>
@@ -54,27 +49,29 @@ function renderProducts(list) {
   });
 }
 
-/***********************
- * IMAGE ZOOM
- ***********************/
-function openImg(src) {
-  document.getElementById("zoomImg").src = src;
-  document.getElementById("zoomModal").style.display = "flex";
+function zoom(src) {
+  zoomImg.src = src;
+  zoomModal.style.display = "flex";
 }
 
-/***********************
- * CART
- ***********************/
-function addToCart(name, price) {
-  cart[name] = (cart[name] || 0) + 1;
-  totalPrice += price;
+function changeQty(i, v) {
+  const el = document.getElementById(`qty-${i}`);
+  let q = parseInt(el.innerText) + v;
+  if (q < 1) q = 1;
+  el.innerText = q;
+}
+
+function addToCart(name, price, i) {
+  const qty = parseInt(document.getElementById(`qty-${i}`).innerText);
+  cart[name] = (cart[name] || 0) + qty;
+  totalPrice += price * qty;
   updateCartCount();
 }
 
 function updateCartCount() {
-  let count = 0;
-  Object.values(cart).forEach(q => count += q);
-  document.getElementById("cartCount").innerText = count;
+  let c = 0;
+  Object.values(cart).forEach(q => c += q);
+  document.getElementById("cartCount").innerText = c;
 }
 
 function orderWhatsApp() {
@@ -83,14 +80,11 @@ function orderWhatsApp() {
     return;
   }
 
-  let msg = "🛒 Order Details:%0A";
-  for (let item in cart) {
-    msg += `• ${item} × ${cart[item]}%0A`;
+  let msg = "🛒 Order:%0A";
+  for (let i in cart) {
+    msg += `• ${i} × ${cart[i]}%0A`;
   }
-  msg += `%0A💰 Total: ₹${totalPrice}`;
+  msg += `%0A💰 Total ₹${totalPrice}`;
 
-  window.open(
-    "https://wa.me/918624091826?text=" + msg,
-    "_blank"
-  );
+  window.open("https://wa.me/918624091826?text=" + msg);
 }
