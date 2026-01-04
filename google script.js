@@ -42,24 +42,13 @@ function renderProducts(list) {
     grid.innerHTML += `
       <div class="product-card">
         <img 
-          src="${p.image}" 
+          src="${p.image}"
           alt="${p.name}"
-          class="product-img"
-          onclick="openZoom('${p.image}')"
+          style="width:100%;height:180px;object-fit:cover;border-radius:10px"
         >
 
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
-
-        <div class="qty-box">
-          <button onclick="changeQty(${i},-1)">−</button>
-          <span id="qty-${i}">1</span>
-          <button onclick="changeQty(${i},1)">+</button>
-        </div>
-
-        <button onclick="addToCart('${p.name}', ${p.price}, ${i})">
-          Add to Cart
-        </button>
       </div>
     `;
   });
