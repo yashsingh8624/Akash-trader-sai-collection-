@@ -1,56 +1,11 @@
 /***********************
- * MENU TOGGLE
- ***********************/
-function toggleMenu() {
-  const menu = document.getElementById("sideMenu");
-  if (menu) menu.classList.toggle("open");
-}
-
-/***********************
- * ACTIVE MENU LINK
- ***********************/
-document.addEventListener("DOMContentLoaded", () => {
-  const currentPage =
-    window.location.pathname.split("/").pop() || "index.html";
-
-  document.querySelectorAll(".menu-link").forEach(link => {
-    link.classList.remove("active");
-
-    if (link.getAttribute("href") === currentPage) {
-      link.classList.add("active");
-    }
-  });
-});
-
-/***********************
- * HERO IMAGE ZOOM
- ***********************/
-function zoomImage(img) {
-  const modal = document.getElementById("zoomModal");
-  const zoomImg = document.getElementById("zoomImg");
-  if (!modal || !zoomImg) return;
-
-  zoomImg.src = img.src;
-  modal.style.display = "flex";
-}
-
-function closeZoom() {
-  const modal = document.getElementById("zoomModal");
-  if (modal) modal.style.display = "none";
-}
-
-/***********************
- * CART INIT
- ***********************/
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-/***********************
  * GOOGLE SHEET CONFIG
  ***********************/
-const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
+const SHEET_ID = "YOUR_SHEET_ID_HERE";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-let products = [];
+let cart = {};
+let totalPrice = 0;
 
 /***********************
  * FETCH PRODUCTS
@@ -58,19 +13,17 @@ let products = [];
 fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
-    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const json = JSON.parse(text.substr(47).slice(0, -2));
     const rows = json.table.rows;
 
-    products = rows.map(r => ({
-      id: r.c[0]?.v?.toString().trim() || Math.random().toString(36).slice(2, 7),
-      name: r.c[1]?.v || "Unnamed Product",
-      price: Number(r.c[2]?.v) || 0,
-      image_url: (r.c[3]?.v || "https://via.placeholder.com/300").trim(),
-      season: (r.c[4]?.v || "all").toLowerCase().trim()
+    const products = rows.map(r => ({
+      id: r.c[0]?.v,
+      name: r.c[1]?.v,
+      price: Number(r.c[2]?.v),
+      image_url: r.c[3]?.v
     }));
 
     renderProducts(products);
-    updateCartUI();
   })
   .catch(err => console.error("Sheet Error:", err));
 
@@ -78,217 +31,66 @@ fetch(SHEET_URL)
  * RENDER PRODUCTS
  ***********************/
 function renderProducts(list) {
-  const grid =
-    document.getElementById("productsGrid") ||
-    document.getElementById("products");
-
+  const grid = document.getElementById("productsGrid");
   if (!grid) return;
 
   grid.innerHTML = "";
 
-  if (!list || list.length === 0) {
-    grid.innerHTML = "<p style='text-align:center'>No products found</p>";
-    return;
-  }
-
   list.forEach(p => {
     grid.innerHTML += `
       <div class="product-card">
-        <div class="product-image-wrapper" onclick="openImg('${p.image_url}')">
+        <div class="product-image-wrap" onclick="openImg('${p.image_url}')">
           <img src="${p.image_url}" alt="${p.name}">
-          ${
-            p.season !== "all"
-              ? `<span class="season-badge ${p.season}">${p.season.toUpperCase()}</span>`
-              : ""
-          }
         </div>
 
         <h3>${p.name}</h3>
-        <p>₹${p.price}</p>
+        <p class="price">₹${p.price}</p>
 
-        <div class="qty-row">
-          <button onclick="changeQty('${p.id}',-1)">-</button>
-          <input id="qty-${p.id}" type="number" value="1" min="1">
-          <button onclick="changeQty('${p.id}',1)">+</button>
-        </div>
-
-        <button onclick="addToCart('${p.id}')">Add to Cart</button>
-      </div>
-    `;
-  });
-}
-
-/***********************
- * QTY CHANGE
- ***********************/
-function changeQty(id, delta) {
-  const input = document.getElementById(`qty-${id}`);
-  if (!input) return;
-
-  let val = parseInt(input.value) || 1;
-  input.value = Math.max(1, val + delta);
-}
-
-/***********************
- * ADD TO CART
- ***********************/
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
-  if (!product) return;
-
-  const qtyInput = document.getElementById(`qty-${id}`);
-  const qty = parseInt(qtyInput?.value) || 1;
-
-  const existing = cart.find(i => i.id === id);
-  if (existing) {
-    existing.qty += qty;
-  } else {
-    cart.push({ ...product, qty });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartUI();
-
-  if (qtyInput) qtyInput.value = 1;
-}
-
-/***********************
- * CART COUNT
- ***********************/
-function updateCartUI() {
-  const el = document.getElementById("cartCount");
-  if (!el) return;
-
-  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
-  el.innerText = totalQty;
-}
-
-/***********************
- * FILTER BY SEASON
- ***********************/
-function filtersSeason(season) {
-  season = season.toLowerCase();
-  if (season === "all") renderProducts(products);
-  else renderProducts(products.filter(p => p.season === season));
-}
-
-/***********************
- * CART POPUP
- ***********************/
-function openCart() {
-  const popup =
-    document.getElementById("cartPopup") ||
-    document.getElementById("cartModal");
-
-  if (!popup) return;
-  popup.style.display = "flex";
-  renderCartItems();
-}
-
-function closeCart() {
-  const popup =
-    document.getElementById("cartPopup") ||
-    document.getElementById("cartModal");
-
-  if (popup) popup.style.display = "none";
-}
-
-/***********************
- * RENDER CART ITEMS
- ***********************/
-function renderProducts(list) {
-  const grid =
-    document.getElementById("productsGrid") ||
-    document.getElementById("products");
-
-  if (!grid) return;
-
-  grid.innerHTML = "";
-
-  if (!list || list.length === 0) {
-    grid.innerHTML = `<p style="text-align:center">No products found</p>`;
-    return;
-  }
-
-  list.forEach(p => {
-    grid.innerHTML += `
-      <div class="product-card">
-
-        <img 
-          src="${p.image_url}" 
-          alt="${p.name}"
-          onclick="zoomImage(this)"
-        >
-
-        <div class="product-name">${p.name}</div>
-
-        <div class="product-price">₹${p.price}</div>
-
-        <button class="add-btn"
-          onclick="addToCart('${p.name}', ${p.price})">
+        <button class="add-btn" onclick="addToCart('${p.name}', ${p.price})">
           Add to Cart
         </button>
-
       </div>
     `;
   });
 }
+
 /***********************
- * REMOVE ITEM
+ * IMAGE ZOOM
  ***********************/
-function removeItem(i) {
-  cart.splice(i, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartUI();
-  renderCartItems();
+function openImg(src) {
+  document.getElementById("zoomImg").src = src;
+  document.getElementById("zoomModal").style.display = "flex";
 }
 
 /***********************
- * WHATSAPP ORDER
+ * CART
  ***********************/
-function orderOnWhatsApp() {
-  if (cart.length === 0) {
+function addToCart(name, price) {
+  cart[name] = (cart[name] || 0) + 1;
+  totalPrice += price;
+  updateCartCount();
+}
+
+function updateCartCount() {
+  let count = 0;
+  Object.values(cart).forEach(q => count += q);
+  document.getElementById("cartCount").innerText = count;
+}
+
+function orderWhatsApp() {
+  if (Object.keys(cart).length === 0) {
     alert("Cart empty hai");
     return;
   }
 
-  let msg = "🛒 New Order%0A%0A";
-  let total = 0;
+  let msg = "🛒 Order Details:%0A";
+  for (let item in cart) {
+    msg += `• ${item} × ${cart[item]}%0A`;
+  }
+  msg += `%0A💰 Total: ₹${totalPrice}`;
 
-  cart.forEach((item, i) => {
-    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
-    total += item.qty * item.price;
-  });
-
-  msg += `Total: ₹${total}`;
-
-  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
-
-  cart = [];
-  localStorage.removeItem("cart");
-  updateCartUI();
-  renderCartItems();
-  closeCart();
+  window.open(
+    "https://wa.me/918624091826?text=" + msg,
+    "_blank"
+  );
 }
-
-/***********************
- * IMAGE PREVIEW (PRODUCT)
- ***********************/
-function openImg(src) {
-  const preview = document.getElementById("imgPreview");
-  const img = document.getElementById("previewImg");
-  if (!preview || !img) return;
-
-  img.src = src;
-  preview.style.display = "flex";
-}
-
-function closeImg() {
-  const preview = document.getElementById("imgPreview");
-  if (preview) preview.style.display = "none";
-}
-
-/***********************
- * INIT
- ***********************/
-updateCartUI();
