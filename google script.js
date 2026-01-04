@@ -22,11 +22,14 @@ fetch(SHEET_URL)
       id: r.c[0]?.v || "",
       name: r.c[1]?.v || "",
       price: Number(r.c[2]?.v || 0),
-      image: r.c[3]?.v ? r.c[3].v.toString().trim() : "",
+
+      // ✅ SHEET COLUMN = "image url"
+      image_url: r.c[3]?.v ? r.c[3].v.trim() : "",
+
       season: r.c[4]?.v || "All"
     }));
 
-    console.log(allProducts); // 👈 ek baar dekh lena
+    console.log("PRODUCTS:", allProducts); // DEBUG
     renderProducts(allProducts);
   })
   .catch(err => console.error("Sheet Error:", err));
@@ -37,18 +40,29 @@ function renderProducts(list) {
   grid.innerHTML = "";
 
   list.forEach((p, i) => {
-    if (!p.image) return;
+    if (!p.image_url) return;
 
     grid.innerHTML += `
       <div class="product-card">
         <img 
-          src="${p.image}"
+          src="${p.image_url}" 
           alt="${p.name}"
           style="width:100%;height:180px;object-fit:cover;border-radius:10px"
+          onclick="openZoom('${p.image_url}')"
         >
 
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
+
+        <div class="qty-box">
+          <button onclick="changeQty(${i},-1)">−</button>
+          <span id="qty-${i}">1</span>
+          <button onclick="changeQty(${i},1)">+</button>
+        </div>
+
+        <button onclick="addToCart('${p.name}', ${p.price}, ${i})">
+          Add to Cart
+        </button>
       </div>
     `;
   });
