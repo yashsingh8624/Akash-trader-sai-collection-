@@ -18,36 +18,43 @@ fetch(SHEET_URL)
 
     const products = [];
 
-    for (let i = 1; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
       const r = rows[i];
 
       products.push({
         id: r.c[0]?.v || "",
         name: r.c[1]?.v || "",
-        price: r.c[2]?.v || 0,
+        price: Number(r.c[2]?.v) || 0,
         image_url: r.c[3]?.v || "",
         season: r.c[4]?.v || "All"
       });
     }
 
-    allProducts = products;      // ✅ VERY IMPORTANT
-    renderProducts(allProducts); // ✅
+    allProducts = products;        // 🔥 VERY IMPORTANT
+    renderProducts(allProducts);
+  })
+  .catch(err => {
+    console.error("Sheet error:", err);
   });
 
-/************** RENDER **************/
+/************** RENDER PRODUCTS **************/
 function renderProducts(list) {
   const grid = document.getElementById("productsGrid");
   grid.innerHTML = "";
 
-  list.forEach((p, i) => {
-    if (!p.image_url) return;
+  if (!list.length) {
+    grid.innerHTML = "<p>No products found</p>";
+    return;
+  }
 
+  list.forEach((p, i) => {
     grid.innerHTML += `
       <div class="product-card">
-        <img 
-          src="${p.image_url}" 
+
+        <img
+          src="${p.image_url}"
           alt="${p.name}"
-          style="width:100%;height:180px;object-fit:cover;border-radius:10px"
+          onerror="this.src='https://via.placeholder.com/300'"
           onclick="openZoom('${p.image_url}')"
         >
 
@@ -55,14 +62,15 @@ function renderProducts(list) {
         <p>₹${p.price}</p>
 
         <div class="qty-box">
-          <button onclick="changeQty(${i},-1)">−</button>
+          <button onclick="changeQty(${i}, -1)">−</button>
           <span id="qty-${i}">1</span>
-          <button onclick="changeQty(${i},1)">+</button>
+          <button onclick="changeQty(${i}, 1)">+</button>
         </div>
 
         <button onclick="addToCart('${p.name}', ${p.price}, ${i})">
           Add to Cart
         </button>
+
       </div>
     `;
   });
@@ -96,13 +104,13 @@ function openCart() {
   for (let k in cart) {
     html += `<p>${k} × ${cart[k]}</p>`;
   }
-  cartItems.innerHTML = html || "Cart empty";
-  cartTotal.innerText = `Total ₹${total}`;
-  cartPopup.style.display = "flex";
+  document.getElementById("cartItems").innerHTML = html || "Cart empty";
+  document.getElementById("cartTotal").innerText = `Total ₹${total}`;
+  document.getElementById("cartPopup").style.display = "flex";
 }
 
 function closeCart() {
-  cartPopup.style.display = "none";
+  document.getElementById("cartPopup").style.display = "none";
 }
 
 /************** WHATSAPP **************/
@@ -122,13 +130,17 @@ function orderWhatsApp() {
 }
 
 /************** FILTER **************/
-function filterSeason(s) {
-  if (s === "All") renderProducts(allProducts);
-  else renderProducts(allProducts.filter(p => p.season === s));
+function filterSeason(season) {
+  if (season === "All") {
+    renderProducts(allProducts);
+  } else {
+    renderProducts(allProducts.filter(p => p.season === season));
+  }
 }
 
 /************** IMAGE ZOOM **************/
 function openZoom(src) {
+  if (!src) return;
   document.getElementById("zoomImg").src = src;
   document.getElementById("zoomModal").style.display = "flex";
 }
