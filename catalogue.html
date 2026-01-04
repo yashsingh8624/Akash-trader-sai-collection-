@@ -1,60 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catalogue - Akash Traders & Sai Collection</title>
+  <title>Catalogue - Aakash Traders & Sai Collection</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <!-- Header / Top Nav -->
-  <header>
-    <nav class="top-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="contact.html">Contact</a>
-      <span class="cart" onclick="openCart()">
-  🛒 <span id="cartCount">0</span>
-</span>
-    </nav>
-  </header>
+<!-- TOP BAR (SAME AS YOUR SITE) -->
+<header class="top-bar">
+  <div class="logo">Aakash Traders & Sai Collection</div>
 
-  <!-- Page Title -->
-  <h2 style="text-align:center; margin:20px 0;">Catalogue</h2>
-
-  <!-- Filter Buttons -->
-  <div class="filters" style="text-align:center; margin-bottom:20px;">
-    <button onclick="filtersSeason('All')">All</button>
-    <button onclick="filtersSeason('Summer')">Summer</button>
-    <button onclick="filtersSeason('Winter')">Winter</button>
-    <button onclick="filtersSeason('Rainy')">Rainy</button>
+  <div class="cart-icon" onclick="openCart()">
+    🛒 <span id="cartCount">0</span>
   </div>
 
-  <!-- Products Container -->
-  <div id="products" class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:20px; padding:20px;">
-    <!-- Products JS se yahin render honge -->
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
   </div>
+</header>
 
-  <!-- WhatsApp Order Button -->
-  <div style="text-align:center; margin:30px 0;">
-    <button onclick="orderOnWhatsApp()" class="order-btn" style="padding:12px 20px; font-size:16px; background:#25D366; color:white; border:none; border-radius:6px; cursor:pointer;">
-      Order on WhatsApp
-    </button>
-  </div>
+<!-- SIDE MENU -->
+<nav id="sideMenu" class="side-menu">
+  <a href="index.html">🏠 Home</a>
+  <a href="catalogue.html" class="active">📦 Catalogue</a>
+  <a href="about.html">ℹ️ About</a>
+  <a href="contact.html">📞 Contact</a>
+</nav>
+
+<!-- PAGE TITLE -->
+<section class="catalogue-hero">
+  <h1>Our Collection</h1>
+</section>
+
+<!-- FILTERS -->
+<div class="filters" style="text-align:center; margin:15px 0;">
+  <button onclick="filterSeason('All')">All</button>
+  <button onclick="filterSeason('Summer')">Summer</button>
+  <button onclick="filterSeason('Winter')">Winter</button>
+  <button onclick="filterSeason('Rainy')">Rainy</button>
+</div>
+
+<!-- PRODUCTS (GOOGLE SHEET SE AAYENGE) -->
+<section class="products-grid" id="productsGrid"></section>
+
+<!-- CART POPUP -->
 <div id="cartPopup" class="cart-popup" style="display:none;">
   <div class="cart-box">
     <h3>🛒 Your Cart</h3>
-
     <div id="cartItems"></div>
-
     <h4 id="cartTotal"></h4>
 
-    <button onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
     <button onclick="closeCart()">Close</button>
   </div>
 </div>
-  <!-- JS -->
-  <script src="google script.js"></script>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
+
+<!-- BASIC JS (MENU) -->
+<script>
+function toggleMenu() {
+  document.getElementById("sideMenu").classList.toggle("open");
+}
+</script>
+
+<!-- GOOGLE SHEET SCRIPT (MAIN BRAIN) -->
+<script src="google-script.js"></script>
+
 </body>
 </html>
