@@ -17,11 +17,12 @@ fetch(SHEET_URL)
     const rows = json.table.rows;
 
     allProducts = rows.map(r => ({
-      name: r.c[1]?.v || "",
-      price: Number(r.c[2]?.v || 0),
-      image_url: r.c[3]?.v ? r.c[3].v.toString() : "",
-      season: r.c[4]?.v || "All"
-    }));
+  id: r.c[0]?.v || "",
+  name: r.c[1]?.v || "",
+  price: Number(r.c[2]?.v || 0),
+  image: r.c[3]?.v ? r.c[3].v.toString() : "",
+  season: r.c[4]?.v || "All"
+}));
 
     renderProducts(allProducts);
   })
