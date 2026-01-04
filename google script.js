@@ -4,42 +4,53 @@
  const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
+/************** GLOBALS **************/
 let allProducts = [];
 let cart = {};
 let total = 0;
 
-fetch(URL)
+/************** FETCH DATA **************/
+fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
     const json = JSON.parse(text.substring(47).slice(0, -2));
     const rows = json.table.rows;
 
     allProducts = rows.map(r => ({
-      name: r.c[1]?.v,
-      price: Number(r.c[2]?.v),
-      image: r.c[3]?.v,
+      name: r.c[1]?.v || "",
+      price: Number(r.c[2]?.v || 0),
+      image: r.c[3]?.v || "",
       season: r.c[4]?.v || "All"
     }));
 
     renderProducts(allProducts);
-  });
+  })
+  .catch(err => console.error("Sheet Error:", err));
 
-function renderProducts(products) {
+/************** RENDER **************/
+function renderProducts(list) {
   const grid = document.getElementById("productsGrid");
   grid.innerHTML = "";
 
-  products.forEach((p, i) => {
+  list.forEach((p, i) => {
+    if (!p.image) return; // image blank ho to skip
+
     grid.innerHTML += `
       <div class="product-card">
-        <img src="${p.image}" onclick="zoom('${p.image}')">
+        <img 
+          src="${p.image}" 
+          alt="${p.name}"
+          style="width:100%;height:180px;object-fit:cover;border-radius:10px;"
+          onclick="openZoom('${p.image}')"
+        >
 
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
 
         <div class="qty-box">
-          <button onclick="qty(${i},-1)">−</button>
-          <span id="q-${i}">1</span>
-          <button onclick="qty(${i},1)">+</button>
+          <button onclick="changeQty(${i},-1)">−</button>
+          <span id="qty-${i}">1</span>
+          <button onclick="changeQty(${i},1)">+</button>
         </div>
 
         <button onclick="addToCart('${p.name}',${p.price},${i})">
@@ -50,36 +61,36 @@ function renderProducts(products) {
   });
 }
 
-function zoom(src) {
-  zoomImg.src = src;
-  zoomModal.style.display = "flex";
-}
-
-function qty(i, v) {
-  let el = document.getElementById(`q-${i}`);
-  let q = Math.max(1, parseInt(el.innerText) + v);
+/************** QTY **************/
+function changeQty(i, v) {
+  const el = document.getElementById(`qty-${i}`);
+  let q = parseInt(el.innerText) + v;
+  if (q < 1) q = 1;
   el.innerText = q;
 }
 
+/************** CART **************/
 function addToCart(name, price, i) {
-  let q = parseInt(document.getElementById(`q-${i}`).innerText);
+  const q = parseInt(document.getElementById(`qty-${i}`).innerText);
   cart[name] = (cart[name] || 0) + q;
   total += price * q;
-  updateCart();
+  updateCartCount();
 }
 
-function updateCart() {
-  let count = Object.values(cart).reduce((a,b)=>a+b,0);
-  cartCount.innerText = count;
+function updateCartCount() {
+  let c = 0;
+  Object.values(cart).forEach(v => c += v);
+  document.getElementById("cartCount").innerText = c;
 }
 
+/************** CART POPUP **************/
 function openCart() {
   let html = "";
-  for (let i in cart) {
-    html += `<p>${i} × ${cart[i]}</p>`;
+  for (let k in cart) {
+    html += `<p>${k} × ${cart[k]}</p>`;
   }
   cartItems.innerHTML = html || "Cart empty";
-  cartTotal.innerText = `Total: ₹${total}`;
+  cartTotal.innerText = `Total ₹${total}`;
   cartPopup.style.display = "flex";
 }
 
@@ -87,17 +98,30 @@ function closeCart() {
   cartPopup.style.display = "none";
 }
 
+/************** WHATSAPP **************/
 function orderWhatsApp() {
-  if (!Object.keys(cart).length) return alert("Cart empty");
+  if (!Object.keys(cart).length) {
+    alert("Cart empty");
+    return;
+  }
 
-  let msg = "🛒 Order:%0A";
-  for (let i in cart) msg += `• ${i} × ${cart[i]}%0A`;
+  let msg = "🛒 Order Details:%0A";
+  for (let k in cart) {
+    msg += `• ${k} × ${cart[k]}%0A`;
+  }
   msg += `%0A💰 Total ₹${total}`;
 
   window.open("https://wa.me/918624091826?text=" + msg);
 }
 
+/************** FILTER **************/
 function filterSeason(s) {
   if (s === "All") renderProducts(allProducts);
   else renderProducts(allProducts.filter(p => p.season === s));
+}
+
+/************** IMAGE ZOOM **************/
+function openZoom(src) {
+  zoomImg.src = src;
+  zoomModal.style.display = "flex";
 }
