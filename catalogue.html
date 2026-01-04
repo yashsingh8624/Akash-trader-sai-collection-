@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catalogue - Aakash Traders & Sai Collection</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- TOP BAR -->
 <header class="top-bar">
   <div class="logo">Aakash Traders & Sai Collection</div>
 
-  <!-- 🛒 CART -->
   <div class="cart-icon" onclick="orderWhatsApp()">
     🛒 <span id="cartCount">0</span>
   </div>
@@ -25,7 +23,6 @@
   </div>
 </header>
 
-<!-- SIDE MENU (UNCHANGED) -->
 <nav id="sideMenu" class="side-menu">
   <a href="index.html">🏠 Home</a>
   <a href="catalogue.html" class="active">📦 Catalogue</a>
@@ -33,18 +30,13 @@
   <a href="contact.html">📞 Contact</a>
 </nav>
 
-<!-- HERO -->
 <section class="catalogue-hero">
   <h1>Our Collection</h1>
-
-  <!-- Cloudinary hero image -->
-  <img
-    src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
-    class="hero-image"
-    onclick="zoomImage(this)">
+  <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
+       class="hero-image">
 </section>
 
-<!-- PRODUCTS -->
+<!-- PRODUCTS FROM GOOGLE SHEET -->
 <section class="products-grid" id="productsGrid"></section>
 
 <!-- ZOOM -->
@@ -53,62 +45,17 @@
   <img id="zoomImg">
 </div>
 
-<!-- WHATSAPP FLOAT -->
 <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
 
-<!-- JS -->
 <script>
-/* MENU */
 function toggleMenu() {
   document.getElementById("sideMenu").classList.toggle("open");
 }
-
-/* ZOOM */
-function zoomImage(img) {
-  zoomImg.src = img.src;
-  zoomModal.style.display = "flex";
-}
 function closeZoom() {
-  zoomModal.style.display = "none";
-}
-
-/* 🛒 CART SYSTEM */
-let cart = {};
-let totalPrice = 0;
-
-function addToCart(name, price) {
-  cart[name] = (cart[name] || 0) + 1;
-  totalPrice += price;
-  updateCartCount();
-}
-
-function updateCartCount() {
-  let count = 0;
-  Object.values(cart).forEach(q => count += q);
-  document.getElementById("cartCount").innerText = count;
-}
-
-function orderWhatsApp() {
-  if (Object.keys(cart).length === 0) {
-    alert("Cart empty hai");
-    return;
-  }
-
-  let msg = "🛒 Order Details:%0A";
-  for (let item in cart) {
-    msg += `• ${item} × ${cart[item]}%0A`;
-  }
-  msg += `%0A💰 Total: ₹${totalPrice}`;
-
-  window.open(
-    "https://wa.me/918624091826?text=" + msg,
-    "_blank"
-  );
+  document.getElementById("zoomModal").style.display = "none";
 }
 </script>
 
-<!-- GOOGLE SHEET (DATA SOURCE) -->
 <script src="google-script.js"></script>
-
 </body>
 </html>
