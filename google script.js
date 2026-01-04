@@ -1,7 +1,7 @@
 /***********************
  * GOOGLE SHEET CONFIG
  ***********************/
-const SHEET_ID = "YOUR_SHEET_ID_HERE";
+ const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
 let cart = {};
