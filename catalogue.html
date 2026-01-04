@@ -4,82 +4,105 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catalogue - Aakash Traders & Sai Collection</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Inline styles to ensure images load properly like first version */
+    body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background: #f8f9fa; }
+    .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .logo { font-weight: 600; font-size: 18px; color: #333; }
+    .cart-icon { font-size: 24px; cursor: pointer; position: relative; }
+    #cartCount { background: #25D366; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; position: absolute; top: -5px; right: -5px; }
+    .menu-toggle { display: flex; flex-direction: column; cursor: pointer; }
+    .menu-toggle span { width: 25px; height: 3px; background: #333; margin: 3px 0; transition: 0.3s; }
+    .side-menu { position: fixed; right: -250px; top: 0; width: 250px; height: 100vh; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s; z-index: 1000; padding-top: 70px; }
+    .side-menu.open { right: 0; }
+    .side-menu a { display: block; padding: 15px 20px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; }
+    .side-menu a.active { background: #25D366; color: white; }
+    .catalogue-hero { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+    .catalogue-hero h1 { font-size: 2.5rem; margin-bottom: 20px; }
+    .hero-image { width: 100%; max-width: 600px; height: 300px; object-fit: cover; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+    .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: 0.3s; cursor: pointer; }
+    .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .product-image { width: 100%; height: 250px; object-fit: cover; }
+    .product-info { padding: 15px; }
+    .product-name { font-weight: 600; margin-bottom: 5px; color: #333; }
+    .product-price { font-size: 18px; font-weight: 700; color: #25D366; }
+    .zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; }
+    .zoom-modal img { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 90%; max-height: 90%; border-radius: 10px; }
+    .close { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
+    .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 20px; right: 20px; background: #25D366; color: white; border-radius: 50%; text-align: center; font-size: 30px; box-shadow: 0 4px 15px rgba(37,211,102,0.4); z-index: 100; cursor: pointer; }
+    @media (max-width: 768px) {
+      .catalogue-hero h1 { font-size: 2rem; }
+      .hero-image { height: 250px; }
+      .products-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); padding: 20px 10px; }
+    }
+  </style>
 </head>
-
 <body>
+  <!-- Header / Top Nav (same as working version) -->
+  <header class="top-bar">
+    <div class="logo">Aakash Traders & Sai Collection</div>
+    <div class="cart-icon" onclick="openCart()">
+      🛒 <span id="cartCount">0</span>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
 
-<!-- TOP BAR -->
-<header class="top-bar">
-  <div class="logo">Aakash Traders & Sai Collection</div>
+  <!-- Side Menu (same as working version) -->
+  <nav id="sideMenu" class="side-menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="catalogue.html" class="active">📦 Catalogue</a>
+    <a href="about.html">ℹ️ About</a>
+    <a href="contact.html">📞 Contact</a>
+  </nav>
 
-  <div class="cart-icon" onclick="openCart()">
-    🛒 <span id="cartCount">0</span>
+  <!-- Hero Section with Image (fixed to show properly) -->
+  <section class="catalogue-hero">
+    <h1>Our Collection</h1>
+    <img src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg" 
+         alt="Featured Collection" class="hero-image" onclick="zoomImage(this)">
+  </section>
+
+  <!-- Products Container (empty - JS fills it like first version) -->
+  <section class="products-grid" id="productsGrid">
+    <!-- Products JS se yahan render honge - exactly like first code -->
+  </section>
+
+  <!-- Zoom Modal (same as working version) -->
+  <div id="zoomModal" class="zoom-modal">
+    <span class="close" onclick="closeZoom()">&times;</span>
+    <img id="zoomImg" alt="Zoomed Image">
   </div>
 
-  <div class="menu-toggle" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
-</header>
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/918624091826" class="whatsapp-float" title="Order on WhatsApp">💬</a>
 
-<!-- SIDE MENU -->
-<nav id="sideMenu" class="side-menu">
-  <a href="index.html">🏠 Home</a>
-  <a href="catalogue.html" class="active">📦 Catalogue</a>
-  <a href="about.html">ℹ️ About</a>
-  <a href="contact.html">📞 Contact</a>
-</nav>
+  <!-- Essential JS Functions (same as first working version) -->
+  <script>
+    function toggleMenu() {
+      document.getElementById("sideMenu").classList.toggle("open");
+    }
+    
+    function closeZoom() {
+      document.getElementById("zoomModal").style.display = "none";
+    }
+    
+    function zoomImage(img) {
+      document.getElementById("zoomImg").src = img.src;
+      document.getElementById("zoomModal").style.display = "block";
+    }
+    
+    function openCart() {
+      // Cart functionality from your google-script.js
+      console.log("Cart opened - handled by google-script.js");
+    }
+  </script>
 
-<!-- HERO -->
-<section class="catalogue-hero">
-  <h1>Our Collection</h1>
-  <img
-    src="https://res.cloudinary.com/dhsq8cphw/image/upload/v1766742910/jean_idt8rv.jpg"
-    class="hero-image">
-</section>
-
-<!-- FILTERS -->
-<div class="filters" style="text-align:center; margin:15px 0;">
-  <button onclick="filterSeason('All')">All</button>
-  <button onclick="filterSeason('Summer')">Summer</button>
-  <button onclick="filterSeason('Winter')">Winter</button>
-  <button onclick="filterSeason('Rainy')">Rainy</button>
-</div>
-
-<!-- PRODUCTS -->
-<section class="products-grid" id="productsGrid"></section>
-
-<!-- CART POPUP -->
-<div id="cartPopup" class="cart-popup" style="display:none;">
-  <div class="cart-box">
-    <h3>🛒 Your Cart</h3>
-    <div id="cartItems"></div>
-    <h4 id="cartTotal"></h4>
-
-    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
-    <button onclick="closeCart()">Close</button>
-  </div>
-</div>
-
-<!-- ZOOM -->
-<div id="zoomModal" class="zoom-modal" style="display:none;">
-  <span class="close" onclick="closeZoom()">&times;</span>
-  <img id="zoomImg">
-</div>
-
-<a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
-
-<script>
-function toggleMenu() {
-  document.getElementById("sideMenu").classList.toggle("open");
-}
-function closeZoom() {
-  zoomModal.style.display = "none";
-}
-</script>
-
-<script src="google-script.js"></script>
+  <!-- Google Sheet Script (LAST mein - exactly like first version) -->
+  <script src="google-script.js"></script>
 </body>
 </html>
