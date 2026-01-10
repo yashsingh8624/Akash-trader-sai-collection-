@@ -6,76 +6,611 @@
   <title>Catalogue - Aakash Traders & Sai Collection</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* TOP BAR - FIXED */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1001;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .cart-icon {
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff6b6b, #feca57);
+      color: white;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-icon:hover {
+      transform: scale(1.1);
+    }
+
+    #cartCount {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff4757;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      margin: 3px 0;
+      transition: 0.3s;
+    }
+
+    /* SIDE MENU */
+    .side-menu {
+      position: fixed;
+      top: 80px;
+      right: -250px;
+      width: 250px;
+      height: calc(100vh - 80px);
+      background: white;
+      box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 20px 0;
+    }
+
+    .side-menu.open {
+      right: 0;
+    }
+
+    .side-menu a {
+      display: block;
+      padding: 15px 25px;
+      color: #333;
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s;
+    }
+
+    .side-menu a:hover, .side-menu a.active {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    /* PAGE CONTENT - HEADER KE BAAD SPACE */
+    .catalogue-hero, .filters, .products-grid {
+      margin-top: 90px;
+    }
+
+    .catalogue-hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .catalogue-hero h1 {
+      font-size: 2.5em;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* FILTERS */
+    .filters {
+      text-align: center;
+      margin: 20px 0;
+      padding: 0 20px;
+    }
+
+    .filters button {
+      background: rgba(255,255,255,0.9);
+      border: none;
+      padding: 12px 24px;
+      margin: 0 8px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .filters button:hover, .filters button.active {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* PRODUCTS GRID */
+    .products-grid {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .product-price {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ff6b6b;
+      margin-bottom: 15px;
+    }
+
+    .add-to-cart {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #ff6b6b, #feca57);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .add-to-cart:hover {
+      transform: scale(1.02);
+      box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+    }
+
+    /* ZOOM MODAL */
+    .zoom-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1002;
+    }
+
+    #zoomImg {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+    }
+
+    /* CART POPUP - FIXED POSITION UP TOP */
+    .cart-popup {
+      position: fixed !important;
+      top: 90px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      z-index: 1000 !important;
+      width: 90% !important;
+      max-width: 450px !important;
+      background: white !important;
+      border-radius: 20px !important;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
+      animation: slideDown 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    @keyframes slideDown {
+      from { 
+        transform: translateX(-50%) translateY(-30px); 
+        opacity: 0; 
+      }
+      to { 
+        transform: translateX(-50%) translateY(0); 
+        opacity: 1; 
+      }
+    }
+
+    .cart-box {
+      padding: 30px;
+      position: relative;
+    }
+
+    .cart-box h3 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .remove-item {
+      background: #ff4757;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #cartTotal {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+      color: #ff6b6b;
+      margin: 20px 0;
+    }
+
+    .cart-btn {
+      width: 100%;
+      padding: 15px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .whatsapp-order {
+      background: #25D366;
+      color: white;
+    }
+
+    .close-cart {
+      background: #6c757d;
+      color: white;
+    }
+
+    .cart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* WHATSAPP FLOAT */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(37,211,102,0.4);
+      z-index: 999;
+      transition: transform 0.3s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .catalogue-hero h1 {
+        font-size: 2em;
+      }
+
+      .filters button {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 10px;
+      }
+
+      .cart-popup {
+        width: 95% !important;
+        top: 85px !important;
+        margin-top: 10px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="logo">Aakash Traders & Sai Collection</div>
+    <div class="cart-icon" onclick="openCart()">
+      🛒 <span id="cartCount">0</span>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
 
-<!-- TOP BAR (SAME AS YOUR SITE) -->
-<header class="top-bar">
-  <div class="logo">Aakash Traders & Sai Collection</div>
+  <!-- SIDE MENU -->
+  <nav id="sideMenu" class="side-menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="catalogue.html" class="active">📦 Catalogue</a>
+    <a href="about.html">ℹ️ About</a>
+    <a href="contact.html">📞 Contact</a>
+  </nav>
 
-  <div class="cart-icon" onclick="openCart()">
-    🛒 <span id="cartCount">0</span>
+  <!-- PAGE TITLE -->
+  <section class="catalogue-hero">
+    <h1>Our Collection</h1>
+  </section>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button onclick="filterSeason('All')" class="active">All</button>
+    <button onclick="filterSeason('Summer')">Summer</button>
+    <button onclick="filterSeason('Winter')">Winter</button>
+    <button onclick="filterSeason('Rainy')">Rainy</button>
   </div>
 
-  <div class="menu-toggle" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+  <!-- PRODUCTS -->
+  <section class="products-grid" id="productsGrid">
+    <!-- Products Google Sheet se aayenge -->
+    <div class="product-card" onclick="zoomImage(this)">
+      <img class="product-image" src="https://via.placeholder.com/300x250/ff6b6b/ffffff?text=Shirt" alt="Product">
+      <div class="product-info">
+        <div class="product-name">Summer Cotton Shirt</div>
+        <div class="product-price">₹899</div>
+        <button class="add-to-cart" onclick="addToCart(event, this)">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZOOM MODAL -->
+  <div id="zoomModal" class="zoom-modal" style="display:none;">
+    <span class="close" onclick="closeZoom()">&times;</span>
+    <img id="zoomImg" src="" alt="Zoomed">
   </div>
-</header>
 
-<!-- SIDE MENU -->
-<nav id="sideMenu" class="side-menu">
-  <a href="index.html">🏠 Home</a>
-  <a href="catalogue.html" class="active">📦 Catalogue</a>
-  <a href="about.html">ℹ️ About</a>
-  <a href="contact.html">📞 Contact</a>
-</nav>
-
-<!-- PAGE TITLE -->
-<section class="catalogue-hero">
-  <h1>Our Collection</h1>
-</section>
-
-<!-- FILTERS -->
-<div class="filters" style="text-align:center; margin:15px 0;">
-  <button onclick="filterSeason('All')">All</button>
-  <button onclick="filterSeason('Summer')">Summer</button>
-  <button onclick="filterSeason('Winter')">Winter</button>
-  <button onclick="filterSeason('Rainy')">Rainy</button>
-</div>
-
-<!-- PRODUCTS (GOOGLE SHEET SE AAYENGE) -->
-<section class="products-grid" id="productsGrid"></section>
-
-<!-- SAME MODALS -->
-<div id="zoomModal" class="zoom-modal" style="display:none;">
-  <span class="close" onclick="closeZoom()">&times;</span>
-  <img id="zoomImg" src="" alt="Zoomed">
-</div>
-<div id="cartPopup" class="cart-popup" style="display:none;">
-  <div class="cart-box">
-    <span class="close" onclick="closeCart()">&times;</span>
-    <h3>🛒 Your Cart</h3>
-    <div id="cartItems"></div>
-    <h4 id="cartTotal"></h4>
-    <button onclick="orderOnWhatsApp()">Order on WhatsApp</button>
-    <button onclick="closeCart()">Close</button>
+  <!-- CART POPUP - FIXED TOP POSITION -->
+  <div id="cartPopup" class="cart-popup" style="display:none;">
+    <div class="cart-box">
+      <span class="close" onclick="closeCart()">&times;</span>
+      <h3>🛒 Your Cart</h3>
+      <div id="cartItems"></div>
+      <h4 id="cartTotal">Total: ₹0</h4>
+      <button class="cart-btn whatsapp-order" onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+      <button class="cart-btn close-cart" onclick="closeCart()">Close</button>
+    </div>
   </div>
-</div>
 
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
 
-<!-- BASIC JS (MENU) -->
-<script>
-function toggleMenu() {
-  document.getElementById("sideMenu").classList.toggle("open");
-}
-</script>
+  <!-- COMPLETE JAVASCRIPT -->
+  <script>
+    // MENU TOGGLE
+    function toggleMenu() {
+      document.getElementById("sideMenu").classList.toggle("open");
+    }
 
-<!-- GOOGLE SHEET SCRIPT (MAIN BRAIN) -->
-<script src="google script.js"></script>
+    // CART FUNCTIONS
+    let cart = [];
 
+    function openCart() {
+      updateCartDisplay();
+      document.getElementById('cartPopup').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      document.getElementById('cartCount').style.display = 'flex';
+    }
+
+    function closeCart() {
+      document.getElementById('cartPopup').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function addToCart(event, button) {
+      event.stopPropagation(); // Prevent product card click
+      
+      const productCard = button.closest('.product-card');
+      const product = {
+        name: productCard.querySelector('.product-name').textContent,
+        price: productCard.querySelector('.product-price').textContent,
+        image: productCard.querySelector('.product-image').src
+      };
+
+      cart.push(product);
+      updateCartCount();
+      button.textContent = 'Added! ✅';
+      button.style.background = '#25D366';
+      setTimeout(() => {
+        button.textContent = 'Add to Cart';
+        button.style.background = '';
+      }, 1500);
+    }
+
+    function updateCartCount() {
+      document.getElementById('cartCount').textContent = cart.length;
+    }
+
+    function updateCartDisplay() {
+      const cartItems = document.getElementById('cartItems');
+      const cartTotal = document.getElementById('cartTotal');
+      
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="text-align:center;color:#666;">Cart is empty</p>';
+        cartTotal.textContent = 'Total: ₹0';
+        return;
+      }
+
+      cartItems.innerHTML = cart.map((item, index) => `
+        <div class="cart-item">
+          <img src="${item.image}" alt="${item.name}">
+          <div style="flex:1;margin:0 10px;">
+            <div style="font-weight:600;">${item.name}</div>
+            <div style="color:#ff6b6b;font-weight:600;">${item.price}</div>
+          </div>
+          <button class="remove-item" onclick="removeFromCart(${index})">×</button>
+        </div>
+      `).join('');
+
+      const total = cart.reduce((sum, item) => sum + parseInt(item.price.replace('₹', '')), 0);
+      cartTotal.textContent = `Total: ₹${total}`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartCount();
+      updateCartDisplay();
+    }
+
+    function orderOnWhatsApp() {
+      if (cart.length === 0) return;
+      
+      const message = cart.map(item => `${item.name} - ${item.price}`).join('
+');
+      const total = cart.reduce((sum, item) => sum + parseInt(item.price.replace('₹', '')), 0);
+      const whatsappMessage = `Hi! Order karna hai:
+
+${message}
+
+Total: ₹${total}`;
+      
+      const url = `https://wa.me/918624091826?text=${encodeURIComponent(whatsappMessage)}`;
+      window.open(url, '_blank');
+    }
+
+    // ZOOM FUNCTIONS
+    function zoomImage(productCard) {
+      const img = productCard.querySelector('.product-image');
+      document.getElementById('zoomImg').src = img.src;
+      document.getElementById('zoomModal').style.display = 'flex';
+    }
+
+    function closeZoom() {
+      document.getElementById('zoomModal').style.display = 'none';
+    }
+
+    // FILTER FUNCTIONS
+    function filterSeason(season) {
+      document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Add your Google Sheets filter logic here
+      console.log('Filtering by:', season);
+    }
+
+    // CLOSE ON OUTSIDE CLICK
+    document.getElementById('cartPopup').addEventListener('click', function(e) {
+      if (e.target === this) closeCart();
+    });
+
+    document.getElementById('zoomModal').addEventListener('click', function(e) {
+      if (e.target === this) closeZoom();
+    });
+
+    // ESC KEY CLOSE
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeCart();
+        closeZoom();
+      }
+    });
+
+    updateCartCount();
+  </script>
+
+  <!-- GOOGLE SHEET SCRIPT YAHAN ADD KARO -->
+  <!-- <script src="google script.js"></script> -->
 </body>
 </html>
