@@ -48,14 +48,18 @@
 <!-- PRODUCTS (GOOGLE SHEET SE AAYENGE) -->
 <section class="products-grid" id="productsGrid"></section>
 
-<!-- CART POPUP -->
+<!-- SAME MODALS -->
+<div id="zoomModal" class="zoom-modal" style="display:none;">
+  <span class="close" onclick="closeZoom()">&times;</span>
+  <img id="zoomImg" src="" alt="Zoomed">
+</div>
 <div id="cartPopup" class="cart-popup" style="display:none;">
   <div class="cart-box">
+    <span class="close" onclick="closeCart()">&times;</span>
     <h3>🛒 Your Cart</h3>
     <div id="cartItems"></div>
     <h4 id="cartTotal"></h4>
-
-    <button onclick="orderWhatsApp()">Order on WhatsApp</button>
+    <button onclick="orderOnWhatsApp()">Order on WhatsApp</button>
     <button onclick="closeCart()">Close</button>
   </div>
 </div>
@@ -71,7 +75,7 @@ function toggleMenu() {
 </script>
 
 <!-- GOOGLE SHEET SCRIPT (MAIN BRAIN) -->
-<script src="google-script.js"></script>
+<script src="google script.js"></script>
 
 </body>
 </html>
