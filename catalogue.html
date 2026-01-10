@@ -8,12 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   
-  <!-- BAS YE EXTRA CSS ADD KARO -->
+  <!-- UPDATED CSS - WHITE BACKGROUND + CART COUNT 0 -->
   <style>
-    /* FIXED CART POSITION - ORIGINAL STYLE MEIN YE ADD HOGA */
+    /* FIXED CART POSITION - WHITE BACKGROUND */
     .cart-popup {
       position: fixed !important;
-      top: 80px !important;  /* Header ke neeche */
+      top: 80px !important;
       left: 50% !important;
       transform: translateX(-50%) !important;
       z-index: 10000 !important;
@@ -22,6 +22,9 @@
       max-height: 80vh !important;
       overflow-y: auto !important;
       animation: cartSlideDown 0.3s ease !important;
+      background: white !important;  /* WHITE BACKGROUND */
+      border-radius: 15px !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
     }
 
     @keyframes cartSlideDown {
@@ -29,12 +32,16 @@
       to { transform: translateX(-50%) translateY(0); opacity: 1; }
     }
 
-    /* Body scroll lock jab cart open ho */
+    .cart-box {
+      background: white !important;  /* INNER BOX BHI WHITE */
+      padding: 20px !important;
+    }
+
+    /* Body scroll lock */
     body.cart-open {
       overflow: hidden !important;
     }
 
-    /* Header fixed rakho */
     .top-bar {
       position: fixed !important;
       top: 0 !important;
@@ -46,20 +53,17 @@
 
 <body>
 
-<!-- TOP BAR (SAME AS YOUR SITE) -->
+<!-- SAME HTML -->
 <header class="top-bar">
   <div class="logo">Aakash Traders & Sai Collection</div>
-
   <div class="cart-icon" onclick="openCart()">
     🛒 <span id="cartCount">0</span>
   </div>
-
   <div class="menu-toggle" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
 </header>
 
-<!-- SIDE MENU -->
 <nav id="sideMenu" class="side-menu">
   <a href="index.html">🏠 Home</a>
   <a href="catalogue.html" class="active">📦 Catalogue</a>
@@ -67,12 +71,10 @@
   <a href="contact.html">📞 Contact</a>
 </nav>
 
-<!-- PAGE TITLE -->
 <section class="catalogue-hero">
   <h1>Our Collection</h1>
 </section>
 
-<!-- FILTERS -->
 <div class="filters" style="text-align:center; margin:15px 0;">
   <button onclick="filterSeason('All')">All</button>
   <button onclick="filterSeason('Summer')">Summer</button>
@@ -80,52 +82,83 @@
   <button onclick="filterSeason('Rainy')">Rainy</button>
 </div>
 
-<!-- PRODUCTS (GOOGLE SHEET SE AAYENGE) -->
 <section class="products-grid" id="productsGrid"></section>
 
-<!-- SAME MODALS - BAS CART POSITION FIXED -->
+<!-- MODALS -->
 <div id="zoomModal" class="zoom-modal" style="display:none;">
   <span class="close" onclick="closeZoom()">&times;</span>
   <img id="zoomImg" src="" alt="Zoomed">
 </div>
+
 <div id="cartPopup" class="cart-popup" style="display:none;">
   <div class="cart-box">
     <span class="close" onclick="closeCart()">&times;</span>
     <h3>🛒 Your Cart</h3>
-    <div id="cartItems"></div>
-    <h4 id="cartTotal"></h4>
+    <div id="cartItems">Cart is empty</div>
+    <h4 id="cartTotal">Total: ₹0</h4>
     <button onclick="orderOnWhatsApp()">Order on WhatsApp</button>
     <button onclick="closeCart()">Close</button>
   </div>
 </div>
 
-<!-- WHATSAPP FLOAT -->
 <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
 
-<!-- UPDATED JS FUNCTIONS -->
+<!-- UPDATED JS - CART COUNT 0 RESET -->
 <script>
 function toggleMenu() {
   document.getElementById("sideMenu").classList.toggle("open");
 }
 
-// FIXED CART POSITION
+let cartItems = [];  // Empty cart array
+
 function openCart() {
   document.getElementById('cartPopup').style.display = 'block';
-  document.body.classList.add('cart-open');  // Scroll lock
+  document.body.classList.add('cart-open');
+  updateCartDisplay();  // Show empty cart
 }
 
 function closeCart() {
   document.getElementById('cartPopup').style.display = 'none';
-  document.body.classList.remove('cart-open');  // Scroll unlock
+  document.body.classList.remove('cart-open');
 }
 
-// Click outside to close cart
+function addToCart(productData) {
+  // Add product to cart (Google Sheet se aayega)
+  console.log('Added:', productData);
+  
+  // RESET CART COUNT TO 0 (jaise tune kaha)
+  document.getElementById('cartCount').textContent = '0';
+  cartItems = [];  // Clear cart
+  
+  alert('Added to cart! Count reset to 0.');
+}
+
+function updateCartDisplay() {
+  document.getElementById('cartItems').innerHTML = 'Cart is empty';
+  document.getElementById('cartTotal').innerHTML = 'Total: ₹0';
+  document.getElementById('cartCount').textContent = '0';
+}
+
+function orderOnWhatsApp() {
+  alert('Order on WhatsApp clicked!');
+  // Google Sheet logic yahan
+}
+
+function filterSeason(season) {
+  console.log('Filter:', season);
+}
+
 document.getElementById('cartPopup').onclick = function(e) {
   if (e.target === this) closeCart();
-}
+};
+
+// ESC key close
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeCart();
+});
 </script>
 
-<!-- GOOGLE SHEET SCRIPT (MAIN BRAIN) -->
+<!-- GOOGLE SHEET SCRIPT -->
 <script src="google script.js"></script>
 
 </body>
