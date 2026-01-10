@@ -150,10 +150,10 @@
 <!-- ===== SIDE MENU ===== -->
 <nav id="sideMenu" class="side-menu">
   <a href="index.html">🏠 Home</a>
-  <a href="catalogue.html">Catalogue</a>
-  <a href="contact.html" class="active">Contact</a>
-  <a href="about.html">About</a>
-  
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="contact.html" class="active">📞 Contact</a>
+  <a href="about.html">ℹ️ About</a>
+
 </nav>
 
 <!-- ===== HERO ===== -->
@@ -195,6 +195,22 @@
 
 <!-- ===== FLOATING WHATSAPP ===== -->
 <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
+
+<!-- SAME MODALS -->
+<div id="zoomModal" class="zoom-modal" style="display:none;">
+  <span class="close" onclick="closeZoom()">&times;</span>
+  <img id="zoomImg" src="" alt="Zoomed">
+</div>
+<div id="cartPopup" class="cart-popup" style="display:none;">
+  <div class="cart-box">
+    <span class="close" onclick="closeCart()">&times;</span>
+    <h3>🛒 Your Cart</h3>
+    <div id="cartItems"></div>
+    <h4 id="cartTotal"></h4>
+    <button onclick="orderOnWhatsApp()">Order on WhatsApp</button>
+    <button onclick="closeCart()">Close</button>
+  </div>
+</div>
 
 <!-- ===== JS ===== -->
 <script>
