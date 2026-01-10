@@ -3,38 +3,30 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // ================= SHEET CONFIG =================
 const SHEET_ID = "13zH_S72hBVvjZtz3VN2MXCb03IKxhi6p0SMa--UHyMA";
-const SHEET_URL =
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-
-// ================= IMAGE FALLBACK =================
-const FALLBACK_IMAGE =
-  "https://res.cloudinary.com/demo/image/upload/v1690000000/sample.jpg";
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
 let products = [];
 
-// ================= FETCH SHEET DATA =================
+// ✅ WORKING CLOUDINARY FALLBACK (VERSIONED)
+const CLOUDINARY_BASE_URL =
+  "https://res.cloudinary.com/demo/image/upload/v1690000000/sample.jpg";
+
+// ================= FETCH DATA =================
 fetch(SHEET_URL)
   .then(res => res.text())
   .then(text => {
-    const json = JSON.parse(text.substring(47, text.length - 2));
-    const rows = json.table.rows || [];
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
 
     products = rows.map(r => {
-      let rawImg = r.c[3]?.v || "";
-
-      // ❌ Formula / IMAGE() / HYPERLINK() reject
-      if (typeof rawImg === "string" && rawImg.startsWith("=")) {
-        rawImg = "";
-      }
-
-      // ✅ Clean URL
-      rawImg = rawImg.toString().trim();
+      let img = r.c[3]?.v;
+      if (!img || img === "") img = CLOUDINARY_BASE_URL;
 
       return {
-        id: r.c[0]?.v?.toString().trim() || crypto.randomUUID(),
+        id: r.c[0]?.v?.toString().trim() || Math.random().toString(36).slice(2, 7),
         name: r.c[1]?.v || "Unnamed Product",
         price: Number(r.c[2]?.v) || 0,
-        image_url: rawImg || FALLBACK_IMAGE,
+        image_url: img.trim(),
         season: (r.c[4]?.v || "all").toLowerCase().trim()
       };
     });
@@ -43,51 +35,38 @@ fetch(SHEET_URL)
     updateCartUI();
   })
   .catch(err => {
-    console.error("Google Sheet error:", err);
+    console.error("Sheet error:", err);
     loadDemoProducts();
   });
 
 // ================= RENDER PRODUCTS =================
 function renderProducts(list) {
-  const div =
-    document.getElementById("products") ||
-    document.getElementById("productsGrid");
+  const div = document.getElementById("productsGrid");
   if (!div) return;
 
   div.innerHTML = "";
 
-  if (list.length === 0) {
-    div.innerHTML = "<p>No products found</p>";
-    return;
-  }
-
   list.forEach(item => {
-    const img = item.image_url || FALLBACK_IMAGE;
-
     div.innerHTML += `
       <div class="product-card">
-        <img 
-          src="${img}"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-          onerror="this.src='${FALLBACK_IMAGE}'"
-          onclick="zoomImage('${img}')"
-          style="width:100%;height:240px;object-fit:cover;border-radius:12px;cursor:zoom-in;"
-        />
+        <img src="${item.image_url}"
+             onerror="this.src='${CLOUDINARY_BASE_URL}'"
+             onclick="zoomImage('${item.image_url}')"
+             style="width:100%; height:240px; object-fit:cover; border-radius:12px; cursor:zoom-in;">
 
         <h3>${item.name}</h3>
         <div class="price-tag">₹${item.price}</div>
 
-        <div style="display:flex;gap:8px;margin:10px 0;">
+        <div style="display:flex; gap:8px; margin:10px 0;">
           <button onclick="changeQty('${item.id}',-1)">−</button>
           <input id="qty-${item.id}" type="number" value="1" min="1"
-            style="width:50px;text-align:center;">
+                 style="width:50px; text-align:center;">
           <button onclick="changeQty('${item.id}',1)">+</button>
         </div>
 
         <button onclick="addToCart('${item.id}')"
-          style="width:100%;background:#25D366;color:#fff;border:none;
-          padding:10px;border-radius:6px;">
+          style="width:100%; background:#25D366; color:#fff;
+          border:none; padding:10px; border-radius:6px;">
           🛒 Add to Cart
         </button>
       </div>
@@ -98,16 +77,13 @@ function renderProducts(list) {
 // ================= QTY =================
 function changeQty(id, delta) {
   const input = document.getElementById(`qty-${id}`);
-  if (!input) return;
-  let v = parseInt(input.value) || 1;
-  input.value = Math.max(1, v + delta);
+  let val = parseInt(input.value) || 1;
+  input.value = Math.max(1, val + delta);
 }
 
-// ================= ADD TO CART =================
+// ================= ADD TO CART (NO RESET) =================
 function addToCart(id) {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-
+  const p = products.find(pr => pr.id === id);
   const qtyInput = document.getElementById(`qty-${id}`);
   const qty = parseInt(qtyInput.value) || 1;
 
@@ -119,7 +95,7 @@ function addToCart(id) {
   updateCartUI();
 }
 
-// ================= CART COUNT =================
+// ================= CART UI =================
 function updateCartUI() {
   const el = document.getElementById("cartCount");
   if (!el) return;
@@ -129,30 +105,90 @@ function updateCartUI() {
 // ================= FILTER =================
 function filterSeason(season) {
   season = season.toLowerCase();
-  renderProducts(
-    season === "all" ? products : products.filter(p => p.season === season)
-  );
+  if (season === "all") renderProducts(products);
+  else renderProducts(products.filter(p => p.season === season));
+}
+
+// ================= CART POPUP =================
+function openCart() {
+  document.getElementById("cartPopup").style.display = "block";
+  renderCartItems();
+}
+function closeCart() {
+  document.getElementById("cartPopup").style.display = "none";
+}
+
+function renderCartItems() {
+  const div = document.getElementById("cartItems");
+  let total = 0;
+  div.innerHTML = "";
+
+  if (cart.length === 0) {
+    div.innerHTML = "<p>Cart empty hai</p>";
+    document.getElementById("cartTotal").innerText = "Total: ₹0";
+    return;
+  }
+
+  cart.forEach((item, i) => {
+    total += item.qty * item.price;
+    div.innerHTML += `
+      <div>
+        <b>${item.name}</b><br>
+        Qty: ${item.qty} | ₹${item.price}
+        <button onclick="removeItem(${i})">Remove</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = "Total: ₹" + total;
+}
+
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+  renderCartItems();
+}
+
+// ================= WHATSAPP ORDER =================
+function orderOnWhatsApp() {
+  if (cart.length === 0) {
+    alert("Cart empty hai");
+    return;
+  }
+
+  let msg = "🛒 New Order%0A%0A";
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
+    total += item.qty * item.price;
+  });
+
+  msg += `Total: ₹${total}`;
+  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
+
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartUI();
+  closeCart();
+  window.scrollTo({ top: 0 });
+}
+
+// ================= ZOOM =================
+function zoomImage(src) {
+  document.getElementById("zoomImg").src = src;
+  document.getElementById("zoomModal").style.display = "flex";
+}
+function closeZoom() {
+  document.getElementById("zoomModal").style.display = "none";
+  document.getElementById("zoomImg").src = "";
 }
 
 // ================= DEMO =================
 function loadDemoProducts() {
   products = [
-    {
-      id: "demo1",
-      name: "Demo Shirt",
-      price: 599,
-      image_url: FALLBACK_IMAGE,
-      season: "all"
-    }
+    { id: "d1", name: "Demo Shirt", price: 599, image_url: CLOUDINARY_BASE_URL, season: "all" }
   ];
   renderProducts(products);
-  updateCartUI();
-}
-
-// ================= ZOOM =================
-function zoomImage(src) {
-  const img = document.getElementById("zoomImg");
-  if (!img) return;
-  img.src = src;
-  document.getElementById("zoomModal").style.display = "flex";
 }
