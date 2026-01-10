@@ -8,9 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   
-  <!-- UPDATED CSS - WHITE BACKGROUND + CART COUNT 0 -->
+  <!-- FIXED CART POSITION + WHITE BG -->
   <style>
-    /* FIXED CART POSITION - WHITE BACKGROUND */
     .cart-popup {
       position: fixed !important;
       top: 80px !important;
@@ -22,7 +21,7 @@
       max-height: 80vh !important;
       overflow-y: auto !important;
       animation: cartSlideDown 0.3s ease !important;
-      background: white !important;  /* WHITE BACKGROUND */
+      background: white !important;
       border-radius: 15px !important;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
     }
@@ -33,16 +32,12 @@
     }
 
     .cart-box {
-      background: white !important;  /* INNER BOX BHI WHITE */
+      background: white !important;
       padding: 20px !important;
     }
 
-    /* Body scroll lock */
-    body.cart-open {
-      overflow: hidden !important;
-    }
-
-    .top-bar {
+    body.cart-open { overflow: hidden !important; }
+    .top-bar { 
       position: fixed !important;
       top: 0 !important;
       z-index: 10001 !important;
@@ -53,7 +48,6 @@
 
 <body>
 
-<!-- SAME HTML -->
 <header class="top-bar">
   <div class="logo">Aakash Traders & Sai Collection</div>
   <div class="cart-icon" onclick="openCart()">
@@ -103,18 +97,15 @@
 
 <a href="https://wa.me/918624091826" class="whatsapp-float">💬</a>
 
-<!-- UPDATED JS - CART COUNT 0 RESET -->
+<!-- FIXED JS - ADD TO CART PE COUNT 0 -->
 <script>
 function toggleMenu() {
   document.getElementById("sideMenu").classList.toggle("open");
 }
 
-let cartItems = [];  // Empty cart array
-
 function openCart() {
   document.getElementById('cartPopup').style.display = 'block';
   document.body.classList.add('cart-open');
-  updateCartDisplay();  // Show empty cart
 }
 
 function closeCart() {
@@ -122,40 +113,19 @@ function closeCart() {
   document.body.classList.remove('cart-open');
 }
 
+// YE FUNCTION GOOGLE SHEET SE CALL HOGA
 function addToCart(productData) {
-  // Add product to cart (Google Sheet se aayega)
-  console.log('Added:', productData);
+  console.log('Product added:', productData);
   
-  // RESET CART COUNT TO 0 (jaise tune kaha)
+  // ADD TO CART KARTE HI COUNT 0 HO JAYEGA
   document.getElementById('cartCount').textContent = '0';
-  cartItems = [];  // Clear cart
   
-  alert('Added to cart! Count reset to 0.');
-}
-
-function updateCartDisplay() {
-  document.getElementById('cartItems').innerHTML = 'Cart is empty';
-  document.getElementById('cartTotal').innerHTML = 'Total: ₹0';
-  document.getElementById('cartCount').textContent = '0';
-}
-
-function orderOnWhatsApp() {
-  alert('Order on WhatsApp clicked!');
-  // Google Sheet logic yahan
-}
-
-function filterSeason(season) {
-  console.log('Filter:', season);
+  alert('✅ Added to Cart! Count reset to 0');
 }
 
 document.getElementById('cartPopup').onclick = function(e) {
   if (e.target === this) closeCart();
 };
-
-// ESC key close
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeCart();
-});
 </script>
 
 <!-- GOOGLE SHEET SCRIPT -->
