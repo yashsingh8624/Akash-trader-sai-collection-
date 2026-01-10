@@ -29,7 +29,10 @@ fetch(SHEET_URL)
 
 // ================= RENDER PRODUCTS =================
 function renderProducts(list) {
-  const div = document.getElementById("products");
+  // Try both IDs for compatibility with index.html and catalogue.html
+  const div = document.getElementById("products") || document.getElementById("productsGrid");
+  if(!div) return;
+  
   div.innerHTML = "";
 
   if(list.length === 0){
@@ -38,9 +41,10 @@ function renderProducts(list) {
   }
 
   list.forEach(item => {
+    const validImageUrl = item.image_url && item.image_url.trim() !== "" ? item.image_url : "https://via.placeholder.com/300";
     div.innerHTML += `
       <div class="product-card">
-        <img src="${item.image_url}" alt="${item.name}">
+        <img src="${validImageUrl}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/300'">
         <h3>${item.name}</h3>
         <p>₹${item.price}</p>
 
@@ -90,7 +94,7 @@ function updateCartUI(){
 }
 
 // ================= FILTER =================
-function filtersSeason(season){
+function filterSeason(season){
   season = season.toLowerCase();
   if(season==="all") renderProducts(products);
   else renderProducts(products.filter(p=>p.season===season));
