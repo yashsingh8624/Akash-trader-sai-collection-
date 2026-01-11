@@ -202,3 +202,40 @@ body.modal-open {
     gap: 1rem;
   }
 }
+
+/* ===== IMAGE ZOOM MODAL ===== */
+.zoom-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 9999;
+
+  justify-content: center;
+  align-items: center;
+}
+
+/* sirf image zoom hogi */
+.zoom-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+/* cancel / close button */
+.zoom-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
