@@ -127,6 +127,11 @@ document.getElementById('cartPopup').onclick = function(e) {
   if (e.target === this) closeCart();
 };
 </script>
+<!-- IMAGE ZOOM MODAL -->
+<div id="zoomModal" class="zoom-modal">
+  <span class="zoom-close" onclick="closeZoom()">✕</span>
+  <img id="zoomImg" src="">
+</div>
 
 <!-- GOOGLE SHEET SCRIPT -->
 <script src="google script.js"></script>
