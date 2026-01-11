@@ -58,7 +58,6 @@ function renderProducts(list) {
       <div class="product-card">
         <img src="${imageUrl}"
              onerror="this.src='${CLOUDINARY_BASE_URL}'"
-             style="width:100%; height:240px; object-fit:cover; border-radius:12px; cursor:zoom-in;"
              onclick="zoomImage('${imageUrl}')">
 
         <h3>${item.name}</h3>
@@ -89,23 +88,19 @@ function changeQty(id, delta) {
   input.value = val;
 }
 
-// ================= ADD TO CART (NO RESET) =================
+// ================= ADD TO CART =================
 function addToCart(id) {
   const p = products.find(pr => pr.id === id);
   const qtyInput = document.getElementById(`qty-${id}`);
   const qty = parseInt(qtyInput.value) || 1;
 
   const existing = cart.find(item => item.id === id);
-  if (existing) {
-    existing.qty += qty;
-  } else {
-    cart.push({ ...p, qty });
-  }
+  if (existing) existing.qty += qty;
+  else cart.push({ ...p, qty });
 
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartUI();
 
-  // ✅ RESET quantity box
   qtyInput.value = 1;
 }
 
@@ -116,13 +111,6 @@ function updateCartUI() {
 
   const totalQty = cart.reduce((s, i) => s + i.qty, 0);
   el.innerText = totalQty;
-}
-
-// ================= FILTER =================
-function filterSeason(season) {
-  season = season.toLowerCase();
-  if (season === "all") renderProducts(products);
-  else renderProducts(products.filter(p => p.season === season));
 }
 
 // ================= CART POPUP =================
@@ -170,35 +158,43 @@ function removeItem(i) {
   renderCartItems();
 }
 
-// ================= WHATSAPP ORDER (NO PAGE JUMP) =================
-function orderOnWhatsApp() {
-  if (cart.length === 0) {
-    alert("Cart empty hai");
-    return;
+// ================= ZOOM (WITH SWIPE CLOSE) =================
+let startX = 0;
+let startY = 0;
+
+function zoomImage(src) {
+  const modal = document.getElementById("zoomModal");
+  const img = document.getElementById("zoomImg");
+
+  img.src = src;
+  modal.style.display = "flex";
+  document.body.classList.add("modal-open");
+
+  modal.addEventListener("touchstart", touchStart, { passive: true });
+  modal.addEventListener("touchend", touchEnd, { passive: true });
+}
+
+function closeZoom() {
+  const modal = document.getElementById("zoomModal");
+  modal.style.display = "none";
+  document.body.classList.remove("modal-open");
+}
+
+function touchStart(e) {
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+}
+
+function touchEnd(e) {
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+
+  const diffX = endX - startX;
+  const diffY = endY - startY;
+
+  if (Math.abs(diffY) > 80 || Math.abs(diffX) > 80) {
+    closeZoom();
   }
-
-  let msg = "🛒 New Order%0A%0A";
-  let total = 0;
-
-  cart.forEach((item, i) => {
-    msg += `${i + 1}. ${item.name}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
-    total += item.qty * item.price;
-  });
-
-  msg += `Total: ₹${total}`;
-
-  window.open(`https://wa.me/918624091826?text=${msg}`, "_blank");
-
-  // ✅ SAFE RESET
-  cart = [];
-  localStorage.removeItem("cart");
-  updateCartUI();
-
-  document.getElementById("cartItems").innerHTML = "<p>Cart empty hai</p>";
-  document.getElementById("cartTotal").innerText = "Total: ₹0";
-
-  closeCart();
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // ================= DEMO PRODUCTS =================
@@ -211,14 +207,6 @@ function loadDemoProducts() {
   updateCartUI();
 }
 
-// ================= ZOOM =================
-function zoomImage(src) {
-  document.getElementById("zoomImg").src = src;
-  document.getElementById("zoomModal").style.display = "flex";
-}
-
 // ================= INIT =================
 renderProducts(products);
 updateCartUI();
-
-
