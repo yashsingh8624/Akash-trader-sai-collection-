@@ -2,13 +2,14 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Aakash Traders & Sai Collection | Wholesale & Retail Clothing</title>
   <meta name="description" content="Summer, Winter, Rainy season clothes - Jeans, Jackets, Wholesale Retail Na Sopara">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body style="touch-action: pan-y;">
   <!-- SAME PERFECT HEADER -->
   <header class="top-bar">
     <div class="logo">Aakash Traders & Sai Collection</div>
@@ -66,9 +67,9 @@
 
   <!-- SAME MODALS -->
   <div id="zoomModal" class="zoom-modal" style="display:none;">
-    <span class="close" onclick="closeZoom()">&times;</span>
-    <img id="zoomImg" src="" alt="Zoomed">
-  </div>
+  <button class="zoom-close-btn" onclick="closeZoom()">❌</button>
+  <img id="zoomImg" src="" alt="Zoomed Product">
+</div>
   <div id="cartPopup" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="close" onclick="closeCart()">&times;</span>
@@ -98,3 +99,5 @@
   <script src="google script.js"></script>
 </body>
 </html>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
