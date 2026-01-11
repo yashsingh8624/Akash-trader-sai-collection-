@@ -105,8 +105,8 @@ function addToCart(id) {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartUI();
 
-  // ❌ qty reset NA ho
-  qtyInput.value = qty;
+  // ✅ RESET quantity box
+  qtyInput.value = 1;
 }
 
 // ================= CART COUNT =================
