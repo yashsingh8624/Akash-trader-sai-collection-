@@ -32,7 +32,61 @@
     <div class="hero-content">
       <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Seasonal Fashion<br>for Every Weather</h1>
       <p style="font-size: 1.4rem; max-width: 600px; margin: 0 auto 2rem; line-height: 1.6; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
-        "Garmi mein thandak, sardi mein garmahat, barish mein protection –<br>
+        "Garmi mein thandak, sardi mein garmahat, barish mein protection 
+MVI D.D.D
+
+START: LXI H.2200
+
+MOV C,M
+
+LOOP: INX H
+
+MOV A,M
+
+RRC
+
+JC LOOP1
+
+RLC
+
+ADD D
+
+IOC D,A
+
+LOOP1: DCR C
+
+JNZ LOOP
+
+LXI H, 2300
+
+MOV M,D
+
+HLT
+
+#ORG 2200
+
+#DB 05
+
+#ORG 2201
+
+#DB 04
+
+#ORG 2202
+
+#DB 07
+
+#ORG 2203
+
+#DB 03
+
+#ORG 2204
+
+#DB 08
+
+#ORG 2205
+
+#DB 05 
+ –<br>
         <strong>Har season ke liye perfect clothes!</strong>"
       </p>
       <a href="catalogue.html" class="cta-btn" style="display: inline-block; background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; padding: 1.2rem 3rem; border-radius: 50px; text-decoration: none; font-size: 1.2rem; font-weight: 600; box-shadow: 0 10px 30px rgba(231,76,60,0.4); transition: all 0.3s;">
